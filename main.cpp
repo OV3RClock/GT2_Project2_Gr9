@@ -4,14 +4,14 @@ using namespace sf;
 
 int main()
 {
+    #pragma region INIT
     sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
     sf::RectangleShape entity(sf::Vector2f(100.f, 100.f));
-
     Texture texture;
     texture.loadFromFile("ghost.png");
-
     Sprite sprite;
     entity.setTexture(&texture);
+    #pragma endregion
 
     while (window.isOpen())
     {
@@ -47,3 +47,15 @@ int main()
 
     return 0;
 }
+/*
+float speed = 0.f;
+sf::Vector2f v;
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    v.y -= speed;
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    v.y += speed;
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    v.x -= speed;
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    v.x += speed;
+*/
