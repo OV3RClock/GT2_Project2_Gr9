@@ -10,7 +10,6 @@ int main()
     shape.setOutlineThickness(10);
     shape.setOutlineColor(sf::Color::Green);
     Texture texture;
-    //texture.loadFromFile("ghost.png");
     carre.setFillColor(sf::Color::Green);
 
     while (window.isOpen())
