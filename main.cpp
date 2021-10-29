@@ -1,16 +1,16 @@
 #include <SFML/Graphics.hpp>
+
 using namespace sf;
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
-    sf::CircleShape shape(50);
-    sf::CircleShape carre(80, 3);
-
-    shape.setFillColor(sf::Color::Red);
-    shape.setOutlineThickness(10);
-    shape.setOutlineColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
+    sf::CircleShape shape(100.f);
+    shape.setFillColor(sf::Color::Green);
     Texture texture;
-    carre.setFillColor(sf::Color::Green);
+    texture.loadFromFile("ghost.png");
+    Sprite sprite;
+    sprite.setTexture(texture);
 
     while (window.isOpen())
     {
@@ -23,7 +23,7 @@ int main()
 
         window.clear();
         window.draw(shape);
-        window.draw(carre);
+        window.draw(sprite);
         window.display();
     }
 
