@@ -16,6 +16,10 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
+
+        float speed = 20.f;
+        sf::Vector2f v;
+
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed){window.close();}  
@@ -24,16 +28,20 @@ int main()
                 switch (event.key.code)
                 {
                     case Keyboard::Z:
-                        entity.move(sf::Vector2f(0.f, -20.f));
+                        v.y -= speed;
+                        entity.move(v);
                         break;
                     case Keyboard::Q:
-                        entity.move(sf::Vector2f(-20.f, 0.f));
+                        v.x -= speed;
+                        entity.move(v);
                         break;
                     case Keyboard::S:
-                        entity.move(sf::Vector2f(0.f, 20.f));
+                        v.y += speed;
+                        entity.move(v);
                         break;
                     case Keyboard::D:
-                        entity.move(sf::Vector2f(20.f, 0.f));
+                        v.x += speed;
+                        entity.move(v);
                         break;
                 }
             }
@@ -47,15 +55,3 @@ int main()
 
     return 0;
 }
-/*
-float speed = 0.f;
-sf::Vector2f v;
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-    v.y -= speed;
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-    v.y += speed;
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-    v.x -= speed;
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-    v.x += speed;
-*/
