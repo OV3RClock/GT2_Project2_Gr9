@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
+#include "Tilemap.h"
 using namespace sf;
 using namespace std;
-#include <map>
+
 /*
 Dans cet example, vous allez devoir charger et afficher un tileset
 Vous devrez charger plusieurs sprites, de prfrences dans un vector<>.
@@ -9,20 +10,19 @@ Vous devrez utiliser la fonction Sprite::setTextureRect() qui prend un IntRect e
 
 Un IntRect est un struct POD (plain old data type) contenant une origine et une taille, en entier.
 
-Cette fonction permet de n'afficher que une certaine rgion de texture dans votre Sprite.
+Cette fonction permet de n'afficher que une certaine région de texture dans votre Sprite.
 
-Je vous ai fourni un niveau  charger, une std::map<string,string> et une std::map<string, Vector2i> prremplies, et une image qui permet de visualiser la disposition des tiles.
+Je vous ai fourni un niveau chargé, une std::map<string,string> et une std::map<string, Vector2i> préremplies, et une image qui permet de visualiser la disposition des tiles.
 
-Votre travail consiste  crire la fonction load_level(), qui doit:
+Votre travail consiste ecrire la fonction load_level(), qui doit:
 * instancier les Sprite et appeler la fonction setTextureRect() sur chacun d'entre eux.
 * positionner les Sprites
 Les tiles font 16x16px, il faudra donc multiplier par 16 les offset fournis dans la map
 Il sera ncessaire de charger deux grilles de tiles, la premire tant celle du sol, et l'autre des objets.
-
 */
 
 namespace level {
-    map<string, vec2i> tile_offsets = {
+    map<string, Vector2i> tile_offsets = {
         { "convex_angle1", {0,0}},    //
         { "convex_angle2", {1,0}},    //
 
@@ -146,3 +146,11 @@ namespace level {
 
     };
 }
+
+void Tilemap::loadlevel()
+{
+    for (auto &p : level::tile_strings) {
+        
+    }
+}
+

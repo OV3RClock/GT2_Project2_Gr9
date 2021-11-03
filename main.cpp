@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
+#include "Tilemap.h"
 
 using namespace sf;
 
 int main()
 {
+    
     #pragma region INIT
     sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");
     sf::RectangleShape entity(sf::Vector2f(100.f, 100.f));
@@ -52,7 +54,7 @@ int main()
         window.draw(sprite);
         window.display();
 
-        
+        //Sprite::setTextureRect();
     }
 
     return 0;
