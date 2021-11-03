@@ -51,6 +51,8 @@ int main()
         window.draw(entity);
         window.draw(sprite);
         window.display();
+
+        
     }
 
     return 0;
