@@ -3,8 +3,8 @@
 class Tilemap {
 
 	public:
-		void loadlevel();
+		sf::Sprite loadLevel(sf::Texture &t);
 
 	protected:
-		vector<Sprite> Tiles;
+		std::vector<sf::Sprite> Tiles;
 };
