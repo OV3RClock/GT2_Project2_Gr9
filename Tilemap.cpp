@@ -148,29 +148,76 @@ vector<string> tile_strings = {
     "      R1 R2    F1 FN A4 -- -- -- -- "
     "R1 RH R4 R3 R2 FW -- -- -- -- -- -- "
 };
+vector<string> ground_strings = {
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+    "GD GD GD GD GD GD GD GD GD GD GD GD "
+};
 
-vector<Sprite> Tilemap::loadLevel(Texture &t)
+vector<Sprite> Tilemap::loadLevel(int dim, int scale, Texture &t)
 {
+    int j = 0;
+    int k = 0;
     for (auto & str : tile_strings) 
     {
         for (int i = 0; i<str.length(); i+=3)
         {
             String sbstr = str.substr(i, 2);
-            Sprite s = loadtile(sbstr, t);
+            Sprite s = loadtile(dim, scale, sbstr, t);
+            s.setPosition(dim*scale * k, dim*scale * j);
             Tiles.push_back(s);
+            k += 1;
+            if (k >= 12)
+            {
+                k = 0;
+                j += 1;
+            }
         }
     }
     return Tiles;
 }
 
-sf::Sprite Tilemap::loadtile(string s, sf::Texture& t)
+vector<Sprite> Tilemap::loadGround(int dim, int scale, Texture& t)
+{
+    int j = 0;
+    int k = 0;
+    for (auto& str : ground_strings)
+    {
+        for (int i = 0; i < str.length(); i += 3)
+        {
+            String sbstr = str.substr(i, 2);
+            Sprite s = loadtile(dim, scale, sbstr, t);
+            s.setPosition(dim*scale * k, dim*scale * j);
+            Ground.push_back(s);
+            k += 1;
+            if (k >= 12)
+            {
+                k = 0;
+                j += 1;
+            }
+        }
+    }
+    return Ground;
+}
+
+Sprite Tilemap::loadtile(int dim, int scale,  string s, Texture& t)
 {
     Sprite sprite;
-    Vector2i v = tile_offsets.find(aliasses.find(s)->second)->second;
-    sf::IntRect rect(v * 16, { 16,16 });
-    sprite.Sprite::setTextureRect(rect);
-    sprite.setTexture(t);
-    sprite.scale(3, 3);
+    if (s != "  ") 
+    {
+        Vector2i v = tile_offsets.find(aliasses.find(s)->second)->second;
+        sf::IntRect rect(v*dim, { dim,dim });
+        sprite.Sprite::setTextureRect(rect);
+        sprite.setTexture(t);
+        sprite.scale(scale, scale);
+    }
     return sprite;
 }
+
+
 

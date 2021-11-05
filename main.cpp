@@ -10,23 +10,23 @@ int main()
 {
     
     #pragma region INIT
-
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
-
-    #pragma region Player
-    sf::RectangleShape entity(sf::Vector2f(100.f, 100.f));
-    Texture texture;
-    texture.loadFromFile("ghost.png");
-    Sprite sprite;
-    entity.setTexture(&texture);
+        int dim = 16;
+        int scale = 3;
+        sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
+        #pragma region Player
+            sf::RectangleShape entity(sf::Vector2f((dim*scale), (dim*scale)));
+            Texture texture;
+            texture.loadFromFile("ghost.png");
+            Sprite sprite;
+            entity.setTexture(&texture);
+            #pragma endregion
+        #pragma region Map
+            Tilemap T;
+            Texture maptexture;
+            maptexture.loadFromFile("foresttiles2-t.png");
+        #pragma endregion
     #pragma endregion
-
-    Tilemap T;
-    Texture maptexture;
-    maptexture.loadFromFile("foresttiles2-t.png");
-
-    #pragma endregion
-
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -61,19 +61,25 @@ int main()
             }
         }
 
-        window.clear();
+        #pragma region Draw
+            window.clear();
 
-        vector<Sprite> vecmap = T.loadLevel(maptexture);
-        for (int i=0; i<vecmap.size(); i++)
-        {
-            window.draw(vecmap[i]);
-        }
-        window.draw(entity);
-        window.draw(sprite);
-        window.display();
+            vector<Sprite> vecground = T.loadGround(dim, scale, maptexture);
+            for (int i = 0; i < vecground.size(); i++)
+            {
+                window.draw(vecground[i]);
+            }
+            vector<Sprite> vecmap = T.loadLevel(dim, scale, maptexture);
+            for (int i = 0; i < vecmap.size(); i++)
+            {
+                window.draw(vecmap[i]);
+            }
 
-        //Sprite::setTextureRect();
+            window.draw(entity);
+            window.draw(sprite);
+
+            window.display();
+        #pragma endregion
     }
-
     return 0;
 }
