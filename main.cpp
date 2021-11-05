@@ -1,18 +1,19 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
-#include <math.h>
+#include <Windows.h>
 
 #include "Tilemap.h"
+#include "Entity.h"
 
 using namespace sf;
 using namespace std;
 
 int main()
 {
-    int dim = 16; // Ne pas changer
-    int scale = 6;
+    int dim = 16; // Ne pas changer (taille des tiles de foresttiles2-t.png)
+    int scale = 7;
     #pragma region INIT
-        sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
+        sf::RenderWindow window(sf::VideoMode((dim*scale*12), (dim*scale*8)), "The game seems to be working...");
         window.setKeyRepeatEnabled(false);
         #pragma region Player
             sf::RectangleShape entity(sf::Vector2f(((dim-4)*scale), (dim*scale)));
@@ -34,56 +35,57 @@ int main()
 
     while (window.isOpen())
     {
-        sf::Event event;
-
+        Event event;
+        
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed) { window.close(); }
-            if (event.type == sf::Event::KeyPressed)
+            if (event.type == Event::Closed) { window.close(); }
+            if (event.type == Event::KeyPressed)
             {
                 switch (event.key.code)
                 {
-                case Keyboard::Z:
-                    velocity.y -= speed;
-                    break;
-                case Keyboard::Q:
-                    velocity.x -= speed;
-                    break;
-                case Keyboard::S:
-                    velocity.y += speed;
-                    break;
-                case Keyboard::D:
-                    velocity.x += speed;
-                    break;
+                    case Keyboard::Z:
+                        velocity.y -= speed;
+                        break;
+                    case Keyboard::Q:
+                        velocity.x -= speed;
+                        break;
+                    case Keyboard::S:
+                        velocity.y += speed;
+                        break;
+                    case Keyboard::D:
+                        velocity.x += speed;
+                        break;
                 }
             }
-            if (event.type == sf::Event::KeyReleased)
+            if (event.type == Event::KeyReleased)
             {
                 switch (event.key.code)
                 {
-                case Keyboard::Z:
-                    velocity.y = 0;
-                    break;
-                case Keyboard::Q:
-                    velocity.x = 0;
-                    break;
-                case Keyboard::S:
-                    velocity.y = 0;
-                    break;
-                case Keyboard::D:
-                    velocity.x = 0;
-                    break;
+                    case Keyboard::Z:
+                        velocity.y += abs(velocity.y);
+                        break;
+                    case Keyboard::Q:
+                        velocity.x += abs(velocity.x);
+                        break;
+                    case Keyboard::S:
+                        velocity.y -= velocity.y;
+                        break;
+                    case Keyboard::D:
+                        velocity.x -= velocity.x;
+                        break;
                 }
             }
         }
 
-        float z = sqrt((velocity.x*velocity.x) + (velocity.y*velocity.y));
-        if (z != 0) {
-            velocity.x = ((velocity.x) / z) * speed;
-            velocity.y = ((velocity.y) / z) * speed;
-            entity.move(velocity);
-            cout << "Velocity : " + to_string(z) + "\n";
+        float norme = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
+        if (norme != 0)
+        {
+            velocity.x = ((velocity.x) / norme) * speed;
+            velocity.y = ((velocity.y) / norme) * speed;
         }
+        entity.move(velocity);
+        cout << "Velocity " + to_string(velocity.x) + " | " + to_string(velocity.y) + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
 
         #pragma region Draw
             window.clear();

@@ -1,10 +1,11 @@
-#include <SFML/Graphics.hpp>
+#pragma once
 
 class Entity
 {
 	public:
-		Entity(int dim, int scale, int hp = 200 )
-		{}
+		Entity(int dim, int scale, int hp = 200)
+		{
+		}
 
 
 	protected:

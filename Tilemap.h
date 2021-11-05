@@ -1,7 +1,7 @@
 #pragma once
 
-class Tilemap {
-
+class Tilemap 
+{
 	public:
 		std::vector<sf::Sprite> loadLevel(int dim, int scale, sf::Texture &t);
 		std::vector<sf::Sprite> loadGround(int dim, int scale, sf::Texture& t);
