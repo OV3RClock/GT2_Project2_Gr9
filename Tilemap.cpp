@@ -149,19 +149,28 @@ vector<string> tile_strings = {
     "R1 RH R4 R3 R2 FW -- -- -- -- -- -- "
 };
 
-Sprite Tilemap::loadLevel(Texture &t)
+vector<Sprite> Tilemap::loadLevel(Texture &t)
 {
-    sf::Sprite sprite;
-    Vector2i v = tile_offsets.find(aliasses.find("GD")->second)->second;
-    sf::IntRect rect(v * 16, {16,16});
+    for (auto & str : tile_strings) 
+    {
+        for (int i = 0; i<str.length(); i+=3)
+        {
+            String sbstr = str.substr(i, 2);
+            Sprite s = loadtile(sbstr, t);
+            Tiles.push_back(s);
+        }
+    }
+    return Tiles;
+}
+
+sf::Sprite Tilemap::loadtile(string s, sf::Texture& t)
+{
+    Sprite sprite;
+    Vector2i v = tile_offsets.find(aliasses.find(s)->second)->second;
+    sf::IntRect rect(v * 16, { 16,16 });
     sprite.Sprite::setTextureRect(rect);
     sprite.setTexture(t);
-    sprite.scale(3,3);
+    sprite.scale(3, 3);
     return sprite;
-
-    /*for (auto& p : level::tile_strings) {
-        cout << p.first << ": " << p.second << '\n';
-        //string::substr(start, length);
-    }*/
 }
 
