@@ -8,13 +8,13 @@ using namespace std;
 
 int main()
 {
-    
+    int dim = 16; // Ne pas changer
+    int scale = 6;
     #pragma region INIT
-        int dim = 16;
-        int scale = 3;
         sf::RenderWindow window(sf::VideoMode(1920, 1080), "SFML works!");
+        window.setKeyRepeatEnabled(false);
         #pragma region Player
-            sf::RectangleShape entity(sf::Vector2f((dim*scale), (dim*scale)));
+            sf::RectangleShape entity(sf::Vector2f(((dim-4)*scale), (dim*scale)));
             Texture texture;
             texture.loadFromFile("ghost.png");
             Sprite sprite;
@@ -43,22 +43,19 @@ int main()
                 {
                 case Keyboard::Z:
                     velocity.y -= speed;
-                    entity.move(velocity);
                     break;
                 case Keyboard::Q:
                     velocity.x -= speed;
-                    entity.move(velocity);
                     break;
                 case Keyboard::S:
                     velocity.y += speed;
-                    entity.move(velocity);
                     break;
                 case Keyboard::D:
                     velocity.x += speed;
-                    entity.move(velocity);
                     break;
                 }
             }
+            entity.move(velocity);
         }
 
         #pragma region Draw
