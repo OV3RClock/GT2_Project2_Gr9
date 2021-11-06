@@ -17,7 +17,7 @@ int main()
     
     #pragma region INIT
 
-        int dim = 16;
+        int dim = 16; // Fixe (lié à foresttiles2-t.png)
         sf::RenderWindow window(sf::VideoMode((dim*scale*12), (dim*scale*8)), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
 
