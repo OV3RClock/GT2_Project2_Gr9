@@ -59,7 +59,6 @@ int main()
             if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
-            cout << "Position " + to_string(player.getPositionX()) + " X | " + to_string(player.getPositionY()) + " Y\nVelocity " + to_string(player.getVelocityX()) + " X | " + to_string(player.getVelocityY()) + " Y\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
         #pragma endregion
 
         #pragma region Draw
@@ -67,6 +66,11 @@ int main()
             map.drawTilemap(window);
             player.drawPlayer(window);
             window.display();
+            cout << "Position X | " + to_string((int)player.getPositionX()) + "\n" +
+                    "Position Y | " + to_string((int)player.getPositionY()) + "\n\n" +
+                    "Velocity X | " + to_string((int)(player.getVelocityX()*10)) + "\n" +
+                    "Velocity Y | " + to_string((int)(player.getVelocityY()*10)) + "\n" +
+                    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
         #pragma endregion
     }
 }

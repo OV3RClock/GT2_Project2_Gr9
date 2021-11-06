@@ -30,6 +30,10 @@ float Player::getVelocityY()
 {
     return velocity.y;
 }
+sf::Vector2f Player::getVelocity()
+{
+    return velocity;
+}
 float Player::getPositionX()
 {
     return sprite.getPosition().x;
@@ -57,13 +61,13 @@ void Player::setSpeed(float f)
 	playerSpeed = f;
 }
 
-void Player::normalize(Vector2f &velocity, float speed) 
+void Player::normalize(Vector2f &velocity, float s) 
 {
     float norme = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
     if (norme != 0)
     {
-        velocity.x = ((velocity.x) / norme) * playerSpeed;
-        velocity.y = ((velocity.y) / norme) * playerSpeed;
+        velocity.x = ((velocity.x) / norme) * s;
+        velocity.y = ((velocity.y) / norme) * s;
     }
 }
 void Player::drawPlayer(sf::RenderWindow& rw)
