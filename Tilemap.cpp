@@ -7,6 +7,7 @@
 using namespace sf;
 using namespace std;
 
+
 map<string, Vector2i> tile_offsets = {
     { "convex_angle1", {0,0}},    //
     { "convex_angle2", {1,0}},    //
@@ -140,27 +141,24 @@ vector<string> ground_strings = {
     "GD GD GD GD GD GD GD GD GD GD GD GD "
 };
 
-vector<Sprite> Tilemap::loadLevel(int dim, int scale, Texture &t)
+
+Tilemap::Tilemap(int dim, int scale)
 {
-    int j = 0;
-    int k = 0;
-    for (auto & str : tile_strings) 
-    {
-        for (int i = 0; i<str.length(); i+=3)
-        {
-            String sbstr = str.substr(i, 2);
-            Sprite s = loadtile(dim, scale, sbstr, t);
-            s.setPosition(dim*scale * k, dim*scale * j);
-            Tiles.push_back(s);
-            k += 1;
-            if (k >= 12)
-            {
-                k = 0;
-                j += 1;
-            }
-        }
-    }
-    return Tiles;
+    mapTexture.loadFromFile("foresttiles2-t.png");
+    vecGround = loadGround(dim, scale, mapTexture);
+    vecTiles = loadLevel(dim, scale, mapTexture);
+}
+Tilemap::~Tilemap()
+{
+}
+
+std::vector<sf::Sprite> Tilemap::getVectorTiles()
+{
+    return vecTiles;
+}
+std::vector<sf::Sprite> Tilemap::getVectorGround()
+{
+    return vecGround;
 }
 
 vector<Sprite> Tilemap::loadGround(int dim, int scale, Texture& t)
@@ -173,8 +171,8 @@ vector<Sprite> Tilemap::loadGround(int dim, int scale, Texture& t)
         {
             String sbstr = str.substr(i, 2);
             Sprite s = loadtile(dim, scale, sbstr, t);
-            s.setPosition(dim*scale * k, dim*scale * j);
-            Ground.push_back(s);
+            s.setPosition(dim * scale * k, dim * scale * j);
+            vecGround.push_back(s);
             k += 1;
             if (k >= 12)
             {
@@ -183,9 +181,30 @@ vector<Sprite> Tilemap::loadGround(int dim, int scale, Texture& t)
             }
         }
     }
-    return Ground;
+    return vecGround;
 }
-
+vector<Sprite> Tilemap::loadLevel(int dim, int scale, Texture &t)
+{
+    int j = 0;
+    int k = 0;
+    for (auto & str : tile_strings) 
+    {
+        for (int i = 0; i<str.length(); i+=3)
+        {
+            String sbstr = str.substr(i, 2);
+            Sprite s = loadtile(dim, scale, sbstr, t);
+            s.setPosition(dim*scale * k, dim*scale * j);
+            vecTiles.push_back(s);
+            k += 1;
+            if (k >= 12)
+            {
+                k = 0;
+                j += 1;
+            }
+        }
+    }
+    return vecTiles;
+}
 Sprite Tilemap::loadtile(int dim, int scale,  string s, Texture& t)
 {
     Sprite sprite;
@@ -198,6 +217,18 @@ Sprite Tilemap::loadtile(int dim, int scale,  string s, Texture& t)
         sprite.scale(scale, scale);
     }
     return sprite;
+}
+
+void Tilemap::drawTilemap(sf::RenderWindow& rw)
+{
+    for (int i = 0; i < vecGround.size(); i++)
+    {
+        rw.draw(vecGround[i]);
+    }
+    for (int i = 0; i < vecTiles.size(); i++)
+    { 
+        rw.draw(vecTiles[i]);
+    }
 }
 
 

@@ -4,46 +4,27 @@
 
 #include "Tilemap.h"
 #include "Entity.h"
+#include "Player.h"
 
 using namespace sf;
 using namespace std;
 
-void normalize(Vector2f &velocity, float speed) {
-    float norme = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
-    if (norme != 0)
-    {
-        velocity.x = ((velocity.x) / norme) * speed;
-        velocity.y = ((velocity.y) / norme) * speed;
-    }
-}
-
 int main()
 {
-    int dim = 16; // Ne pas changer (taille des tiles de foresttiles2-t.png)
+    // Variables modifiables
     int scale = 4;
-
+    float playerSpeed = 0.5;
+    
     #pragma region INIT
 
+        int dim = 16;
         sf::RenderWindow window(sf::VideoMode((dim*scale*12), (dim*scale*8)), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
 
-        #pragma region Player
-            sf::RectangleShape entity(sf::Vector2f(((dim-4)*scale), (dim*scale)));
-            Texture texture;
-            texture.loadFromFile("ghost.png");
-            Sprite sprite;
-            entity.setTexture(&texture);
-            sf::Vector2f velocity;
-            float speed = 0.5;
-        #pragma endregion
+        Player player(scale);
+        player.setSpeed(playerSpeed);
 
-        #pragma region Map
-            Tilemap T;
-            Texture maptexture;
-            maptexture.loadFromFile("foresttiles2-t.png");
-            vector<Sprite> vecground = T.loadGround(dim, scale, maptexture);
-            vector<Sprite> vecmap = T.loadLevel(dim, scale, maptexture);
-        #pragma endregion
+        Tilemap map(dim,scale);
 
     #pragma endregion
 
@@ -58,38 +39,33 @@ int main()
                 switch (event.key.code)
                 {
                     case Keyboard::Z:
-                        velocity.y -= velocity.y;
+                        player.setVelocityY(0);
                         break;
                     case Keyboard::Q:
-                        velocity.x -= velocity.x;
+                        player.setVelocityX(0);
                         break;
                     case Keyboard::S:
-                        velocity.y -= velocity.y;
+                        player.setVelocityY(0);
                         break;
                     case Keyboard::D:
-                        velocity.x -= velocity.x;
+                        player.setVelocityX(0);
                         break;
                 }
             }
         }
 
-        if (Keyboard::isKeyPressed(Keyboard::Z)) { velocity.y -= speed; }
-        if (Keyboard::isKeyPressed(Keyboard::Q)) { velocity.x -= speed; }
-        if (Keyboard::isKeyPressed(Keyboard::S)) { velocity.y += speed; }
-        if (Keyboard::isKeyPressed(Keyboard::D)) { velocity.x += speed; }
-
-        normalize(velocity, speed);
-        entity.move(velocity);
-        cout << "Velocity " + to_string(velocity.x) + " | " + to_string(velocity.y) + "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+        #pragma region PlayerMovement
+            if (Keyboard::isKeyPressed(Keyboard::Z)) { player.setVelocityY(-player.getSpeed()); }
+            if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
+            if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
+            if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
+        #pragma endregion
 
         #pragma region Draw
             window.clear();
-            for (int i = 0; i < vecground.size(); i++) { window.draw(vecground[i]); }
-            for (int i = 0; i < vecmap.size(); i++) { window.draw(vecmap[i]); }
-            window.draw(entity);
-            window.draw(sprite);
+            map.drawTilemap(window);
+            player.drawPlayer(window);
             window.display();
         #pragma endregion
     }
-    return 0;
 }

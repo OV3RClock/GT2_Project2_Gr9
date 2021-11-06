@@ -3,14 +3,16 @@
 class Entity
 {
 	public:
-		Entity(int dim, int scale, int hp = 200)
-		{
-		}
+		Entity(int entityHP);
+		~Entity();
 
+		int getEntityHP();
+
+		void setEntityHP(int i);
 
 	protected:
 		sf::Texture texture;
 		sf::Sprite sprite;
-	
+		int entityHP = 0;
 };
 
