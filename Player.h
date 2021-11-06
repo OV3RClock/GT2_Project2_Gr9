@@ -8,9 +8,11 @@ class Player : public Entity
 		Player(int scale);
 		~Player();
 
+		float getSpeed();
 		float getVelocityX();
 		float getVelocityY();
-		float getSpeed();
+		float getPositionX();
+		float getPositionY();
 		sf::Sprite getSprite();
 
 		void setVelocityX(float f);

@@ -12,8 +12,8 @@ using namespace std;
 int main()
 {
     // Variables modifiables
-    int scale = 4;
-    float playerSpeed = 0.5;
+    int scale = 5;
+    float playerSpeed = 0.4;
     
     #pragma region INIT
 
@@ -59,6 +59,7 @@ int main()
             if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
+            cout << "Position " + to_string(player.getPositionX()) + " X | " + to_string(player.getPositionY()) + " Y\nVelocity " + to_string(player.getVelocityX()) + " X | " + to_string(player.getVelocityY()) + " Y\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
         #pragma endregion
 
         #pragma region Draw

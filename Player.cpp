@@ -18,6 +18,10 @@ Player::~Player()
 {
 }
 
+float Player::getSpeed()
+{
+    return playerSpeed;
+}
 float Player::getVelocityX()
 {
     return velocity.x;
@@ -26,9 +30,14 @@ float Player::getVelocityY()
 {
     return velocity.y;
 }
-float Player::getSpeed()
+float Player::getPositionX()
 {
-    return playerSpeed;
+    return sprite.getPosition().x;
+}
+float Player::getPositionY()
+{
+    return sprite.getPosition().y;
+
 }
 sf::Sprite Player::getSprite()
 {
