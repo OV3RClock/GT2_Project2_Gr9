@@ -8,11 +8,12 @@
 using namespace sf;
 using namespace std;
 
-Player::Player(int scale) : Entity(200)
+Player::Player(int scale, Vector2f pos) : Entity(200, pos)
 {
     texture.loadFromFile("ghost.png");
 	sprite = Sprite(texture);
     sprite.setScale(scale, scale);
+    sprite.setPosition(position);
 }
 Player::~Player()
 {
@@ -22,28 +23,15 @@ float Player::getSpeed()
 {
     return playerSpeed;
 }
-float Player::getVelocityX()
-{
-    return velocity.x;
-}
-float Player::getVelocityY()
-{
-    return velocity.y;
-}
-sf::Vector2f Player::getVelocity()
+Vector2f Player::getVelocity()
 {
     return velocity;
 }
-float Player::getPositionX()
+Vector2f Player::getPosition()
 {
-    return sprite.getPosition().x;
+    return position;
 }
-float Player::getPositionY()
-{
-    return sprite.getPosition().y;
-
-}
-sf::Sprite Player::getSprite()
+Sprite Player::getSprite()
 {
     return sprite;
 }
@@ -70,10 +58,13 @@ void Player::normalize(Vector2f &velocity, float s)
         velocity.y = ((velocity.y) / norme) * s;
     }
 }
-void Player::drawPlayer(sf::RenderWindow& rw)
+void Player::update(float dt)
 {
     normalize(velocity, playerSpeed);
-    sprite.move(velocity.x, velocity.y);
+    sprite.move(velocity*dt);
+}
+void Player::drawPlayer(sf::RenderWindow& rw)
+{
     rw.draw(sprite);
 }
 

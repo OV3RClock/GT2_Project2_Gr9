@@ -7,7 +7,7 @@
 using namespace sf;
 using namespace std;
 
-Entity::Entity(int entityHP)
+Entity::Entity(int entityHP, Vector2f pos) : position(pos)
 {
 }
 

@@ -4,15 +4,12 @@
 class Monster : public Entity
 {
 	public:
-		Monster(int scale);
+		Monster(int scale, sf::Vector2f pos);
 		~Monster();
 
 		float getSpeed();
-		float getVelocityX();
-		float getVelocityY();
 		sf::Vector2f getVelocity();
-		float getPositionX();
-		float getPositionY();
+		sf::Vector2f getPosition();
 		sf::Sprite getSprite();
 
 		void setVelocityX(float f);

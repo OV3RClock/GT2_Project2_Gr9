@@ -3,7 +3,7 @@
 class Entity
 {
 	public:
-		Entity(int entityHP);
+		Entity(int entityHP, sf::Vector2f pos);
 		~Entity();
 
 		int getEntityHP();
@@ -13,6 +13,7 @@ class Entity
 	protected:
 		sf::Texture texture;
 		sf::Sprite sprite;
+		sf::Vector2f position = { 0,0 };
 		int entityHP = 0;
 };
 

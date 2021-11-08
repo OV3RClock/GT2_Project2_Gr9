@@ -13,8 +13,10 @@ int main()
 {
     // Variables modifiables
     int scale = 5;
-    float playerSpeed = 3;
     int fpsCap = 144;
+
+    float playerSpeed = 300;
+    Vector2f spawnPos = { 100,100 };
 
     #pragma region INIT
 
@@ -23,8 +25,9 @@ int main()
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
 
-        Player player(scale);
+        Player player(scale, spawnPos);
         player.setSpeed(playerSpeed);
+        float dt = (1.f/(float)fpsCap);
 
         Tilemap map(dim,scale);
 
@@ -61,6 +64,7 @@ int main()
             if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
+            player.update(dt);
         #pragma endregion
 
         #pragma region Draw
@@ -68,10 +72,10 @@ int main()
             map.drawTilemap(window);
             player.drawPlayer(window);
             window.display();
-            cout << "Position X | " + to_string((int)player.getPositionX()) + "\n" +
-                    "Position Y | " + to_string((int)player.getPositionY()) + "\n\n" +
-                    "Velocity X | " + to_string((int)(player.getVelocityX()*10)) + "\n" +
-                    "Velocity Y | " + to_string((int)(player.getVelocityY()*10)) + "\n" +
+            cout << "Position X | " + to_string(player.getPosition().x) + "\n" +
+                    "Position Y | " + to_string(player.getPosition().y) + "\n\n" +
+                    "Velocity X | " + to_string(player.getVelocity().x) + "\n" +
+                    "Velocity Y | " + to_string(player.getVelocity().y) + "\n" +
                     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
         #pragma endregion
     }

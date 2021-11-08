@@ -5,15 +5,12 @@
 class Player : public Entity 
 {
 	public:
-		Player(int scale);
+		Player(int scale, sf::Vector2f pos);
 		~Player();
 
 		float getSpeed();
-		float getVelocityX();
-		float getVelocityY();
 		sf::Vector2f getVelocity();
-		float getPositionX();
-		float getPositionY();
+		sf::Vector2f getPosition();
 		sf::Sprite getSprite();
 
 		void setVelocityX(float f);
@@ -21,9 +18,10 @@ class Player : public Entity
 		void setSpeed(float f);
 
 		void normalize(sf::Vector2f &velocity, float speed);
+		void update(float dt);
 		void drawPlayer(sf::RenderWindow &rw);
 
 	protected:
 		float playerSpeed = 0.5;
-		sf::Vector2f velocity = { 0,0 };
+		sf::Vector2f velocity = { 0,0 }; 
 };

@@ -9,11 +9,12 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(int scale) : Entity(200)
+Monster::Monster(int scale, Vector2f pos) : Entity(200,pos)
 {
     texture.loadFromFile("ghost.png");
     sprite = Sprite(texture);
     sprite.setScale(scale, scale);
+    sprite.setPosition(position);
 }
 Monster::~Monster()
 {
@@ -23,26 +24,13 @@ float Monster::getSpeed()
 {
     return monsterSpeed;
 }
-float Monster::getVelocityX()
-{
-    return velocity.x;
-}
-float Monster::getVelocityY()
-{
-    return velocity.y;
-}
 sf::Vector2f Monster::getVelocity()
 {
     return velocity;
 }
-float Monster::getPositionX()
+sf::Vector2f Monster::getPosition()
 {
-    return sprite.getPosition().x;
-}
-float Monster::getPositionY()
-{
-    return sprite.getPosition().y;
-
+    return position;
 }
 sf::Sprite Monster::getSprite()
 {
@@ -71,7 +59,7 @@ void Monster::normalize(Vector2f& velocity, float s)
         velocity.y = ((velocity.y) / norme) * s;
     }
 }
-void Monster::drawMonster(sf::RenderWindow& rw)
+void Monster::drawMonster(RenderWindow& rw)
 {
     normalize(velocity, monsterSpeed);
     sprite.move(velocity.x, velocity.y);
@@ -89,7 +77,7 @@ Vous n'êtes pas obligé d'animer le sprite, mais cela sera un bon bonus.
 Afin de bien débugguer, il faudra afficher des petits points colorés représentants l'itinéraire du monstre, avec aussi un tracé.
 Il faudra donc utiliser sf::RectangleShape et sf::VertexArray, ainsi que sf::Timer.
 
-Vous devrez donc créer un class enemy{} ou struct enemy{}, avec un constructeur,
+Vous devrez donc créer une class enemy{} ou struct enemy{}, avec un constructeur,
 et les méthodes membres update(float delta) et draw(sf::RenderWindow & window).
 
 Lorsque le personnage touche un monstre, la partie se finit avec un message game over en Texte via sf::Text, et le jeu recommence de zéro.
