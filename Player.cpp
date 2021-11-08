@@ -10,10 +10,12 @@ using namespace std;
 
 Player::Player(int scale, Vector2f pos) : Entity(200, pos)
 {
-    texture.loadFromFile("ghost.png");
-	sprite = Sprite(texture);
+    texture.loadFromFile("characters.png");
+    sprite = Sprite(texture);
+    sprite.setTextureRect(IntRect(64, 0, 16, 16));
     sprite.setScale(scale, scale);
     sprite.setPosition(position);
+    playerLifeBar.setValue(100);
 }
 Player::~Player()
 {
@@ -60,11 +62,14 @@ void Player::normalize(Vector2f &velocity, float s)
 }
 void Player::update(float dt)
 {
+    position = sprite.getPosition();
+    playerLifeBar.setPosition(position); // Bouger la lifebar
     normalize(velocity, playerSpeed);
-    sprite.move(velocity*dt);
+    sprite.move(velocity * dt);
 }
 void Player::drawPlayer(sf::RenderWindow& rw)
 {
     rw.draw(sprite);
+    rw.draw(playerLifeBar);
 }
 

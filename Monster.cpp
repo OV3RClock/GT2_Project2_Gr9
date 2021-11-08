@@ -65,7 +65,8 @@ void Monster::normalize(Vector2f& velocity, float s)
     }
 }
 void Monster::update(float dt)
-{   
+{
+    position = sprite.getPosition();
     normalize(velocity, monsterSpeed);
     sprite.move(velocity*dt);
 }
