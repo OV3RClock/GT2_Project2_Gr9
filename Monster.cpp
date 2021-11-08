@@ -79,27 +79,47 @@ void Monster::mooveMonster(Vector2f& posMoove, Vector2f posMonster)
     {
         if (posMonster.x < posMoove.x)
         {
-            setVelocityX(-getSpeed());
+            setVelocityX(0);
+            setVelocityX(getSpeed());
         }
         if (posMonster.x > posMoove.x)
         {
-            setVelocityX(getSpeed());
+            setVelocityX(0);
+            setVelocityX(-getSpeed());
         }
         if (posMonster.y < posMoove.y)
         {
-            setVelocityY(-getSpeed());
+            setVelocityY(0);
+            setVelocityY(getSpeed());
         }
         if (posMonster.y > posMoove.y)
         {
-            setVelocityY(getSpeed());
+            setVelocityY(0);
+            setVelocityY(-getSpeed());
+        }
+        if (posMonster.x = posMoove.x)
+        {
+            setVelocityX(0);
+            
+        }
+        if (posMonster.x = posMoove.x)
+        {
+            setVelocityX(0);
+            
+        }
+        if (posMonster.y = posMoove.y)
+        {
+            setVelocityY(0);
+            
+        }
+        if (posMonster.y = posMoove.y)
+        {
+            setVelocityY(0);
+            
         }
         
     }
-    else
-    {
-        setVelocityX(0);
-        setVelocityY(0);
-    }
+    
 }
 
 /*
