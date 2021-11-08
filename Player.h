@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Entity.h"
+#include "Lifebar.h"
 
 class Player : public Entity 
 {
@@ -23,5 +24,6 @@ class Player : public Entity
 
 	protected:
 		float playerSpeed = 0.5;
-		sf::Vector2f velocity = { 0,0 }; 
+		sf::Vector2f velocity = { 0,0 };
+		LifeBar playerLifeBar;
 };

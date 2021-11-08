@@ -11,8 +11,7 @@ using namespace std;
 
 int main()
 {
-    // Variables modifiables
-    int scale = 5;
+    int scale = 4;
     int fpsCap = 144;
 
     float playerSpeed = 300;
@@ -20,15 +19,18 @@ int main()
 
     #pragma region INIT
 
+        // WINDOW
         int dim = 16; // Fixe (lié à foresttiles2-t.png)
         sf::RenderWindow window(sf::VideoMode((dim*scale*12), (dim*scale*8)), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
 
+        // PLAYER
         Player player(scale, spawnPos);
         player.setSpeed(playerSpeed);
         float dt = (1.f/(float)fpsCap);
 
+        // TILEMAP
         Tilemap map(dim,scale);
 
     #pragma endregion
