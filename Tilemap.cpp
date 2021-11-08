@@ -7,7 +7,6 @@
 using namespace sf;
 using namespace std;
 
-
 map<string, Vector2i> tile_offsets = {
     { "convex_angle1", {0,0}},    //
     { "convex_angle2", {1,0}},    //
@@ -141,7 +140,6 @@ vector<string> ground_strings = {
     "GD GD GD GD GD GD GD GD GD GD GD GD "
 };
 
-
 Tilemap::Tilemap(int dim, int scale)
 {
     mapTexture.loadFromFile("foresttiles2-t.png");
@@ -230,6 +228,3 @@ void Tilemap::drawTilemap(sf::RenderWindow& rw)
         rw.draw(vecTiles[i]);
     }
 }
-
-
-
