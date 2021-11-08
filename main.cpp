@@ -5,6 +5,7 @@
 #include "Tilemap.h"
 #include "Entity.h"
 #include "Player.h"
+#include "Monster.h"
 
 using namespace sf;
 using namespace std;
@@ -17,6 +18,8 @@ int main()
 
     float playerSpeed = 300;
     Vector2f spawnPos = { 100,100 };
+    Vector2f spawnPosM = { 400,100 };
+
 
     #pragma region INIT
 
@@ -24,7 +27,8 @@ int main()
         sf::RenderWindow window(sf::VideoMode((dim*scale*12), (dim*scale*8)), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
-
+        Monster monster(scale, spawnPosM);
+        monster.setSpeed(playerSpeed);
         Player player(scale, spawnPos);
         player.setSpeed(playerSpeed);
         float dt = (1.f/(float)fpsCap);
@@ -67,15 +71,24 @@ int main()
             player.update(dt);
         #pragma endregion
 
+            //test moove monster hugo
+            monster.mooveMonster(monster.setGetPositionMoove(), monster.getPosition());
+            monster.update(dt);
+
         #pragma region Draw
             window.clear();
             map.drawTilemap(window);
+            monster.drawMonster(window);
             player.drawPlayer(window);
             window.display();
             cout << "Position X | " + to_string(player.getPosition().x) + "\n" +
                     "Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                     "Velocity X | " + to_string(player.getVelocity().x) + "\n" +
                     "Velocity Y | " + to_string(player.getVelocity().y) + "\n" +
+                    "MPosition X | " + to_string(monster.getPosition().x) + "\n" +
+                    "MPosition Y | " + to_string(monster.getPosition().y) + "\n\n" +
+                    "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
+                    "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
                     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
         #pragma endregion
     }

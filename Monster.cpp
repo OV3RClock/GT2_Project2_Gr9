@@ -37,8 +37,8 @@ sf::Sprite Monster::getSprite()
 }
 sf::Vector2f Monster::setGetPositionMoove()
 {
-    positionMoove.x = 100;
-    positionMoove.y = 100;
+    positionMoove.x = 200;
+    positionMoove.y = 300;
     return positionMoove;
 }
 
@@ -65,7 +65,7 @@ void Monster::normalize(Vector2f& velocity, float s)
     }
 }
 void Monster::update(float dt)
-{
+{   
     normalize(velocity, monsterSpeed);
     sprite.move(velocity*dt);
 }
@@ -79,20 +79,26 @@ void Monster::mooveMonster(Vector2f& posMoove, Vector2f posMonster)
     {
         if (posMonster.x < posMoove.x)
         {
-            setVelocityX(getSpeed());
+            setVelocityX(-getSpeed());
         }
         if (posMonster.x > posMoove.x)
         {
-            setVelocityX(-getSpeed());
+            setVelocityX(getSpeed());
         }
         if (posMonster.y < posMoove.y)
         {
-            setVelocityY(getSpeed());
+            setVelocityY(-getSpeed());
         }
         if (posMonster.y > posMoove.y)
         {
-            setVelocityY(-getSpeed());
+            setVelocityY(getSpeed());
         }
+        
+    }
+    else
+    {
+        setVelocityX(0);
+        setVelocityY(0);
     }
 }
 
