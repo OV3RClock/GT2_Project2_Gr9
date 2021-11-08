@@ -13,13 +13,15 @@ int main()
 {
     // Variables modifiables
     int scale = 5;
-    float playerSpeed = 0.4;
-    
+    float playerSpeed = 3;
+    int fpsCap = 144;
+
     #pragma region INIT
 
         int dim = 16; // Fixe (lié à foresttiles2-t.png)
         sf::RenderWindow window(sf::VideoMode((dim*scale*12), (dim*scale*8)), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
+        window.setFramerateLimit(fpsCap);
 
         Player player(scale);
         player.setSpeed(playerSpeed);
