@@ -75,7 +75,7 @@ void Monster::drawMonster(RenderWindow& rw)
 }
 void Monster::mooveMonster(Vector2f& posMoove, Vector2f posMonster)
 {
-    if (posMonster.x != posMoove.x || posMonster.y != posMoove.Y)
+    if (posMonster.x != posMoove.x || posMonster.y != posMoove.y)
     {
         if (posMonster.x < posMoove.x)
         {
