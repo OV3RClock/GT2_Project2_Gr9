@@ -58,10 +58,13 @@ void Monster::normalize(Vector2f& velocity, float s)
         velocity.y = ((velocity.y) / norme) * s;
     }
 }
-void Monster::drawMonster(RenderWindow& rw)
+void Monster::update(float dt)
 {
     normalize(velocity, monsterSpeed);
-    sprite.move(velocity.x, velocity.y);
+    sprite.move(velocity*dt);
+}
+void Monster::drawMonster(RenderWindow& rw)
+{
     rw.draw(sprite);
 }
 

@@ -18,6 +18,7 @@ class Monster : public Entity
 		void setSpeed(float f);
 
 		void normalize(sf::Vector2f& velocity, float speed);
+		void update(float dt);
 		void drawMonster(sf::RenderWindow& rw);
 
 	protected:
