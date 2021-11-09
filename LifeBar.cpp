@@ -1,3 +1,6 @@
+#include <SFML/Graphics.hpp>
+#include <iostream>
+
 #include "LifeBar.h"
 
 using namespace sf;
@@ -8,8 +11,7 @@ LifeBar::LifeBar()
 	t2.loadFromFile("fill.png");
 	back = Sprite(t1);
 	fill = Sprite(t2);
-	//back.setScale(scale, scale);
-	//fill.setScale(scale, scale);
+	fill.setPosition(Vector2f(0.5,0.5));
 	maxValue = 200;
 	value = 200;
 }
@@ -22,7 +24,7 @@ void LifeBar::setValue(float f)
 {
 	value = f;
 	float percentage = value / maxValue;
-	fill.setTextureRect(IntRect(0, 0, percentage * 15, 3));
+	fill.setScale(percentage, 1);
 }
 
 void LifeBar::draw(RenderTarget& target, RenderStates states) const

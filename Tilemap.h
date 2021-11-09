@@ -3,15 +3,15 @@
 class Tilemap 
 {
 	public:
-		Tilemap(int dim, int scale);
+		Tilemap(int dim);
 		~Tilemap();
 		
 		std::vector<sf::Sprite> getVectorTiles();
 		std::vector<sf::Sprite> getVectorGround();
 
-		std::vector<sf::Sprite> loadLevel(int dim, int scale, sf::Texture &t);
-		std::vector<sf::Sprite> loadGround(int dim, int scale, sf::Texture& t);
-		sf::Sprite loadtile(int dim, int scale, std::string s, sf::Texture& t);
+		std::vector<sf::Sprite> loadLevel(int dim, sf::Texture &t);
+		std::vector<sf::Sprite> loadGround(int dim, sf::Texture& t);
+		sf::Sprite loadtile(int dim, std::string s, sf::Texture& t);
 
 		void drawTilemap(sf::RenderWindow& rw);
 

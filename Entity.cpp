@@ -20,9 +20,4 @@ int Entity::getEntityHP()
 	return entityHP;
 }
 
-void Entity::setEntityHP(int i)
-{
-	entityHP = i;
-}
-
 

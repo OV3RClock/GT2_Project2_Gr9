@@ -140,11 +140,11 @@ vector<string> ground_strings = {
     "GD GD GD GD GD GD GD GD GD GD GD GD "
 };
 
-Tilemap::Tilemap(int dim, int scale)
+Tilemap::Tilemap(int dim)
 {
     mapTexture.loadFromFile("foresttiles2-t.png");
-    vecGround = loadGround(dim, scale, mapTexture);
-    vecTiles = loadLevel(dim, scale, mapTexture);
+    vecGround = loadGround(dim, mapTexture);
+    vecTiles = loadLevel(dim, mapTexture);
 }
 Tilemap::~Tilemap()
 {
@@ -159,7 +159,7 @@ std::vector<sf::Sprite> Tilemap::getVectorGround()
     return vecGround;
 }
 
-vector<Sprite> Tilemap::loadGround(int dim, int scale, Texture& t)
+vector<Sprite> Tilemap::loadGround(int dim, Texture& t)
 {
     int j = 0;
     int k = 0;
@@ -168,8 +168,8 @@ vector<Sprite> Tilemap::loadGround(int dim, int scale, Texture& t)
         for (int i = 0; i < str.length(); i += 3)
         {
             String sbstr = str.substr(i, 2);
-            Sprite s = loadtile(dim, scale, sbstr, t);
-            s.setPosition(dim * scale * k, dim * scale * j);
+            Sprite s = loadtile(dim, sbstr, t);
+            s.setPosition(dim * k, dim * j);
             vecGround.push_back(s);
             k += 1;
             if (k >= 12)
@@ -181,7 +181,7 @@ vector<Sprite> Tilemap::loadGround(int dim, int scale, Texture& t)
     }
     return vecGround;
 }
-vector<Sprite> Tilemap::loadLevel(int dim, int scale, Texture &t)
+vector<Sprite> Tilemap::loadLevel(int dim, Texture &t)
 {
     int j = 0;
     int k = 0;
@@ -190,8 +190,8 @@ vector<Sprite> Tilemap::loadLevel(int dim, int scale, Texture &t)
         for (int i = 0; i<str.length(); i+=3)
         {
             String sbstr = str.substr(i, 2);
-            Sprite s = loadtile(dim, scale, sbstr, t);
-            s.setPosition(dim*scale * k, dim*scale * j);
+            Sprite s = loadtile(dim, sbstr, t);
+            s.setPosition(dim * k, dim * j);
             vecTiles.push_back(s);
             k += 1;
             if (k >= 12)
@@ -203,7 +203,7 @@ vector<Sprite> Tilemap::loadLevel(int dim, int scale, Texture &t)
     }
     return vecTiles;
 }
-Sprite Tilemap::loadtile(int dim, int scale,  string s, Texture& t)
+Sprite Tilemap::loadtile(int dim, string s, Texture& t)
 {
     Sprite sprite;
     if (s != "  ") 
@@ -212,7 +212,6 @@ Sprite Tilemap::loadtile(int dim, int scale,  string s, Texture& t)
         sf::IntRect rect(v*dim, { dim,dim });
         sprite.Sprite::setTextureRect(rect);
         sprite.setTexture(t);
-        sprite.scale(scale, scale);
     }
     return sprite;
 }

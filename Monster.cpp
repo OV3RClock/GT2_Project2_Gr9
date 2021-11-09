@@ -8,11 +8,10 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(int scale, Vector2f pos) : Entity(200,pos)
+Monster::Monster(Vector2f pos) : Entity(200,pos)
 {
     texture.loadFromFile("ghost.png");
     sprite = Sprite(texture);
-    sprite.setScale(scale, scale);
     sprite.setPosition(position);
 }
 Monster::~Monster()

@@ -6,7 +6,7 @@
 class Player : public Entity 
 {
 	public:
-		Player(int scale, sf::Vector2f pos);
+		Player(sf::Vector2f pos);
 		~Player();
 
 		float getSpeed();
@@ -17,6 +17,9 @@ class Player : public Entity
 		void setVelocityX(float f);
 		void setVelocityY(float f);
 		void setSpeed(float f);
+		void setHP(int i);
+
+		void takeDmg(int i);
 
 		void normalize(sf::Vector2f &velocity, float speed);
 		void update(float dt);

@@ -8,14 +8,13 @@
 using namespace sf;
 using namespace std;
 
-Player::Player(int scale, Vector2f pos) : Entity(200, pos)
+Player::Player(Vector2f pos) : Entity(200, pos)
 {
     texture.loadFromFile("characters.png");
     sprite = Sprite(texture);
     sprite.setTextureRect(IntRect(64, 0, 16, 16));
-    sprite.setScale(scale, scale);
     sprite.setPosition(position);
-    playerLifeBar.setValue(100);
+    playerLifeBar.setValue(200);
 }
 Player::~Player()
 {
@@ -50,6 +49,17 @@ void Player::setSpeed(float f)
 {
 	playerSpeed = f;
 }
+void Player::setHP(int i)
+{
+    entityHP = i;
+    playerLifeBar.setValue(entityHP);
+}
+
+void Player::takeDmg(int i)
+{
+    entityHP -= i;
+    playerLifeBar.setValue(entityHP);
+}
 
 void Player::normalize(Vector2f &velocity, float s) 
 {
@@ -62,10 +72,10 @@ void Player::normalize(Vector2f &velocity, float s)
 }
 void Player::update(float dt)
 {
-    position = sprite.getPosition();
-    playerLifeBar.setPosition(position); // Bouger la lifebar
     normalize(velocity, playerSpeed);
     sprite.move(velocity * dt);
+    position = sprite.getPosition();
+    playerLifeBar.setPosition(position.x, position.y - 6);
 }
 void Player::drawPlayer(sf::RenderWindow& rw)
 {

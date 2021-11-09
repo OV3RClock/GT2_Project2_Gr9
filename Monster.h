@@ -5,7 +5,7 @@
 class Monster : public Entity
 {
 	public:
-		Monster(int scale, sf::Vector2f pos);
+		Monster(sf::Vector2f pos);
 		~Monster();
 
 		float getSpeed();
