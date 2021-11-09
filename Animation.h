@@ -11,8 +11,8 @@ class Animation
 		std::vector<sf::Sprite> getPlayerTiles();
 		std::vector<sf::Sprite> getMonsterTiles();
 
-		void loadPlayerTiles();
-		void loadMonsterTiles();
+		void loadPlayerTiles(int dim);
+		void loadMonsterTiles(int dim);
 
 	protected:
 		std::vector<sf::Sprite> playerTiles;

@@ -32,13 +32,17 @@ int main()
         // MONSTER
         Monster monster(spawnPosM);
         monster.setSpeed(playerSpeed);
-
+        
         // WINDOW
-        int dim = 16; // Fixe (lié à foresttiles2-t.png)
+        int dim = 16; // Fixe (lié aux assets 16bits)
         sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
         float dt = (1.f / (float)fpsCap);
+
+        //ANIMATION
+        Animation animation;
+        animation.loadPlayerTiles(dim);
 
         // VIEW
         sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(windowWidth, windowHeight));

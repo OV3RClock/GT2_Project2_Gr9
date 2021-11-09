@@ -20,24 +20,24 @@ std::vector<sf::Sprite> Animation::getMonsterTiles()
 	return monsterTiles;
 }
 
-void Animation::loadPlayerTiles()
+void Animation::loadPlayerTiles(int dim)
 {
-	for (int j = 0; j < 64; j += 16)
+	for (int j = 0; j < 4*dim; j += dim)
 	{
-		for (int i = 48; i < 96; i += 16)
+		for (int i = 3*dim; i < 6*dim; i += dim)
 		{
 			Sprite sprite;
-			sprite.setTextureRect(IntRect(i, 0, 16, 16));
+			sprite.setTextureRect(IntRect(i, 0, dim, dim));
 			playerTiles.push_back(sprite);
-			if (i >= 96)
+			if (i >= 6*dim)
 			{
-				i = 48;
-				j += 16;
+				i = 3*dim;
+				j += dim;
 			}
 		}
 	}
 }
-void Animation::loadMonsterTiles()
+void Animation::loadMonsterTiles(int dim)
 {
 }
 
