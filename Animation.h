@@ -5,13 +5,19 @@
 class Animation
 {
 	public:
+		Animation();
+		~Animation();
+
+		std::vector<sf::Sprite> getPlayerTiles();
+		std::vector<sf::Sprite> getMonsterTiles();
+
+		void loadPlayerTiles();
+		void loadMonsterTiles();
 
 	protected:
-		int nbFrames = 3;
-		float holdTime = 0.1f;
-		float time = 0.0f;
-		int iFrame = 0;
-		//sf::IntRect frames[nbFrames];
-		sf::Texture texture;
-		
+		std::vector<sf::Sprite> playerTiles;
+		std::vector<sf::Sprite> monsterTiles;
+		sf::Texture characterTexture;
 };
+
+

@@ -4,6 +4,8 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "Animation.h"
+
 
 using namespace sf;
 using namespace std;
@@ -13,8 +15,8 @@ Player::Player(Vector2f pos) : Entity(200, pos)
     texture.loadFromFile("assets/characters.png");
     sprite = Sprite(texture);
     sprite.setTextureRect(IntRect(64, 0, 16, 16));
-    sprite.setPosition(position);
-    playerLifeBar.setValue(200);
+    sprite.setPosition(pos);
+    setHP(200);
 }
 Player::~Player()
 {
@@ -73,6 +75,10 @@ void Player::normalize(Vector2f &velocity, float s)
 void Player::update(float dt)
 {
     normalize(velocity, playerSpeed);
+    if (velocity.y < 0) {};// TODO
+    if (velocity.x < 0) {};
+    if (velocity.y > 0) {};
+    if (velocity.x > 0) {};
     sprite.move(velocity * dt);
     position = sprite.getPosition();
     playerLifeBar.setPosition(position.x, position.y - 6);

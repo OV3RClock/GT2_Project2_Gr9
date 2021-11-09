@@ -10,7 +10,7 @@ using namespace std;
 
 Monster::Monster(Vector2f pos) : Entity(200,pos)
 {
-    texture.loadFromFile("ghost.png");
+    texture.loadFromFile("assets/ghost.png");
     sprite = Sprite(texture);
     sprite.setPosition(position);
 }

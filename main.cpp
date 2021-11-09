@@ -6,6 +6,8 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Animation.h"
+
 
 using namespace sf;
 using namespace std;
@@ -85,9 +87,12 @@ int main()
             if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
             if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
-            player.update(dt);
         #pragma endregion
 
+        #pragma region Update
+            player.update(dt);
+        #pragma endregion
+            
         /*test moove monster hugo
         monster.mooveMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
         monster.stopMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
