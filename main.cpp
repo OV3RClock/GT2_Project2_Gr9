@@ -14,8 +14,8 @@ int main()
 {
     int fpsCap = 144;
     float zoom = 4;
-    int width = 1280;
-    int height = 720;
+    int windowWidth = 1280;
+    int windowHeight = 720;
 
     float playerSpeed = 300;
     Vector2f spawnPos = { 20,20 };
@@ -33,17 +33,14 @@ int main()
 
         // WINDOW
         int dim = 16; // Fixe (lié à foresttiles2-t.png)
-        sf::RenderWindow window(sf::VideoMode(width, height), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
+        sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
         float dt = (1.f / (float)fpsCap);
 
         // VIEW
-        sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(width, height));
+        sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(windowWidth, windowHeight));
         view.zoom(1.f/zoom);
-
-        sf::View minimapView(player.getPosition(), Vector2f(width, height));
-        minimapView.zoom(1.f / zoom);
 
         // TILEMAP
         Tilemap map(dim);
