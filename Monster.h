@@ -22,7 +22,7 @@ class Monster : public Entity
 		void update(float dt);
 		void drawMonster(sf::RenderWindow& rw);
 		void mooveMonster(sf::Vector2f& posMoove, sf::Vector2f posMonster);
-
+		void stopMonster(sf::Vector2f& posMoove, sf::Vector2f posMonster);
 	protected:
 		float monsterSpeed = 0.5;
 		sf::Vector2f velocity = { 0,0 };

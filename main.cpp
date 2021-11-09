@@ -76,6 +76,7 @@ int main()
 
             //test moove monster hugo
             monster.mooveMonster(monster.setGetPositionMoove(), monster.getPosition());
+            monster.stopMonster(monster.setGetPositionMoove(), monster.getPosition());
             monster.update(dt);
 
         #pragma region Draw

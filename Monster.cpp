@@ -76,53 +76,39 @@ void Monster::drawMonster(RenderWindow& rw)
 }
 void Monster::mooveMonster(Vector2f& posMoove, Vector2f posMonster)
 {
-    if (posMonster.x != posMoove.x || posMonster.y != posMoove.y)
+    if (posMonster.x != posMoove.x ) 
     {
-        if (posMonster.x < posMoove.x)
+        if (posMonster.x < posMoove.x + 10)
         {
-            setVelocityX(0);
-            setVelocityX(getSpeed());
+            setVelocityX(monsterSpeed);
         }
-        if (posMonster.x > posMoove.x)
+        if (posMonster.x > posMoove.x - 10)
         {
-            setVelocityX(0);
-            setVelocityX(-getSpeed());
+            setVelocityX(-monsterSpeed);
         }
-        if (posMonster.y < posMoove.y)
-        {
-            setVelocityY(0);
-            setVelocityY(getSpeed());
-        }
-        if (posMonster.y > posMoove.y)
-        {
-            setVelocityY(0);
-            setVelocityY(-getSpeed());
-        }
-        if (posMonster.x = posMoove.x)
-        {
-            setVelocityX(0);
-            
-        }
-        if (posMonster.x = posMoove.x)
-        {
-            setVelocityX(0);
-            
-        }
-        if (posMonster.y = posMoove.y)
-        {
-            setVelocityY(0);
-            
-        }
-        if (posMonster.y = posMoove.y)
-        {
-            setVelocityY(0);
-            
-        }
-        
     }
-    
+    if (posMonster.y != posMoove.y)
+    {
+        if (posMonster.y < posMoove.y + 10)
+        {
+            setVelocityY(monsterSpeed);
+        }
+        if (posMonster.y > posMoove.y - 10)
+        {
+            setVelocityY(-monsterSpeed);
+        }
+    }
 }
-
+void Monster::stopMonster(Vector2f& posMoove, Vector2f posMonster)
+{
+    if ( ( (posMonster.x <= (posMoove.x + 10)) && (posMonster.x >= (posMoove.x - 10)) ) &&  ( (posMonster.y <= (posMoove.y + 10)) && (posMonster.y >= (posMoove.y - 10)) ) )
+    {
+        setVelocityX(0);
+        setVelocityY(0);
+    }
+}
+//( posMonster.x <= (posMoove.x + 10) ) && ( posMonster.x >= (posMoove.x + 10) )
+//( posMonster.y <= (posMoove.y + 10) ) && ( posMonster.y <= (posMoove.y + 10) )
 /*
 Dans cet example, il faudra faire déplacer un ennemi le long d'une série de points configurables.
 L'ennemi devra faire une pause d'une durée configurable à chaque arrêt, et faire demi tour selon le même tracé.
