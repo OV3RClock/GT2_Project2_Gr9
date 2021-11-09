@@ -142,7 +142,7 @@ vector<string> ground_strings = {
 
 Tilemap::Tilemap(int dim)
 {
-    mapTexture.loadFromFile("foresttiles2-t.png");
+    mapTexture.loadFromFile("assets/foresttiles2-t.png");
     vecGround = loadGround(dim, mapTexture);
     vecTiles = loadLevel(dim, mapTexture);
 }

@@ -10,7 +10,7 @@ using namespace std;
 
 Player::Player(Vector2f pos) : Entity(200, pos)
 {
-    texture.loadFromFile("characters.png");
+    texture.loadFromFile("assets/characters.png");
     sprite = Sprite(texture);
     sprite.setTextureRect(IntRect(64, 0, 16, 16));
     sprite.setPosition(position);

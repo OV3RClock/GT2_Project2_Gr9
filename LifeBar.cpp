@@ -7,8 +7,8 @@ using namespace sf;
 
 LifeBar::LifeBar()
 {
-	t1.loadFromFile("back.png");
-	t2.loadFromFile("fill.png");
+	t1.loadFromFile("assets/back.png");
+	t2.loadFromFile("assets/fill.png");
 	back = Sprite(t1);
 	fill = Sprite(t2);
 	fill.setPosition(Vector2f(0.5,0.5));
