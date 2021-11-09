@@ -12,7 +12,7 @@ class Monster : public Entity
 		sf::Vector2f getVelocity();
 		sf::Vector2f getPosition();
 		sf::Sprite getSprite();
-		sf::Vector2f setGetPositionMoove();
+		sf::Vector2f setGetPositionMoove(sf::Vector2f posMonster);
 
 		void setVelocityX(float f);
 		void setVelocityY(float f);
@@ -26,5 +26,9 @@ class Monster : public Entity
 	protected:
 		float monsterSpeed = 0.5;
 		sf::Vector2f velocity = { 0,0 };
-		sf::Vector2f positionMoove = { 0,0 };
+		sf::Vector2f positionMoove = { 0, 0 };
+		sf::Vector2f moove1 = { 100 , 100 };
+		sf::Vector2f moove2 = { 400 , 100 };
+		//sf::Vector2f moove3 = { 400 , 400 };
+		//sf::Vector2f moove4 = { 100 , 400 };
 };

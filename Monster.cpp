@@ -35,10 +35,19 @@ sf::Sprite Monster::getSprite()
 {
     return sprite;
 }
-sf::Vector2f Monster::setGetPositionMoove()
+sf::Vector2f Monster::setGetPositionMoove(Vector2f posMonster)
 {
-    positionMoove.x = 200;
-    positionMoove.y = 300;
+    int marge = 20;
+    if (((posMonster.x <= (moove1.x + marge)) && (posMonster.x >= (moove1.x - marge))) && ((posMonster.y <= (moove1.y + marge)) && (posMonster.y >= (moove1.y - marge))))
+    {
+        positionMoove = moove2;
+    }
+    if (((posMonster.x <= (moove2.x + marge)) && (posMonster.x >= (moove2.x - marge))) && ((posMonster.y <= (moove2.y + marge)) && (posMonster.y >= (moove2.y - marge))))
+    {
+        positionMoove = moove1;
+    }
+    
+    
     return positionMoove;
 }
 
@@ -76,24 +85,25 @@ void Monster::drawMonster(RenderWindow& rw)
 }
 void Monster::mooveMonster(Vector2f& posMoove, Vector2f posMonster)
 {
+    int marge = -5;
     if (posMonster.x != posMoove.x ) 
     {
-        if (posMonster.x < posMoove.x + 10)
+        if (posMonster.x < posMoove.x + marge)
         {
             setVelocityX(monsterSpeed);
         }
-        if (posMonster.x > posMoove.x - 10)
+        if (posMonster.x > posMoove.x - marge)
         {
             setVelocityX(-monsterSpeed);
         }
     }
     if (posMonster.y != posMoove.y)
     {
-        if (posMonster.y < posMoove.y + 10)
+        if (posMonster.y < posMoove.y + marge)
         {
             setVelocityY(monsterSpeed);
         }
-        if (posMonster.y > posMoove.y - 10)
+        if (posMonster.y > posMoove.y - marge)
         {
             setVelocityY(-monsterSpeed);
         }
