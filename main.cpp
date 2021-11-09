@@ -14,8 +14,8 @@ int main()
 {
     int fpsCap = 144;
     float zoom = 4;
-    int width = 1280; //128
-    int height = 720; //72
+    int width = 1280;
+    int height = 720;
 
     float playerSpeed = 300;
     Vector2f spawnPos = { 20,20 };
@@ -91,10 +91,10 @@ int main()
             player.update(dt);
         #pragma endregion
 
-            //test moove monster hugo
-            monster.mooveMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
-            monster.stopMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
-            monster.update(dt);
+        /*test moove monster hugo
+        monster.mooveMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
+        monster.stopMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
+        monster.update(dt);*/
 
         #pragma region Draw
             window.clear();
@@ -115,7 +115,8 @@ int main()
                     "MPosition Y | " + to_string(monster.getPosition().y) + "\n\n" +
                     "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
                     "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
-                    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";*/
+                    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+            */
         #pragma endregion
     }
 }
