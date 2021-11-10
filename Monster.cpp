@@ -8,12 +8,19 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(int dim, Texture texture, Vector2f pos) : Entity(200,pos)
+Monster::Monster(const int dim, Texture& texture, Vector2f pos) : Entity(200,pos)
 {
     sprite = Sprite(texture);
     sprite.setTextureRect(IntRect(10 * dim, 0, dim, dim));
     sprite.setPosition(position);
-    setHP(200);
+    
+    Vector2f point0 = { 100 , 150 };
+    Vector2f point1 = { 40 , 10 };
+    Vector2f point2 = { 200 , 50 };
+    path.push_back(point0);
+    path.push_back(point1);
+    path.push_back(point2);
+    target = point1;
 }
 Monster::~Monster()
 {
@@ -31,26 +38,35 @@ sf::Vector2f Monster::getPosition()
 {
     return position;
 }
-sf::Sprite Monster::getSprite()
+sf::Sprite& Monster::getSprite()
 {
     return sprite;
 }
-sf::Vector2f Monster::setPositionMoove(Vector2f& posMonster)
+sf::Vector2f Monster::getTarget()
+{
+    return target;
+}
+
+sf::Vector2f Monster::moveToTarget()
+{
+    if (isOnTarget(0)) { target = path[1]; };
+    if (isOnTarget(1)) { target = path[2]; };
+    if (isOnTarget(2)) { target = path[0]; };
+
+    movementMonster.x = target.x - sprite.getPosition().x;
+    movementMonster.y = target.y - sprite.getPosition().y;
+
+    return movementMonster;
+}
+bool Monster::isOnTarget(int i)
 {
     int range = 1;
-    if ((posMonster.x <= (moove2.x + range)) && (posMonster.x >= (moove2.x - range)) && (posMonster.y <= (moove2.y + range)) && (posMonster.y >= (moove2.y - range))) { positionMoove = moove1; };
-
-    if ((posMonster.x <= (moove1.x + range)) && (posMonster.x >= (moove1.x - range)) && (posMonster.y <= (moove1.y + range)) && (posMonster.y >= (moove1.y - range))) { positionMoove = moove2; };
-    moovementMonster.x = positionMoove.x - posMonster.x;
-    moovementMonster.y = positionMoove.y - posMonster.y;
-
-    
-    return moovementMonster;
+    return ((sprite.getPosition().x <= (path[i].x + range))
+        && (sprite.getPosition().x >= (path[i].x - range))
+        && (sprite.getPosition().y <= (path[i].y + range))
+        && (sprite.getPosition().y >= (path[i].y - range)));
 }
-sf::Vector2f Monster::getPositionMoove()
-{
-    return positionMoove;
-}
+
 void Monster::setVelocityX(float f)
 {
     velocity.x = f;
@@ -69,50 +85,25 @@ void Monster::setHP(int i)
     monsterLifeBar.setValue(entityHP);
 }
 
-void Monster::normalize(Vector2f& velocity, float s)
+void Monster::normalize(Vector2f& vect)
 {
-    float norme = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
+    float norme = sqrt((vect.x * vect.x) + (vect.y * vect.y));
     if (norme != 0)
     {
-        velocity.x = ((velocity.x) / norme) * s;
-        velocity.y = ((velocity.y) / norme) * s;
+        vect.x = ((vect.x) / norme) * monsterSpeed;
+        vect.y = ((vect.y) / norme) * monsterSpeed;
     }
 }
 void Monster::update(float dt)
 {
+    moveToTarget();
+    normalize(movementMonster);
+    sprite.move(movementMonster*dt);
     position = sprite.getPosition();
-    setPositionMoove(position);
-    normalize(moovementMonster, monsterSpeed);
-    sprite.move(moovementMonster*dt);
 }
 void Monster::drawMonster(RenderWindow& rw)
 {
     rw.draw(sprite);
 }
 
-//( posMonster.x <= (posMoove.x + 5) ) && ( posMonster.x >= (posMoove.x + 5) )
-//( posMonster.y <= (posMoove.y + 5) ) && ( posMonster.y <= (posMoove.y + 5) )
-/*
-Dans cet example, il faudra faire déplacer un ennemi le long d'une série de points configurables.
-L'ennemi devra faire une pause d'une durée configurable à chaque arrêt, et faire demi tour selon le même tracé.
 
-La vitesse du monstre doit être configurable.
-
-Vous n'êtes pas obligé d'animer le sprite, mais cela sera un bon bonus.
-
-Afin de bien débugguer, il faudra afficher des petits points colorés représentants l'itinéraire du monstre, avec aussi un tracé.
-Il faudra donc utiliser sf::RectangleShape et sf::VertexArray, ainsi que sf::Timer.
-
-Vous devrez donc créer une class enemy{} ou struct enemy{}, avec un constructeur,
-et les méthodes membres update(float delta) et draw(sf::RenderWindow & window).
-
-Lorsque le personnage touche un monstre, la partie se finit avec un message game over en Texte via sf::Text, et le jeu recommence de zéro.
-Il faudra vous aider de la fonction Sprite::getGlobalBounds() et FloatRect::intersects()
-
-Vous devrez réutiliser, de préférence, le code de chargement de texte que vous avez écrit dans vos précédents projets.
-*/
-
-/*
-Annexe: en préparation du projet de physique, vous pouvez commencer a créer une classe vehicle, que le personnage peut rentrer et sortir grace à la touche entrée.
-
-*/

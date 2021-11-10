@@ -22,7 +22,7 @@ int main()
     float playerSprintSpeed = 200;
     float monsterSpeed = 50;
     Vector2f spawnPos = { 20,20 };
-    Vector2f spawnPosM = { 100,50 };
+    Vector2f spawnPosM = { 200,50 };
 
     #pragma region INIT
 
@@ -112,22 +112,20 @@ int main()
             player.setDirection(playerDir);
         #pragma endregion
 
-        #pragma region Update
-            player.update(dt, isSprinting);
-        #pragma endregion
-            
-        //test moove monster hugo
-        
-
-            monster.update(dt);
+        #pragma region MonsterMovement
             sf::Vertex vertices[] =
             {
-                sf::Vertex(monster.getPositionMoove(), sf::Color::Red),
-                sf::Vertex(sf::Vector2f(monster.getPositionMoove().x, monster.getPositionMoove().y + 16), sf::Color::Red),
-                sf::Vertex(sf::Vector2f(monster.getPositionMoove().x + 16, monster.getPositionMoove().y + 16), sf::Color::Red),
-                sf::Vertex(sf::Vector2f(monster.getPositionMoove().x + 16,   monster.getPositionMoove().y), sf::Color::Red)
+                sf::Vertex(monster.getTarget(), sf::Color::Red),
+                sf::Vertex(sf::Vector2f(monster.getTarget().x, monster.getTarget().y + dim), sf::Color::Red),
+                sf::Vertex(sf::Vector2f(monster.getTarget().x + dim, monster.getTarget().y + dim), sf::Color::Red),
+                sf::Vertex(sf::Vector2f(monster.getTarget().x + dim,   monster.getTarget().y), sf::Color::Red)
             };
+        #pragma endregion
 
+        #pragma region Update
+            player.update(dt, isSprinting);
+            monster.update(dt);
+        #pragma endregion
 
         #pragma region Draw
             window.clear();
@@ -153,7 +151,7 @@ int main()
                          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             
         #pragma endregion
-        
+
         dt = clock.getElapsedTime().asSeconds();
     }
 }

@@ -9,7 +9,7 @@
 using namespace sf;
 using namespace std;
 
-Player::Player(int dim, Texture texture, sf::Vector2f& pos) : Entity(200, pos)
+Player::Player(int dim, Texture& texture, Vector2f& pos) : Entity(200, pos)
 {
 	animations[(int)AnimationIndex::Up] = Animation(3 * dim, 3 * dim, dim, dim, 3, 0.1, texture);
 	animations[(int)AnimationIndex::Left] = Animation(3 * dim, 1 * dim, dim, dim, 3, 0.1, texture);
