@@ -1,11 +1,12 @@
 #pragma once
 
 #include "Entity.h"
+#include "Lifebar.h"
 
 class Monster : public Entity
 {
 	public:
-		Monster(sf::Vector2f pos);
+		Monster(int dim, sf::Texture texture, sf::Vector2f pos);
 		~Monster();
 
 		float getSpeed();
@@ -17,6 +18,7 @@ class Monster : public Entity
 		void setVelocityX(float f);
 		void setVelocityY(float f);
 		void setSpeed(float f);
+		void setHP(int i);
 
 		void normalize(sf::Vector2f& velocity, float speed);
 		void update(float dt);
@@ -25,6 +27,7 @@ class Monster : public Entity
 		void stopMonster(sf::Vector2f& posMoove, sf::Vector2f posMonster);
 	protected:
 		float monsterSpeed = 0.5;
+		LifeBar monsterLifeBar;
 		sf::Vector2f velocity = { 0,0 };
 		sf::Vector2f positionMoove = { 0, 0 };
 		sf::Vector2f moove1 = { 100 , 100 };

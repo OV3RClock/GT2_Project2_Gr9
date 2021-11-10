@@ -2,59 +2,43 @@
 
 using namespace sf;
 
-Animation::Animation()
-{
-	characterTexture.loadFromFile("assets/characters.png");
-}
-Animation::~Animation()
+
+Animation::Animation() : holdTime(0)
 {
 }
 
-Sprite Animation::getPlayerTile(int i)
+Animation::Animation(int x, int y, int width, int height, int nFrames, float holdTime, Texture texture) : holdTime(holdTime)
 {
-	return playerTiles[i];
-}
-Sprite Animation::getSkeletonTile(int i)
-{
-	return skeletonTiles[i];
-}
-
-void Animation::loadPlayerTiles(int dim)
-{
-	for (int j = 0; j < 4*dim; j += dim)
+	frames.reserve(nFrames);
+	this->texture = texture;
+	for (int i = 0; i < nFrames; i++)
 	{
-		for (int i = 3*dim; i < 6*dim; i += dim)
-		{
-			Sprite sprite;
-			sprite.setTexture(characterTexture);
-			sprite.setTextureRect(IntRect(i, j, dim, dim));
-			playerTiles.push_back(sprite);
-			if (i >= 6*dim)
-			{
-				i = 3*dim;
-				j += dim;
-			}
-		}
+		frames.emplace_back(sf::Vector2i{ x,y }, sf::Vector2i{ width,height });
+		x += width;
 	}
 }
-void Animation::loadSkeletonTiles(int dim)
+
+void Animation::advance()
 {
+	if (++iFrame >= int(frames.size()))
 	{
-		for (int j = 0; j < 4 * dim; j += dim)
-		{
-			for (int i = 9 * dim; i < 12 * dim; i += dim)
-			{
-				Sprite sprite;
-				sprite.setTexture(characterTexture);
-				sprite.setTextureRect(IntRect(i, j, dim, dim));
-				skeletonTiles.push_back(sprite);
-				if (i >= 12 * dim)
-				{
-					i = 9 * dim;
-					j += dim;
-				}
-			}
-		}
+		iFrame = 0;
+	}
+}
+
+void Animation::applyToSprite(sf::Sprite & s)
+{
+	s.setTexture(texture);
+	s.setTextureRect(frames[iFrame]);
+}
+
+void Animation::update(float dt)
+{
+	time += dt;
+	while (time >= holdTime)
+	{
+		time -= holdTime;
+		advance();
 	}
 }
 

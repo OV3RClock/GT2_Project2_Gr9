@@ -8,11 +8,12 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(Vector2f pos) : Entity(200,pos)
+Monster::Monster(int dim, Texture texture, Vector2f pos) : Entity(200,pos)
 {
-    texture.loadFromFile("assets/ghost.png");
     sprite = Sprite(texture);
+    sprite.setTextureRect(IntRect(10 * dim, 0, dim, dim));
     sprite.setPosition(position);
+    setHP(200);
 }
 Monster::~Monster()
 {
@@ -62,6 +63,11 @@ void Monster::setSpeed(float f)
 {
     monsterSpeed = f;
 }
+void Monster::setHP(int i)
+{
+    entityHP = i;
+    monsterLifeBar.setValue(entityHP);
+}
 
 void Monster::normalize(Vector2f& velocity, float s)
 {
@@ -74,9 +80,10 @@ void Monster::normalize(Vector2f& velocity, float s)
 }
 void Monster::update(float dt)
 {
-    position = sprite.getPosition();
     normalize(velocity, monsterSpeed);
     sprite.move(velocity*dt);
+    position = sprite.getPosition();
+    monsterLifeBar.setPosition(position.x, position.y - 6);
 }
 void Monster::drawMonster(RenderWindow& rw)
 {

@@ -8,32 +8,24 @@
 #include "Monster.h"
 #include "Animation.h"
 
-
 using namespace sf;
 using namespace std;
 
 int main()
 {
-    int fpsCap = 144;
+    int fpsCap = 60;
     float zoom = 4;
     int windowWidth = 1280;
     int windowHeight = 720;
 
-    float playerSpeed = 300.f;
-    float monsterSpeed = 100.f;
+    float playerSpeed = 100;
+    float playerSprintSpeed = 200;
+    float monsterSpeed = 50;
     Vector2f spawnPos = { 20,20 };
     Vector2f spawnPosM = { 100,50 };
 
     #pragma region INIT
 
-        // PLAYER
-        Player player(spawnPos);
-        player.setSpeed(playerSpeed);
-
-        // MONSTER
-        Monster monster(spawnPosM);
-        monster.setSpeed(monsterSpeed);
-        
         // WINDOW
         int dim = 16; // Fixe (lié aux assets 16bits)
         sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
@@ -41,10 +33,19 @@ int main()
         window.setFramerateLimit(fpsCap);
         float dt = (1.f / (float)fpsCap);
 
-        // ANIMATION
-        Animation animation;
-        animation.loadPlayerTiles(dim);
-        animation.loadSkeletonTiles(dim);
+        // TEXTURE
+        Texture characterTexture;
+        characterTexture.loadFromFile("assets/characters.png");
+
+        // PLAYER
+        Player player(dim, characterTexture, spawnPos);
+        Vector2f playerDir = { 0,0 };
+        player.setSpeed(playerSpeed);
+        bool isSprinting = false;
+
+        // MONSTER
+        Monster monster(dim, characterTexture, spawnPosM);
+        monster.setSpeed(monsterSpeed);
 
         // VIEW
         sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(windowWidth, windowHeight));
@@ -58,6 +59,9 @@ int main()
     while (window.isOpen())
     {
         Event event;
+
+        //getElapsedTime()
+
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed) { window.close(); }
@@ -66,16 +70,20 @@ int main()
                 switch (event.key.code)
                 {
                     case Keyboard::Z:
-                        player.setVelocityY(0);
+                        playerDir.y = 0;
                         break;
                     case Keyboard::Q:
-                        player.setVelocityX(0);
+                        playerDir.x = 0;
                         break;
                     case Keyboard::S:
-                        player.setVelocityY(0);
+                        playerDir.y = 0;
                         break;
                     case Keyboard::D:
-                        player.setVelocityX(0);
+                        playerDir.x = 0;
+                        break;
+                    case Keyboard::LShift:
+                        player.setSpeed(playerSpeed);
+                        isSprinting = false;
                         break;
                 }
             }
@@ -89,14 +97,20 @@ int main()
         }
 
         #pragma region PlayerMovement
-            if (Keyboard::isKeyPressed(Keyboard::Z)) { player.setVelocityY(-player.getSpeed()); }
-            if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
-            if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
-            if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
+            if (Keyboard::isKeyPressed(Keyboard::LShift)) 
+            { 
+                player.setSpeed(playerSprintSpeed);
+                isSprinting = true;
+            }
+            if (Keyboard::isKeyPressed(Keyboard::Z)) { playerDir.y = -1; }
+            if (Keyboard::isKeyPressed(Keyboard::Q)) { playerDir.x = -1; }
+            if (Keyboard::isKeyPressed(Keyboard::S)) { playerDir.y = 1; }
+            if (Keyboard::isKeyPressed(Keyboard::D)) { playerDir.x = 1; }
+            player.setDirection(playerDir);
         #pragma endregion
 
         #pragma region Update
-            player.update(dt, animation);
+            player.update(dt, isSprinting);
         #pragma endregion
             
         /*test moove monster hugo
@@ -114,7 +128,7 @@ int main()
             player.drawPlayer(window);
 
             window.display();
-            /*
+            
             cout << "Position X | " + to_string(player.getPosition().x) + "\n" +
                     "Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                     "Velocity X | " + to_string(player.getVelocity().x) + "\n" +
@@ -124,7 +138,18 @@ int main()
                     "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
                     "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
                     "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-            */
+            
         #pragma endregion
+
+        //restart();
     }
 }
+
+/*
+        #pragma region PlayerMovement
+            if (Keyboard::isKeyPressed(Keyboard::Z)) { player.setVelocityY(-player.getSpeed()); }
+            if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
+            if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
+            if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
+        #pragma endregion
+*/
