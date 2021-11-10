@@ -13,7 +13,8 @@ class Monster : public Entity
 		sf::Vector2f getVelocity();
 		sf::Vector2f getPosition();
 		sf::Sprite getSprite();
-		sf::Vector2f setGetPositionMoove(sf::Vector2f posMonster);
+		sf::Vector2f setPositionMoove(sf::Vector2f& posMonster);
+		sf::Vector2f Monster::getPositionMoove();
 
 		void setVelocityX(float f);
 		void setVelocityY(float f);
@@ -23,15 +24,16 @@ class Monster : public Entity
 		void normalize(sf::Vector2f& velocity, float speed);
 		void update(float dt);
 		void drawMonster(sf::RenderWindow& rw);
-		void mooveMonster(sf::Vector2f& posMoove, sf::Vector2f posMonster);
-		void stopMonster(sf::Vector2f& posMoove, sf::Vector2f posMonster);
+		
 	protected:
 		float monsterSpeed = 0.5;
 		LifeBar monsterLifeBar;
 		sf::Vector2f velocity = { 0,0 };
-		sf::Vector2f positionMoove = { 0, 0 };
-		sf::Vector2f moove1 = { 100 , 100 };
-		sf::Vector2f moove2 = { 400 , 100 };
+		sf::Vector2f positionMoove = { 40, 10 };
+		sf::Vector2f moovementMonster = { 0 ,0 };
+		sf::Vector2f moove1 = { 100 , 150 };
+		sf::Vector2f moove2 = { 40 , 10 };
+
 		//sf::Vector2f moove3 = { 400 , 400 };
 		//sf::Vector2f moove4 = { 100 , 400 };
 };

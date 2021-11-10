@@ -116,10 +116,18 @@ int main()
             player.update(dt, isSprinting);
         #pragma endregion
             
-        /*test moove monster hugo
-        monster.mooveMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
-        monster.stopMonster(monster.setGetPositionMoove(monster.getPosition()), monster.getPosition());
-        monster.update(dt);*/
+        //test moove monster hugo
+        
+
+            monster.update(dt);
+            sf::Vertex vertices[] =
+            {
+                sf::Vertex(monster.getPositionMoove(), sf::Color::Red),
+                sf::Vertex(sf::Vector2f(monster.getPositionMoove().x, monster.getPositionMoove().y + 16), sf::Color::Red),
+                sf::Vertex(sf::Vector2f(monster.getPositionMoove().x + 16, monster.getPositionMoove().y + 16), sf::Color::Red),
+                sf::Vertex(sf::Vector2f(monster.getPositionMoove().x + 16,   monster.getPositionMoove().y), sf::Color::Red)
+            };
+
 
         #pragma region Draw
             window.clear();
@@ -127,6 +135,7 @@ int main()
 
             window.setView(view);
             map.drawTilemap(window);
+            window.draw(vertices, 4, sf::Quads);
             monster.drawMonster(window);
             player.drawPlayer(window);
 

@@ -35,22 +35,22 @@ sf::Sprite Monster::getSprite()
 {
     return sprite;
 }
-sf::Vector2f Monster::setGetPositionMoove(Vector2f posMonster)
+sf::Vector2f Monster::setPositionMoove(Vector2f& posMonster)
 {
-    int marge = 20;
-    if (((posMonster.x <= (moove1.x + marge)) && (posMonster.x >= (moove1.x - marge))) && ((posMonster.y <= (moove1.y + marge)) && (posMonster.y >= (moove1.y - marge))))
-    {
-        positionMoove = moove2;
-    }
-    if (((posMonster.x <= (moove2.x + marge)) && (posMonster.x >= (moove2.x - marge))) && ((posMonster.y <= (moove2.y + marge)) && (posMonster.y >= (moove2.y - marge))))
-    {
-        positionMoove = moove1;
-    }
+    int range = 1;
+    if ((posMonster.x <= (moove2.x + range)) && (posMonster.x >= (moove2.x - range)) && (posMonster.y <= (moove2.y + range)) && (posMonster.y >= (moove2.y - range))) { positionMoove = moove1; };
+
+    if ((posMonster.x <= (moove1.x + range)) && (posMonster.x >= (moove1.x - range)) && (posMonster.y <= (moove1.y + range)) && (posMonster.y >= (moove1.y - range))) { positionMoove = moove2; };
+    moovementMonster.x = positionMoove.x - posMonster.x;
+    moovementMonster.y = positionMoove.y - posMonster.y;
+
     
-    
+    return moovementMonster;
+}
+sf::Vector2f Monster::getPositionMoove()
+{
     return positionMoove;
 }
-
 void Monster::setVelocityX(float f)
 {
     velocity.x = f;
@@ -80,51 +80,18 @@ void Monster::normalize(Vector2f& velocity, float s)
 }
 void Monster::update(float dt)
 {
-    normalize(velocity, monsterSpeed);
-    sprite.move(velocity*dt);
     position = sprite.getPosition();
-    monsterLifeBar.setPosition(position.x, position.y - 6);
+    setPositionMoove(position);
+    normalize(moovementMonster, monsterSpeed);
+    sprite.move(moovementMonster*dt);
 }
 void Monster::drawMonster(RenderWindow& rw)
 {
     rw.draw(sprite);
 }
-void Monster::mooveMonster(Vector2f& posMoove, Vector2f posMonster)
-{
-    int marge = -5;
-    if (posMonster.x != posMoove.x ) 
-    {
-        if (posMonster.x < posMoove.x + marge)
-        {
-            setVelocityX(monsterSpeed);
-        }
-        if (posMonster.x > posMoove.x - marge)
-        {
-            setVelocityX(-monsterSpeed);
-        }
-    }
-    if (posMonster.y != posMoove.y)
-    {
-        if (posMonster.y < posMoove.y + marge)
-        {
-            setVelocityY(monsterSpeed);
-        }
-        if (posMonster.y > posMoove.y - marge)
-        {
-            setVelocityY(-monsterSpeed);
-        }
-    }
-}
-void Monster::stopMonster(Vector2f& posMoove, Vector2f posMonster)
-{
-    if ( ( (posMonster.x <= (posMoove.x + 10)) && (posMonster.x >= (posMoove.x - 10)) ) &&  ( (posMonster.y <= (posMoove.y + 10)) && (posMonster.y >= (posMoove.y - 10)) ) )
-    {
-        setVelocityX(0);
-        setVelocityY(0);
-    }
-}
-//( posMonster.x <= (posMoove.x + 10) ) && ( posMonster.x >= (posMoove.x + 10) )
-//( posMonster.y <= (posMoove.y + 10) ) && ( posMonster.y <= (posMoove.y + 10) )
+
+//( posMonster.x <= (posMoove.x + 5) ) && ( posMonster.x >= (posMoove.x + 5) )
+//( posMonster.y <= (posMoove.y + 5) ) && ( posMonster.y <= (posMoove.y + 5) )
 /*
 Dans cet example, il faudra faire déplacer un ennemi le long d'une série de points configurables.
 L'ennemi devra faire une pause d'une durée configurable à chaque arrêt, et faire demi tour selon le même tracé.
