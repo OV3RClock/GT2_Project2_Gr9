@@ -146,15 +146,5 @@ int main()
         #pragma endregion
         
         dt = clock.getElapsedTime().asSeconds();
-
     }
 }
-
-/*
-        #pragma region PlayerMovement
-            if (Keyboard::isKeyPressed(Keyboard::Z)) { player.setVelocityY(-player.getSpeed()); }
-            if (Keyboard::isKeyPressed(Keyboard::Q)) { player.setVelocityX(-player.getSpeed()); }
-            if (Keyboard::isKeyPressed(Keyboard::S)) { player.setVelocityY(player.getSpeed()); }
-            if (Keyboard::isKeyPressed(Keyboard::D)) { player.setVelocityX(player.getSpeed()); }
-        #pragma endregion
-*/
