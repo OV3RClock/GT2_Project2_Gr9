@@ -7,6 +7,8 @@ class Animation
 	public:
 		Animation();
 		Animation(int x, int y, int width, int height, int nFrames, float holdTime, sf::Texture texture);
+		~Animation();
+
 		void advance();
 		void applyToSprite(sf::Sprite& s);
 		void update(float dt);
@@ -15,7 +17,7 @@ class Animation
 		float holdTime;
 		sf::Texture texture;
 		std::vector<sf::IntRect> frames;
-		int iFrame = 0;
+		int currentFrame = 0;
 		float time = 0;
 };
 

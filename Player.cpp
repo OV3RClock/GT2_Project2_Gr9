@@ -20,11 +20,14 @@ Player::Player(int dim, Texture texture, sf::Vector2f& pos) : Entity(200, pos)
 	animations[(int)AnimationIndex::idleDown] = Animation(4 * dim, 0 * dim, dim, dim, 1, 10, texture);
 	animations[(int)AnimationIndex::idleRight] = Animation(4 * dim, 2 * dim, dim, dim, 1, 10, texture);
 }
-
 Player::~Player()
 {
 }
 
+float Player::getSpeed()
+{
+    return playerSpeed;
+}
 Vector2f Player::getPosition()
 {
 	return position;
@@ -85,79 +88,6 @@ void Player::setVelocityY(float f)
 {
 	velocity.y = f;
 }
-
-void Player::normalize(Vector2f& vect)
-{
-    float norme = sqrt((vect.x * vect.x) + (vect.y * vect.y));
-    if (norme != 0)
-    {
-        vect.x = ((vect.x) / norme) * playerSpeed;
-        vect.y = ((vect.y) / norme) * playerSpeed;
-    }
-}
-
-void Player::update(float dt, bool isSprinting)
-{
-    position = sprite.getPosition();
-    normalize(velocity);
-    sprite.move(velocity * dt);
-    if (isSprinting) 
-    {
-        animations[int(curAnimation)].update(dt*2);
-        animations[int(curAnimation)].applyToSprite(sprite);
-    }
-    else
-    {
-        animations[int(curAnimation)].update(dt);
-        animations[int(curAnimation)].applyToSprite(sprite);
-    }
-}
-
-void Player::drawPlayer(sf::RenderWindow& rw)
-{
-	rw.draw(sprite);
-}
-
-/*
-Player::Player(int dim, Texture texture, Vector2f pos) : Entity(200, pos)
-{
-    sprite = Sprite(texture);
-    sprite.setPosition(position);
-    setHP(200);
-}
-Player::~Player()
-{
-}
-
-float Player::getSpeed()
-{
-    return playerSpeed;
-}
-Vector2f Player::getVelocity()
-{
-    return velocity;
-}
-Vector2f Player::getPosition()
-{
-    return position;
-}
-Sprite Player::getSprite()
-{
-    return sprite;
-}
-
-void Player::setVelocityX(float f)
-{
-    velocity.x = f;
-}
-void Player::setVelocityY(float f)
-{
-    velocity.y = f;
-}
-void Player::setSpeed(float f)
-{
-	playerSpeed = f;
-}
 void Player::setHP(int i)
 {
     entityHP = i;
@@ -170,50 +100,35 @@ void Player::takeDmg(int i)
     playerLifeBar.setValue(entityHP);
 }
 
-void Player::normalize(Vector2f &velocity, float s) 
+void Player::normalize(Vector2f& vect)
 {
-    float norme = sqrt((velocity.x * velocity.x) + (velocity.y * velocity.y));
+    float norme = sqrt((vect.x * vect.x) + (vect.y * vect.y));
     if (norme != 0)
     {
-        velocity.x = ((velocity.x) / norme) * s;
-        velocity.y = ((velocity.y) / norme) * s;
+        vect.x = ((vect.x) / norme) * playerSpeed;
+        vect.y = ((vect.y) / norme) * playerSpeed;
     }
 }
-void Player::update(float dt, Animation a)
+void Player::update(float dt, bool isSprinting)
 {
-    normalize(velocity, playerSpeed);
-    if (velocity.y < 0) 
-    { 
-        Sprite tmpSprite = a.getPlayerTile(10); 
-        tmpSprite.setPosition(position);
-        sprite = tmpSprite;
-    };
-    if (velocity.x < 0) 
-    { 
-        Sprite tmpSprite = a.getPlayerTile(4);
-        tmpSprite.setPosition(position);
-        sprite = tmpSprite;
-    };
-    if (velocity.y > 0) 
-    { 
-        Sprite tmpSprite = a.getPlayerTile(1);
-        tmpSprite.setPosition(position);
-        sprite = tmpSprite;
-    };
-    if (velocity.x > 0) 
-    { 
-        Sprite tmpSprite = a.getPlayerTile(7);
-        tmpSprite.setPosition(position);
-        sprite = tmpSprite;
-    };
+    normalize(velocity);
     sprite.move(velocity * dt);
-    position = sprite.getPosition();
+	position = sprite.getPosition();
+    if (isSprinting) 
+    {
+        animations[int(curAnimation)].update(dt*2);
+        animations[int(curAnimation)].applyToSprite(sprite);
+    }
+    else
+    {
+        animations[int(curAnimation)].update(dt);
+        animations[int(curAnimation)].applyToSprite(sprite);
+    }
     playerLifeBar.setPosition(position.x, position.y - 6);
 }
 void Player::drawPlayer(sf::RenderWindow& rw)
 {
-    rw.draw(sprite);
+	rw.draw(sprite);
     rw.draw(playerLifeBar);
 }
-*/
 
