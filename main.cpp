@@ -13,7 +13,7 @@ using namespace std;
 
 int main()
 {
-    int fpsCap = 60;
+    int fpsCap = 144;
     float zoom = 4;
     int windowWidth = 1280;
     int windowHeight = 720;
@@ -31,7 +31,6 @@ int main()
         sf::RenderWindow window(sf::VideoMode(windowWidth, windowHeight), "The game seems to be working..."); // La map possede 12 colones et 8 lignes
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
-        float dt = (1.f / (float)fpsCap);
 
         // TEXTURE
         Texture characterTexture;
@@ -54,13 +53,17 @@ int main()
         // TILEMAP
         Tilemap map(dim);
 
+        // CLOCK
+        Clock clock;
+        float dt = 0;
+
     #pragma endregion
 
     while (window.isOpen())
     {
         Event event;
 
-        //getElapsedTime()
+        clock.restart();
 
         while (window.pollEvent(event))
         {
@@ -129,19 +132,21 @@ int main()
 
             window.display();
             
-            cout << "Position X | " + to_string(player.getPosition().x) + "\n" +
-                    "Position Y | " + to_string(player.getPosition().y) + "\n\n" +
-                    "Velocity X | " + to_string(player.getVelocity().x) + "\n" +
-                    "Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
-                    "MPosition X | " + to_string(monster.getPosition().x) + "\n" +
-                    "MPosition Y | " + to_string(monster.getPosition().y) + "\n\n" +
-                    "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
-                    "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
-                    "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+            std::cout << "         dt | " + to_string(dt) + "\n\n" +
+                         " Position X | " + to_string(player.getPosition().x) + "\n" +
+                         " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
+                         " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
+                         " Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
+                         "MPosition X | " + to_string(monster.getPosition().x) + "\n" +
+                         "MPosition Y | " + to_string(monster.getPosition().y) + "\n\n" +
+                         "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
+                         "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
+                         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             
         #pragma endregion
+        
+        dt = clock.getElapsedTime().asSeconds();
 
-        //restart();
     }
 }
 
