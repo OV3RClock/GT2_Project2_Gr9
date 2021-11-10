@@ -8,15 +8,15 @@ class Animation
 		Animation();
 		~Animation();
 
-		std::vector<sf::Sprite> getPlayerTiles();
-		std::vector<sf::Sprite> getMonsterTiles();
+		sf::Sprite getPlayerTile(int i);
+		sf::Sprite getSkeletonTile(int i);
 
 		void loadPlayerTiles(int dim);
-		void loadMonsterTiles(int dim);
+		void loadSkeletonTiles(int dim);
 
 	protected:
 		std::vector<sf::Sprite> playerTiles;
-		std::vector<sf::Sprite> monsterTiles;
+		std::vector<sf::Sprite> skeletonTiles;
 		sf::Texture characterTexture;
 };
 

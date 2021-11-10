@@ -19,7 +19,8 @@ int main()
     int windowWidth = 1280;
     int windowHeight = 720;
 
-    float playerSpeed = 300;
+    float playerSpeed = 300.f;
+    float monsterSpeed = 100.f;
     Vector2f spawnPos = { 20,20 };
     Vector2f spawnPosM = { 100,50 };
 
@@ -31,7 +32,7 @@ int main()
 
         // MONSTER
         Monster monster(spawnPosM);
-        monster.setSpeed(playerSpeed);
+        monster.setSpeed(monsterSpeed);
         
         // WINDOW
         int dim = 16; // Fixe (lié aux assets 16bits)
@@ -40,9 +41,10 @@ int main()
         window.setFramerateLimit(fpsCap);
         float dt = (1.f / (float)fpsCap);
 
-        //ANIMATION
+        // ANIMATION
         Animation animation;
         animation.loadPlayerTiles(dim);
+        animation.loadSkeletonTiles(dim);
 
         // VIEW
         sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(windowWidth, windowHeight));
@@ -94,7 +96,7 @@ int main()
         #pragma endregion
 
         #pragma region Update
-            player.update(dt);
+            player.update(dt, animation);
         #pragma endregion
             
         /*test moove monster hugo

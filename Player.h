@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Lifebar.h"
+#include "Animation.h"
 
 class Player : public Entity 
 {
@@ -22,7 +23,7 @@ class Player : public Entity
 		void takeDmg(int i);
 
 		void normalize(sf::Vector2f &velocity, float speed);
-		void update(float dt);
+		void update(float dt, Animation a);
 		void drawPlayer(sf::RenderWindow &rw);
 
 	protected:

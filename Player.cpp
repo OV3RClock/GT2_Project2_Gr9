@@ -6,7 +6,6 @@
 #include "Player.h"
 #include "Animation.h"
 
-
 using namespace sf;
 using namespace std;
 
@@ -72,13 +71,33 @@ void Player::normalize(Vector2f &velocity, float s)
         velocity.y = ((velocity.y) / norme) * s;
     }
 }
-void Player::update(float dt)
+void Player::update(float dt, Animation a)
 {
     normalize(velocity, playerSpeed);
-    if (velocity.y < 0) {};// TODO
-    if (velocity.x < 0) {};
-    if (velocity.y > 0) {};
-    if (velocity.x > 0) {};
+    if (velocity.y < 0) 
+    { 
+        Sprite tmpSprite = a.getPlayerTile(10); 
+        tmpSprite.setPosition(position);
+        sprite = tmpSprite;
+    };
+    if (velocity.x < 0) 
+    { 
+        Sprite tmpSprite = a.getPlayerTile(4);
+        tmpSprite.setPosition(position);
+        sprite = tmpSprite;
+    };
+    if (velocity.y > 0) 
+    { 
+        Sprite tmpSprite = a.getPlayerTile(1);
+        tmpSprite.setPosition(position);
+        sprite = tmpSprite;
+    };
+    if (velocity.x > 0) 
+    { 
+        Sprite tmpSprite = a.getPlayerTile(7);
+        tmpSprite.setPosition(position);
+        sprite = tmpSprite;
+    };
     sprite.move(velocity * dt);
     position = sprite.getPosition();
     playerLifeBar.setPosition(position.x, position.y - 6);
