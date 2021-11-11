@@ -21,7 +21,7 @@ class Monster : public Entity
 		void setSpeed(float f);
 		void setHP(int i);
 
-		sf::Vector2f moveToTarget();
+		void moveToTarget();
 		bool isOnTarget(int i);
 
 		void normalize(sf::Vector2f& velocity);

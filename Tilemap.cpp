@@ -181,7 +181,7 @@ vector<Sprite> Tilemap::loadGround(int dim, Texture& t)
     }
     return vecGround;
 }
-vector<Sprite> Tilemap::loadLevel(int dim, Texture &t)
+vector<Sprite> Tilemap::loadLevel(int dim, Texture& t)
 {
     int j = 0;
     int k = 0;

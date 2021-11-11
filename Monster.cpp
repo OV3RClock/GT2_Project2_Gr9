@@ -20,7 +20,7 @@ Monster::Monster(const int dim, Texture& texture, Vector2f pos) : Entity(200,pos
     path.push_back(point0);
     path.push_back(point1);
     path.push_back(point2);
-    target = point1;
+    target = point0;
 }
 Monster::~Monster()
 {
@@ -47,7 +47,7 @@ sf::Vector2f Monster::getTarget()
     return target;
 }
 
-sf::Vector2f Monster::moveToTarget()
+void Monster::moveToTarget()
 {
     if (isOnTarget(0)) { target = path[1]; };
     if (isOnTarget(1)) { target = path[2]; };
@@ -55,8 +55,6 @@ sf::Vector2f Monster::moveToTarget()
 
     movementMonster.x = target.x - sprite.getPosition().x;
     movementMonster.y = target.y - sprite.getPosition().y;
-
-    return movementMonster;
 }
 bool Monster::isOnTarget(int i)
 {
@@ -100,10 +98,12 @@ void Monster::update(float dt)
     normalize(movementMonster);
     sprite.move(movementMonster*dt);
     position = sprite.getPosition();
+    monsterLifeBar.setPosition(position.x, position.y - 6);
 }
 void Monster::drawMonster(RenderWindow& rw)
 {
     rw.draw(sprite);
+    rw.draw(monsterLifeBar);
 }
 
 
