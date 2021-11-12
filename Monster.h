@@ -16,9 +16,6 @@ class Monster : public Entity
 		
 		sf::Vector2f Monster::getTarget();
 		
-
-		void setVelocityX(float f);
-		void setVelocityY(float f);
 		void setSpeed(float f);
 		void setHP(int i);
 
@@ -35,9 +32,6 @@ class Monster : public Entity
 		int numberTarget = 0;
 		LifeBar monsterLifeBar;
 		sf::Vector2f velocity;
-		sf::Vector2f cheminTarget;
-		
-		sf::Vector2f target = {100,150};
-		sf::Vector2f movementMonster;
+		sf::Vector2f target;
 		std::vector<sf::Vector2f> path;
 };
