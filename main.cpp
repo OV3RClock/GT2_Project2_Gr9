@@ -21,7 +21,7 @@ int main()
     float playerSpeed = 100;
     float playerSprintSpeed = 200;
     float monsterSpeed = 50;
-    Vector2f spawnPos = { 20,20 };
+    Vector2f spawnPos = { 200,200 };
     Vector2f spawnPosM = { 200,50 };
 
     #pragma region INIT
@@ -41,6 +41,7 @@ int main()
         Vector2f playerDir = { 0,0 };
         player.setSpeed(playerSpeed);
         bool isSprinting = false;
+        bool isAttacking = false;
 
         // MONSTER
         Monster monster(dim, characterTexture, spawnPosM);
@@ -138,7 +139,7 @@ int main()
             player.drawPlayer(window);
 
             window.display();
-            
+            /*
             std::cout << "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
@@ -149,6 +150,7 @@ int main()
                          "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
                          "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
                          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+            */
             
         #pragma endregion
 

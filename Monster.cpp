@@ -49,10 +49,27 @@ sf::Vector2f Monster::getTarget()
 
 void Monster::moveToTarget()
 {
+    if (isOnTarget(index))
+    {
+        if (index >= path.size()-1)
+        {
+            index = 0;
+            target = path[index];
+        }
+        else
+        {
+            index++;
+            target = path[index];
+        }
+    };
+    
+
+    
+    /*
     if (isOnTarget(0)) { target = path[1]; };
     if (isOnTarget(1)) { target = path[2]; };
     if (isOnTarget(2)) { target = path[0]; };
-
+    */
     movementMonster.x = target.x - sprite.getPosition().x;
     movementMonster.y = target.y - sprite.getPosition().y;
 }

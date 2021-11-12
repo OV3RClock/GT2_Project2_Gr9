@@ -33,6 +33,7 @@ class Monster : public Entity
 		LifeBar monsterLifeBar;
 		sf::Vector2f velocity;
 		sf::Vector2f target;
+		int index = 0;
 		sf::Vector2f movementMonster;
 		std::vector<sf::Vector2f> path;
 };

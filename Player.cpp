@@ -19,6 +19,7 @@ Player::Player(int dim, Texture& texture, Vector2f& pos) : Entity(200, pos)
 	animations[(int)AnimationIndex::idleLeft] = Animation(4 * dim, 1 * dim, dim, dim, 1, 10, texture);
 	animations[(int)AnimationIndex::idleDown] = Animation(4 * dim, 0 * dim, dim, dim, 1, 10, texture);
 	animations[(int)AnimationIndex::idleRight] = Animation(4 * dim, 2 * dim, dim, dim, 1, 10, texture);
+	sprite.setPosition(pos);
 }
 Player::~Player()
 {
