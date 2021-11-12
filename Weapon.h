@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+
 class Weapon : public sf::Drawable, public sf::Transformable
 {
 	public:
@@ -22,6 +23,5 @@ class Weapon : public sf::Drawable, public sf::Transformable
 		float currentMovementAngle = 0;
 		float maxAngle = 180;
 		float elapsedTime = 0;
-
 };
 

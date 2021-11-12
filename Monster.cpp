@@ -101,9 +101,9 @@ void Monster::normalize(Vector2f& vect)
 void Monster::update(float dt, Vector2f& player)
 {
     moveToTarget(player);
-    if (isPlayerInRange(player)) { normalize(velocity * 2.f); }
-    else { normalize(velocity); }
-    sprite.move(velocity * dt);
+    normalize(velocity);
+    if (isPlayerInRange(player)) { sprite.move(velocity * 2.f * dt); }
+    else { sprite.move(velocity * dt); }
     position = sprite.getPosition();
     monsterLifeBar.setPosition(position.x, position.y - 6);
 }
