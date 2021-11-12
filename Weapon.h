@@ -4,27 +4,24 @@
 class Weapon : public sf::Drawable, public sf::Transformable
 {
 	public:
-		Weapon();
+		Weapon(int dmg);
 		~Weapon();
 
-		void attack();
+		void setDmg(int i);
+		void setStartAngle(float f);
 
-		void setDmg(int f);
-		void setAngle(int f);
-
-		void update(float dt, bool isAttacking);
+		void update(float dt, bool& isAttacking);
 
 		void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 	protected:
-		sf::Sprite baguette;
-		sf::Texture textureBaguette;
+		sf::Sprite sprite;
+		sf::Texture texture;
 		int dmg = 0;
-		int attackSpeed = 60;
-		int angle;
-		int startAngle;
+		float startAngle = 0;
+		float currentMovementAngle = 0;
+		float maxAngle = 180;
 		float elapsedTime = 0;
-		float ratio;
 
 };
 

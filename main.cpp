@@ -14,7 +14,7 @@ using namespace std;
 int main()
 {
     int fpsCap = 144;
-    float zoom = 4;
+    float zoom = 3;
     int windowWidth = 1280;
     int windowHeight = 720;
 
@@ -36,8 +36,11 @@ int main()
         Texture characterTexture;
         characterTexture.loadFromFile("assets/characters.png");
 
+        // WEAPON
+        Weapon w(100);
+
         // PLAYER
-        Player player(dim, characterTexture, spawnPos);
+        Player player(dim, characterTexture, spawnPos, w);
         Vector2f playerDir = { 0,0 };
         player.setSpeed(playerSpeed);
         bool isSprinting = false;
@@ -73,9 +76,9 @@ int main()
             {
                 switch (event.key.code)
                 {
-                case Keyboard::RControl:
-                    isAttacking = true;
-                    break;
+                    case Keyboard::RControl:
+                        isAttacking = true;
+                        break;
                 }
             }
             if (event.type == Event::KeyReleased)
@@ -109,7 +112,7 @@ int main()
             window.setView(sf::View(visibleArea));
         }
 
-        #pragma region PlayerMovement
+        #pragma region PlayerInput
             if (Keyboard::isKeyPressed(Keyboard::LShift)) 
             { 
                 player.setSpeed(playerSprintSpeed);
@@ -139,16 +142,20 @@ int main()
 
         #pragma region Draw
             window.clear();
-            view.setCenter(Vector2f(player.getPosition().x + (float)(dim/2), player.getPosition().y + (float)(dim/2)));
 
+            view.setCenter(Vector2f(player.getPosition().x + (float)(dim/2), player.getPosition().y + (float)(dim/2)));
             window.setView(view);
+
             map.drawTilemap(window);
             window.draw(vertices, 4, sf::Quads);
             monster.drawMonster(window);
             player.drawPlayer(window, isAttacking);
 
             window.display();
-            ///*
+        #pragma endregion
+
+        #pragma region Debug
+            /*
             std::cout << "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
@@ -159,8 +166,7 @@ int main()
                          "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
                          "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
                          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-            //*/
-            
+            */
         #pragma endregion
 
         dt = clock.getElapsedTime().asSeconds();

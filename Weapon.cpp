@@ -3,64 +3,64 @@
 #include "Weapon.h"
 
 using namespace sf;
+using namespace std;
 
-Weapon::Weapon()
+Weapon::Weapon(int dmg) : dmg(dmg)
 {
-	textureBaguette.loadFromFile("assets/baguette2.png");
-	dmg = 100;
-	baguette = Sprite(textureBaguette);
+	texture.loadFromFile("assets/baguette2.png");
+	sprite = Sprite(texture);
 	
-
-	baguette.scale(Vector2f(0.5,0.5));
-	baguette.setOrigin(Vector2f(0, 5));
-	baguette.setPosition(Vector2f(0, 0));
-	
+	sprite.scale(Vector2f( 0.5,0.5 ));
+	sprite.setOrigin(Vector2f( 0,5 ));
+	sprite.setPosition(Vector2f( 0,0 ));
 }
-
 Weapon::~Weapon()
 {
 }
 
-void Weapon::attack()
+void Weapon::setDmg(int i)
 {
-	ratio = 90 / attackSpeed;
-	startAngle = ( angle - 45 + 360 ) % 360;
-	baguette.setRotation(startAngle);
-}
-void Weapon::setDmg(int f)
-{
-	dmg = f;
+	dmg = i;
 }
 
-void Weapon::setAngle(int f)
+void Weapon::setStartAngle(float f)
 {
-	angle = f;
+	startAngle = f;
 }
 
-void Weapon::update(float dt, bool isAttacking)
+void Weapon::update(float dt, bool& isAttacking)
 {
-
-	if (elapsedTime < 40)
+	if (isAttacking)
 	{
-		angle += 4;
-		elapsedTime += dt;
-		baguette.setRotation(angle);
+		if (elapsedTime < 0.5)
+		{
+			elapsedTime = 0;
+			if (currentMovementAngle < maxAngle)
+			{
+				currentMovementAngle += 5;
+				sprite.rotate(5);
+			}
+			else
+			{
+				isAttacking = false;
+			}
+		}
+		else
+		{
+			elapsedTime += dt;
+		}
 	}
 	else
 	{
-		elapsedTime = 0;
+		currentMovementAngle = 0;
+		sprite.setRotation(startAngle);
 	}
-	/*int rotation = baguette.getRotation();
-	int tempAngle = (rotation + int(ratio) + 360) % 360;
-	baguette.setRotation(tempAngle);*/
-		
-	//isAttacking = false;
 }
 
 void Weapon::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	states.transform *= getTransform();
-	target.draw(baguette, states);
+	target.draw(sprite, states);
 }
 
 

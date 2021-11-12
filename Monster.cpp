@@ -30,52 +30,21 @@ float Monster::getSpeed()
 {
     return monsterSpeed;
 }
-sf::Vector2f Monster::getVelocity()
+Vector2f Monster::getVelocity()
 {
     return velocity;
 }
-sf::Vector2f Monster::getPosition()
+Vector2f Monster::getPosition()
 {
     return position;
 }
-sf::Sprite& Monster::getSprite()
+Sprite Monster::getSprite()
 {
     return sprite;
 }
-sf::Vector2f Monster::getTarget()
+Vector2f Monster::getTarget()
 {
     return target;
-}
-
-
-void Monster::moveToTarget(Vector2f& player)
-{
-    
-    if (playerIsInRange(player)) { target = player; }
-    else
-    {
-        if (isOnTarget(numberTarget))
-        {
-            if (numberTarget >= path.size() - 1) { numberTarget = 0;  target = path[numberTarget]; }
-            else { numberTarget++; target = path[numberTarget]; }
-        }
-        else { target = path[numberTarget]; }
-    }
-    velocity = target - sprite.getPosition();
-}
-bool Monster::isOnTarget(int i)
-{
-    float range = 0.5;
-    Vector2f sizeTarget(range, range);
-    FloatRect r1(path[i], sizeTarget);
-
-    return (sprite.getGlobalBounds().intersects(r1));
-}
-
-bool Monster::playerIsInRange(Vector2f& player)
-{
-    return sqrt((player.x - sprite.getPosition().x) * (player.x - sprite.getPosition().x)
-        + (player.y - sprite.getPosition().y) * (player.y - sprite.getPosition().y)) <= 100;
 }
 
 void Monster::setSpeed(float f)
@@ -86,6 +55,35 @@ void Monster::setHP(int i)
 {
     entityHP = i;
     monsterLifeBar.setValue(entityHP);
+}
+
+bool Monster::isPlayerInRange(Vector2f& player)
+{
+    return sqrt((player.x - sprite.getPosition().x) * (player.x - sprite.getPosition().x)
+        + (player.y - sprite.getPosition().y) * (player.y - sprite.getPosition().y)) <= 100;
+}
+bool Monster::isOnTarget(int i)
+{
+    float range = 0.5;
+    Vector2f sizeTarget(range, range);
+    FloatRect r1(path[i], sizeTarget);
+
+    return (sprite.getGlobalBounds().intersects(r1));
+}
+
+void Monster::moveToTarget(Vector2f& player)
+{
+    if (isPlayerInRange(player)) { target = player; }
+    else
+    {
+        if (isOnTarget(numberTarget))
+        {
+            if (numberTarget >= path.size() - 1) { numberTarget = 0;  target = path[numberTarget]; }
+            else { numberTarget++; target = path[numberTarget]; }
+        }
+        else { target = path[numberTarget]; }
+    }
+    velocity = target - sprite.getPosition();
 }
 
 void Monster::normalize(Vector2f& vect)

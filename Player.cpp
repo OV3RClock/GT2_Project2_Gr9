@@ -5,11 +5,12 @@
 #include "Entity.h"
 #include "Player.h"
 #include "Animation.h"
+#include "Weapon.h"
 
 using namespace sf;
 using namespace std;
 
-Player::Player(int dim, Texture& texture, Vector2f& pos) : Entity(200, pos)
+Player::Player(int dim, Texture& texture, Vector2f& pos, Weapon w) : Entity(200, pos), baguette(w)
 {
 	animations[(int)AnimationIndex::Up] = Animation(3 * dim, 3 * dim, dim, dim, 3, 0.1, texture);
 	animations[(int)AnimationIndex::Left] = Animation(3 * dim, 1 * dim, dim, dim, 3, 0.1, texture);
@@ -110,12 +111,12 @@ void Player::normalize(Vector2f& vect)
         vect.y = ((vect.y) / norme) * playerSpeed;
     }
 }
-void Player::update(float dt, bool isSprinting, bool isAttacking)
+void Player::update(float dt, bool isSprinting, bool& isAttacking)
 {
     normalize(velocity);
     sprite.move(velocity * dt);
 	position = sprite.getPosition();
-	playerBaguette.update(dt, isAttacking);
+	baguette.update(dt, isAttacking);
 
     if (isSprinting) 
     {
@@ -128,32 +129,32 @@ void Player::update(float dt, bool isSprinting, bool isAttacking)
         animations[int(curAnimation)].applyToSprite(sprite);
     }
     playerLifeBar.setPosition(position.x, position.y - 6);
-	playerBaguette.setPosition(position.x + 8, position.y + 8);
-	/*switch (curAnimation)
-	{
-	case Player::AnimationIndex::Up:
-		playerBaguette.setAngle(-90);
-		break;
-	case Player::AnimationIndex::Left:
-		playerBaguette.setAngle(180);
-		break;
-	case Player::AnimationIndex::Down:
-		playerBaguette.setAngle(90);
-		break;
-	case Player::AnimationIndex::Right:
-		playerBaguette.setAngle(-90);
-		break;
+	baguette.setPosition(position.x + 8, position.y + 8);
+
 	
-	}*/
+	switch (curAnimation)
+	{
+		case Player::AnimationIndex::Up:
+			baguette.setStartAngle(180);
+			break;
+		case Player::AnimationIndex::Left:
+			baguette.setStartAngle(90);
+			break;
+		case Player::AnimationIndex::Down:
+			baguette.setStartAngle(0);
+			break;
+		case Player::AnimationIndex::Right:
+			baguette.setStartAngle(270);
+			break;
+	}
 }
 void Player::drawPlayer(sf::RenderWindow& rw, bool isAttacking)
 {
 	if (isAttacking)
 	{
-		rw.draw(playerBaguette);
+		rw.draw(baguette);
 	}
 	rw.draw(sprite);
     rw.draw(playerLifeBar);
-	
 }
 

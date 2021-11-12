@@ -8,7 +8,7 @@
 class Player : public Entity 
 {
 	public:
-		Player(int dim, sf::Texture& texture, sf::Vector2f& pos);
+		Player(int dim, sf::Texture& texture, sf::Vector2f& pos, Weapon w);
 		~Player();
 
 		float getSpeed();
@@ -24,7 +24,7 @@ class Player : public Entity
 		void takeDmg(int i);
 
 		void normalize(sf::Vector2f& velocity);
-		void update(float dt, bool isSprinting, bool isAttacking );
+		void update(float dt, bool isSprinting, bool& isAttacking );
 		void drawPlayer(sf::RenderWindow& rw, bool isAttacking);
 
 	private:
@@ -42,7 +42,7 @@ class Player : public Entity
 		};
 		float playerSpeed;
 		sf::Vector2f velocity = { 0,0 };
-		Weapon playerBaguette;
+		Weapon baguette;
 		LifeBar playerLifeBar;
 		Animation animations[int(AnimationIndex::Count)];
 		AnimationIndex curAnimation = AnimationIndex::idleDown;

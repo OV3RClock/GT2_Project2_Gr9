@@ -12,16 +12,16 @@ class Monster : public Entity
 		float getSpeed();
 		sf::Vector2f getVelocity();
 		sf::Vector2f getPosition();
-		sf::Sprite& getSprite();
-		
+		sf::Sprite getSprite();
 		sf::Vector2f Monster::getTarget();
 		
 		void setSpeed(float f);
 		void setHP(int i);
 
-		void moveToTarget(sf::Vector2f& player);
+		bool isPlayerInRange(sf::Vector2f& player);
 		bool isOnTarget(int i);
-		bool playerIsInRange(sf::Vector2f& player);
+
+		void moveToTarget(sf::Vector2f& player);
 
 		void normalize(sf::Vector2f& velocity);
 		void update(float dt, sf::Vector2f& player);
