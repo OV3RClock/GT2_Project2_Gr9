@@ -22,7 +22,6 @@ void Weapon::setDmg(int i)
 {
 	dmg = i;
 }
-
 void Weapon::setStartAngle(float f)
 {
 	startAngle = f;

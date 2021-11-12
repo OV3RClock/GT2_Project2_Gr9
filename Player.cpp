@@ -131,7 +131,6 @@ void Player::update(float dt, bool isSprinting, bool& isAttacking)
     playerLifeBar.setPosition(position.x, position.y - 6);
 	baguette.setPosition(position.x + 8, position.y + 8);
 
-	
 	switch (curAnimation)
 	{
 		case Player::AnimationIndex::Up:
