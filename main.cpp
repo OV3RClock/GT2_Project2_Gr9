@@ -21,8 +21,8 @@ int main()
     float playerSpeed = 100;
     float playerSprintSpeed = 200;
     float monsterSpeed = 50;
-    Vector2f spawnPos = { 20,20 };
-    Vector2f spawnPosM = { 200,50 };
+    Vector2f spawnPos = { 200,200 };
+    Vector2f spawnPosM = { 150,100 };
 
     #pragma region INIT
 
@@ -124,7 +124,7 @@ int main()
 
         #pragma region Update
             player.update(dt, isSprinting);
-            monster.update(dt);
+            monster.update(dt, player.getPosition());
         #pragma endregion
 
         #pragma region Draw
@@ -139,7 +139,7 @@ int main()
 
             window.display();
             
-            std::cout << "         dt | " + to_string(dt) + "\n\n" +
+            /*std::cout << "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
@@ -148,7 +148,7 @@ int main()
                          "MPosition Y | " + to_string(monster.getPosition().y) + "\n\n" +
                          "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
                          "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
-                         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";*/
             
         #pragma endregion
 

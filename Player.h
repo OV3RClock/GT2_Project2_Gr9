@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Lifebar.h"
 #include "Animation.h"
+#include "Weapon.h"
 
 class Player : public Entity 
 {
@@ -41,6 +42,7 @@ class Player : public Entity
 		};
 		float playerSpeed;
 		sf::Vector2f velocity = { 0,0 };
+		Weapon playerBaguette;
 		LifeBar playerLifeBar;
 		Animation animations[int(AnimationIndex::Count)];
 		AnimationIndex curAnimation = AnimationIndex::idleDown;

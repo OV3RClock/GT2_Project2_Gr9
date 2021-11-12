@@ -8,11 +8,11 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(const int dim, Texture& texture, Vector2f pos) : Entity(200,pos)
+Monster::Monster(const int dim, Texture& texture, Vector2f pos) : Entity(150,pos)
 {
     sprite = Sprite(texture);
     sprite.setTextureRect(IntRect(10 * dim, 0, dim, dim));
-    sprite.setPosition(position);
+    sprite.setPosition(pos);
     
     Vector2f point0 = { 100 , 150 };
     Vector2f point1 = { 40 , 10 };
@@ -47,22 +47,54 @@ sf::Vector2f Monster::getTarget()
     return target;
 }
 
-void Monster::moveToTarget()
-{
-    if (isOnTarget(0)) { target = path[1]; };
-    if (isOnTarget(1)) { target = path[2]; };
-    if (isOnTarget(2)) { target = path[0]; };
 
-    movementMonster.x = target.x - sprite.getPosition().x;
-    movementMonster.y = target.y - sprite.getPosition().y;
+void Monster::moveToTarget(Vector2f& player)
+{
+    
+    if (playerIsInRange(player)) {
+        
+        target = player;
+    }
+    else
+    {
+        if (isOnTarget(numberTarget))
+        {
+            if (numberTarget >= path.size() - 1)
+            {
+                numberTarget = 0;
+                target = path[numberTarget];
+            }
+            else
+            {
+                numberTarget++;
+                target = path[numberTarget];
+            }
+        }
+        else
+        {
+            target = path[numberTarget];
+        }
+    }
+    movementMonster = target - sprite.getPosition();
 }
 bool Monster::isOnTarget(int i)
 {
-    int range = 1;
-    return ((sprite.getPosition().x <= (path[i].x + range))
-        && (sprite.getPosition().x >= (path[i].x - range))
-        && (sprite.getPosition().y <= (path[i].y + range))
-        && (sprite.getPosition().y >= (path[i].y - range)));
+    float range = 0.5;
+    Vector2f sizeTarget(range, range);
+    FloatRect r1(path[i], sizeTarget);
+
+
+    return (sprite.getGlobalBounds().intersects(r1));
+
+/*((sprite.getPosition().x <= (path[i].x + range))
+&& (sprite.getPosition().x >= (path[i].x - range))
+&& (sprite.getPosition().y <= (path[i].y + range))
+&& (sprite.getPosition().y >= (path[i].y - range)));*/
+}
+
+bool Monster::playerIsInRange(Vector2f& player)
+{
+    return ( ( sqrt( (player.x - sprite.getPosition().x)* (player.x - sprite.getPosition().x) + (player.x - sprite.getPosition().x) * (player.x - sprite.getPosition().x)) <= 100 ) );
 }
 
 void Monster::setVelocityX(float f)
@@ -92,9 +124,10 @@ void Monster::normalize(Vector2f& vect)
         vect.y = ((vect.y) / norme) * monsterSpeed;
     }
 }
-void Monster::update(float dt)
+void Monster::update(float dt, Vector2f& player)
 {
-    moveToTarget();
+
+    moveToTarget(player);
     normalize(movementMonster);
     sprite.move(movementMonster*dt);
     position = sprite.getPosition();

@@ -19,6 +19,7 @@ Player::Player(int dim, Texture& texture, Vector2f& pos) : Entity(200, pos)
 	animations[(int)AnimationIndex::idleLeft] = Animation(4 * dim, 1 * dim, dim, dim, 1, 10, texture);
 	animations[(int)AnimationIndex::idleDown] = Animation(4 * dim, 0 * dim, dim, dim, 1, 10, texture);
 	animations[(int)AnimationIndex::idleRight] = Animation(4 * dim, 2 * dim, dim, dim, 1, 10, texture);
+	sprite.setPosition(pos);
 }
 Player::~Player()
 {
@@ -125,10 +126,28 @@ void Player::update(float dt, bool isSprinting)
         animations[int(curAnimation)].applyToSprite(sprite);
     }
     playerLifeBar.setPosition(position.x, position.y - 6);
+	playerBaguette.setPosition(position.x + 8, position.y + 8);
+	switch (curAnimation)
+	{
+	case Player::AnimationIndex::Up:
+		playerBaguette.setRotation(-90);
+		break;
+	case Player::AnimationIndex::Left:
+		playerBaguette.setRotation(180);
+		break;
+	case Player::AnimationIndex::Down:
+		playerBaguette.setRotation(90);
+		break;
+	case Player::AnimationIndex::Right:
+		playerBaguette.setRotation(0);
+		break;
+	
+	}
 }
 void Player::drawPlayer(sf::RenderWindow& rw)
 {
 	rw.draw(sprite);
     rw.draw(playerLifeBar);
+	rw.draw(playerBaguette);
 }
 
