@@ -110,11 +110,13 @@ void Player::normalize(Vector2f& vect)
         vect.y = ((vect.y) / norme) * playerSpeed;
     }
 }
-void Player::update(float dt, bool isSprinting)
+void Player::update(float dt, bool isSprinting, bool isAttacking)
 {
     normalize(velocity);
     sprite.move(velocity * dt);
 	position = sprite.getPosition();
+	playerBaguette.update(dt, isAttacking);
+
     if (isSprinting) 
     {
         animations[int(curAnimation)].update(dt*2);
@@ -127,27 +129,31 @@ void Player::update(float dt, bool isSprinting)
     }
     playerLifeBar.setPosition(position.x, position.y - 6);
 	playerBaguette.setPosition(position.x + 8, position.y + 8);
-	switch (curAnimation)
+	/*switch (curAnimation)
 	{
 	case Player::AnimationIndex::Up:
-		playerBaguette.setRotation(-90);
+		playerBaguette.setAngle(-90);
 		break;
 	case Player::AnimationIndex::Left:
-		playerBaguette.setRotation(180);
+		playerBaguette.setAngle(180);
 		break;
 	case Player::AnimationIndex::Down:
-		playerBaguette.setRotation(90);
+		playerBaguette.setAngle(90);
 		break;
 	case Player::AnimationIndex::Right:
-		playerBaguette.setRotation(0);
+		playerBaguette.setAngle(-90);
 		break;
 	
-	}
+	}*/
 }
-void Player::drawPlayer(sf::RenderWindow& rw)
+void Player::drawPlayer(sf::RenderWindow& rw, bool isAttacking)
 {
+	if (isAttacking)
+	{
+		rw.draw(playerBaguette);
+	}
 	rw.draw(sprite);
     rw.draw(playerLifeBar);
-	rw.draw(playerBaguette);
+	
 }
 
