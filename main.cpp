@@ -13,10 +13,14 @@ using namespace std;
 
 int main()
 {
+    // CONTROLES DISPO POUR LE MOMENT
+    // R_CTRL  : dégainer sa super baguette
+    // L_SHIFT : fuir très vite
+    
     int fpsCap = 144;
-    float zoom = 3;
-    int windowWidth = 1280;
-    int windowHeight = 720;
+    float zoom = 4;
+    int windowWidth = 1920; // 1280
+    int windowHeight = 1024; // 720
 
     float playerSpeed = 100;
     float playerSprintSpeed = 200;
