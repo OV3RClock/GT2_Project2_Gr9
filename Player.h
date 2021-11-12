@@ -3,6 +3,7 @@
 #include "Entity.h"
 #include "Lifebar.h"
 #include "Animation.h"
+#include "Weapon.h"
 
 class Player : public Entity 
 {
@@ -23,8 +24,8 @@ class Player : public Entity
 		void takeDmg(int i);
 
 		void normalize(sf::Vector2f& velocity);
-		void update(float dt, bool isSprinting);
-		void drawPlayer(sf::RenderWindow& rw);
+		void update(float dt, bool isSprinting, bool isAttacking );
+		void drawPlayer(sf::RenderWindow& rw, bool isAttacking);
 
 	private:
 		enum class AnimationIndex
@@ -41,6 +42,7 @@ class Player : public Entity
 		};
 		float playerSpeed;
 		sf::Vector2f velocity = { 0,0 };
+		Weapon playerBaguette;
 		LifeBar playerLifeBar;
 		Animation animations[int(AnimationIndex::Count)];
 		AnimationIndex curAnimation = AnimationIndex::idleDown;

@@ -22,7 +22,7 @@ int main()
     float playerSprintSpeed = 200;
     float monsterSpeed = 50;
     Vector2f spawnPos = { 200,200 };
-    Vector2f spawnPosM = { 200,50 };
+    Vector2f spawnPosM = { 150,100 };
 
     #pragma region INIT
 
@@ -69,6 +69,15 @@ int main()
         while (window.pollEvent(event))
         {
             if (event.type == Event::Closed) { window.close(); }
+            if (event.type == Event::KeyPressed)
+            {
+                switch (event.key.code)
+                {
+                case Keyboard::RControl:
+                    isAttacking = true;
+                    break;
+                }
+            }
             if (event.type == Event::KeyReleased)
             {
                 switch (event.key.code)
@@ -124,8 +133,8 @@ int main()
         #pragma endregion
 
         #pragma region Update
-            player.update(dt, isSprinting);
-            monster.update(dt);
+            player.update(dt, isSprinting, isAttacking);
+            monster.update(dt, player.getPosition());
         #pragma endregion
 
         #pragma region Draw
@@ -136,7 +145,7 @@ int main()
             map.drawTilemap(window);
             window.draw(vertices, 4, sf::Quads);
             monster.drawMonster(window);
-            player.drawPlayer(window);
+            player.drawPlayer(window, isAttacking);
 
             window.display();
             /*

@@ -15,25 +15,29 @@ class Monster : public Entity
 		sf::Sprite& getSprite();
 		
 		sf::Vector2f Monster::getTarget();
+		
 
 		void setVelocityX(float f);
 		void setVelocityY(float f);
 		void setSpeed(float f);
 		void setHP(int i);
 
-		void moveToTarget();
+		void moveToTarget(sf::Vector2f& player);
 		bool isOnTarget(int i);
+		bool playerIsInRange(sf::Vector2f& player);
 
 		void normalize(sf::Vector2f& velocity);
-		void update(float dt);
+		void update(float dt, sf::Vector2f& player);
 		void drawMonster(sf::RenderWindow& rw);
 		
 	protected:
 		float monsterSpeed = 0.5;
+		int numberTarget = 0;
 		LifeBar monsterLifeBar;
 		sf::Vector2f velocity;
-		sf::Vector2f target;
-		int index = 0;
+		sf::Vector2f cheminTarget;
+		
+		sf::Vector2f target = {100,150};
 		sf::Vector2f movementMonster;
 		std::vector<sf::Vector2f> path;
 };
