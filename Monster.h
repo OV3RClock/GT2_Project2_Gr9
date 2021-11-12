@@ -28,7 +28,7 @@ class Monster : public Entity
 		void drawMonster(sf::RenderWindow& rw);
 		
 	protected:
-		float monsterSpeed = 0.5;
+		float monsterSpeed = 0;
 		int numberTarget = 0;
 		LifeBar monsterLifeBar;
 		sf::Vector2f velocity;

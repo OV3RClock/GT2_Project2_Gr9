@@ -31,7 +31,7 @@ void Weapon::update(float dt, bool& isAttacking)
 {
 	if (isAttacking)
 	{
-		if (elapsedTime < 0.5)
+		if (elapsedTime < 0.05)
 		{
 			elapsedTime = 0;
 			if (currentMovementAngle < maxAngle)

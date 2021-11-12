@@ -73,7 +73,10 @@ bool Monster::isOnTarget(int i)
 
 void Monster::moveToTarget(Vector2f& player)
 {
-    if (isPlayerInRange(player)) { target = player; }
+    if (isPlayerInRange(player)) 
+    { 
+        target = player;
+    }
     else
     {
         if (isOnTarget(numberTarget))
@@ -98,8 +101,9 @@ void Monster::normalize(Vector2f& vect)
 void Monster::update(float dt, Vector2f& player)
 {
     moveToTarget(player);
-    normalize(velocity);
-    sprite.move(velocity*dt);
+    if (isPlayerInRange(player)) { normalize(velocity * 2.f); }
+    else { normalize(velocity); }
+    sprite.move(velocity * dt);
     position = sprite.getPosition();
     monsterLifeBar.setPosition(position.x, position.y - 6);
 }
