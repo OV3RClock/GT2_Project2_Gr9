@@ -60,7 +60,7 @@ void Monster::setHP(int i)
 bool Monster::isPlayerInRange(Vector2f& player)
 {
     return sqrt((player.x - sprite.getPosition().x) * (player.x - sprite.getPosition().x)
-        + (player.y - sprite.getPosition().y) * (player.y - sprite.getPosition().y)) <= 100;
+        + (player.y - sprite.getPosition().y) * (player.y - sprite.getPosition().y)) <= 50;
 }
 bool Monster::isOnTarget(int i)
 {
