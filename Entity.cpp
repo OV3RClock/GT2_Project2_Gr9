@@ -21,3 +21,14 @@ int Entity::getEntityHP()
 }
 
 
+bool Entity::isAlive(int entityHP)
+{
+	return entityHP > 0;
+}
+
+
+
+
+
+
+

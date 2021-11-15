@@ -2,6 +2,7 @@
 
 #include "Entity.h"
 #include "Lifebar.h"
+#include "Player.h"
 
 class Monster : public Entity
 {
@@ -20,11 +21,13 @@ class Monster : public Entity
 
 		bool isPlayerInRange(sf::Vector2f& player);
 		bool isOnTarget(int i);
+		bool isHit(Player& player);
 
 		void moveToTarget(sf::Vector2f& player);
+		void takeDmg(int dmg);
 
 		void normalize(sf::Vector2f& velocity);
-		void update(float dt, sf::Vector2f& player);
+		void update(float dt, Player& player);
 		void drawMonster(sf::RenderWindow& rw);
 		
 	protected:

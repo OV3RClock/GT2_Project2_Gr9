@@ -39,6 +39,11 @@ Vector2f Player::getVelocity()
     return velocity;
 }
 
+Weapon Player::getWeapon()
+{
+	return baguette;
+}
+
 void Player::setSpeed(float f)
 {
 	playerSpeed = f;

@@ -8,6 +8,8 @@ class Weapon : public sf::Drawable, public sf::Transformable
 		Weapon(int dmg);
 		~Weapon();
 
+		sf::Sprite getSprite();
+
 		void setDmg(int i);
 		void setStartAngle(float f);
 

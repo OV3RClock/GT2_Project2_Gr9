@@ -14,6 +14,7 @@ class Player : public Entity
 		float getSpeed();
 		sf::Vector2f Player::getPosition();
 		sf::Vector2f getVelocity();
+		Weapon getWeapon();
 
 		void setSpeed(float f);
 		void setDirection(sf::Vector2f& dir);

@@ -18,6 +18,11 @@ Weapon::~Weapon()
 {
 }
 
+Sprite Weapon::getSprite()
+{
+	return sprite;
+}
+
 void Weapon::setDmg(int i)
 {
 	dmg = i;

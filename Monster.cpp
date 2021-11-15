@@ -57,6 +57,8 @@ void Monster::setHP(int i)
     monsterLifeBar.setValue(entityHP);
 }
 
+
+
 bool Monster::isPlayerInRange(Vector2f& player)
 {
     return sqrt((player.x - sprite.getPosition().x) * (player.x - sprite.getPosition().x)
@@ -69,6 +71,11 @@ bool Monster::isOnTarget(int i)
     FloatRect r1(path[i], sizeTarget);
 
     return (sprite.getGlobalBounds().intersects(r1));
+}
+
+bool Monster::isHit(Player& player)
+{
+    return ( sprite.getGlobalBounds().intersects(player.getWeapon().getSprite().getGlobalBounds()) );
 }
 
 void Monster::moveToTarget(Vector2f& player)
@@ -89,6 +96,12 @@ void Monster::moveToTarget(Vector2f& player)
     velocity = target - sprite.getPosition();
 }
 
+void Monster::takeDmg(int dmg)
+{
+    entityHP -= dmg;
+    monsterLifeBar.setValue(entityHP);
+}
+
 void Monster::normalize(Vector2f& vect)
 {
     float norme = sqrt((vect.x * vect.x) + (vect.y * vect.y));
@@ -98,11 +111,15 @@ void Monster::normalize(Vector2f& vect)
         vect.y = ((vect.y) / norme) * monsterSpeed;
     }
 }
-void Monster::update(float dt, Vector2f& player)
+void Monster::update(float dt, Player& player)
 {
-    moveToTarget(player);
+    if (isHit(player))
+    {
+        this->takeDmg(40);
+    }
+    moveToTarget(player.getPosition());
     normalize(velocity);
-    if (isPlayerInRange(player)) { sprite.move(velocity * 2.f * dt); }
+    if (isPlayerInRange(player.getPosition())) { sprite.move(velocity * 2.f * dt); }
     else { sprite.move(velocity * dt); }
     position = sprite.getPosition();
     monsterLifeBar.setPosition(position.x, position.y - 6);
