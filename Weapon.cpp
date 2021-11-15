@@ -48,7 +48,6 @@ void Weapon::setPosition(sf::Vector2f pos)
 	this->sprite.setPosition(pos);
 }
 
-
 void Weapon::update(float dt, bool& isAttacking)
 {
 	if (isAttacking)

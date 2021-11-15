@@ -57,8 +57,6 @@ void Monster::setHP(int i)
     monsterLifeBar.setValue(entityHP);
 }
 
-
-
 bool Monster::isPlayerInRange(Vector2f& player)
 {
     return sqrt((player.x - sprite.getPosition().x) * (player.x - sprite.getPosition().x)
@@ -118,7 +116,7 @@ void Monster::update(float dt, Player& player)
         cout << isHit(player);
         if (player.getWeapon().getElapsedTime()<0.05)
         {
-            this->takeDmg(0.01);
+            this->takeDmg(10);
         }
     }
     moveToTarget(player.getPosition());
