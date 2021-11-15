@@ -6,7 +6,7 @@ class Tilemap
 		Tilemap(int dim);
 		~Tilemap();
 		
-		void Tilemap::loadTileSet();
+		void loadTileSet();
 		std::vector<sf::Sprite> loadLayer(int dim, std::string s);
 		sf::Sprite loadTile(int dim, int i);
 		std::vector<int> split(std::string s);
