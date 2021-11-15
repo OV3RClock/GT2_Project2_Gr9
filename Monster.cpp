@@ -75,7 +75,7 @@ bool Monster::isOnTarget(int i)
 
 bool Monster::isHit(Player& player)
 {
-    return ( sprite.getGlobalBounds().intersects(player.getWeapon().getSprite().getGlobalBounds()) );
+    return ( this->sprite.getGlobalBounds().intersects(player.getWeapon().getSprite().getGlobalBounds()) );
 }
 
 void Monster::moveToTarget(Vector2f& player)
@@ -115,7 +115,11 @@ void Monster::update(float dt, Player& player)
 {
     if (isHit(player))
     {
-        this->takeDmg(40);
+        cout << isHit(player);
+        if (player.getWeapon().getElapsedTime()<0.05)
+        {
+            this->takeDmg(0.01);
+        }
     }
     moveToTarget(player.getPosition());
     normalize(velocity);

@@ -2,16 +2,20 @@
 
 #include <SFML/Graphics.hpp>
 
-class Weapon : public sf::Drawable, public sf::Transformable
+class Weapon : public sf::Drawable
 {
 	public:
 		Weapon(int dmg);
 		~Weapon();
 
 		sf::Sprite getSprite();
+		float getCurrentAngle();
+		float getMaxAngle();
+		float getElapsedTime();
 
 		void setDmg(int i);
 		void setStartAngle(float f);
+		void setPosition(sf::Vector2f pos);
 
 		void update(float dt, bool& isAttacking);
 

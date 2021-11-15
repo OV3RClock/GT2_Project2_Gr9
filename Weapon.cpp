@@ -22,6 +22,18 @@ Sprite Weapon::getSprite()
 {
 	return sprite;
 }
+float Weapon::getCurrentAngle()
+{
+	return currentMovementAngle;
+}
+float Weapon::getMaxAngle()
+{
+	return maxAngle;
+}
+float Weapon::getElapsedTime()
+{
+	return elapsedTime;
+}
 
 void Weapon::setDmg(int i)
 {
@@ -31,6 +43,11 @@ void Weapon::setStartAngle(float f)
 {
 	startAngle = f;
 }
+void Weapon::setPosition(sf::Vector2f pos)
+{
+	this->sprite.setPosition(pos);
+}
+
 
 void Weapon::update(float dt, bool& isAttacking)
 {
@@ -63,7 +80,6 @@ void Weapon::update(float dt, bool& isAttacking)
 
 void Weapon::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	states.transform *= getTransform();
 	target.draw(sprite, states);
 }
 

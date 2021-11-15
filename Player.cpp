@@ -134,7 +134,7 @@ void Player::update(float dt, bool isSprinting, bool& isAttacking)
         animations[int(curAnimation)].applyToSprite(sprite);
     }
     playerLifeBar.setPosition(position.x, position.y - 6);
-	baguette.setPosition(position.x + 8, position.y + 8);
+	baguette.setPosition(sprite.getPosition() + Vector2f{8,8});
 
 	switch (curAnimation)
 	{
