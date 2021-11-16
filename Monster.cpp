@@ -71,9 +71,14 @@ bool Monster::isOnTarget(int i)
     return (sprite.getGlobalBounds().intersects(r1));
 }
 
-bool Monster::isHit(Player& player)
+bool Monster::isHit(Player player)
 {
     return ( this->sprite.getGlobalBounds().intersects(player.getWeapon().getSprite().getGlobalBounds()) );
+}
+
+bool Monster::monsterHitPlayer(Player player)
+{
+    return (player.getSprite().getGlobalBounds().intersects(sprite.getGlobalBounds()));
 }
 
 void Monster::moveToTarget(Vector2f& player)
@@ -109,14 +114,23 @@ void Monster::normalize(Vector2f& vect)
         vect.y = ((vect.y) / norme) * monsterSpeed;
     }
 }
-void Monster::update(float dt, Player& player)
+void Monster::update(float dt, Player& player, bool& isTouched)
 {
     if (isHit(player))
     {
         cout << isHit(player);
-        if (player.getWeapon().getElapsedTime()<0.05)
+        if (!isTouched)
         {
             this->takeDmg(10);
+            isTouched = true;
+        }
+    }
+    if (monsterHitPlayer(player))
+    {
+        if (elapsedTime > 1.5)
+        {
+            player.takeDmg(10);
+            elapsedTime = 0;
         }
     }
     moveToTarget(player.getPosition());
@@ -125,6 +139,7 @@ void Monster::update(float dt, Player& player)
     else { sprite.move(velocity * dt); }
     position = sprite.getPosition();
     monsterLifeBar.setPosition(position.x, position.y - 6);
+    elapsedTime += dt;
 }
 void Monster::drawMonster(RenderWindow& rw)
 {

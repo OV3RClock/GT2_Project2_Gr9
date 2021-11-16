@@ -39,6 +39,11 @@ Vector2f Player::getVelocity()
     return velocity;
 }
 
+sf::Sprite Player::getSprite()
+{
+	return sprite;
+}
+
 Weapon Player::getWeapon()
 {
 	return baguette;

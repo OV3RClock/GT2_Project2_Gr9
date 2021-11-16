@@ -21,18 +21,20 @@ class Monster : public Entity
 
 		bool isPlayerInRange(sf::Vector2f& player);
 		bool isOnTarget(int i);
-		bool isHit(Player& player);
+		bool isHit(Player player);
+		bool monsterHitPlayer(Player player);
 
 		void moveToTarget(sf::Vector2f& player);
 		void takeDmg(int dmg);
 
 		void normalize(sf::Vector2f& velocity);
-		void update(float dt, Player& player);
+		void update(float dt, Player& player, bool& isTouched);
 		void drawMonster(sf::RenderWindow& rw);
 		
 	protected:
 		float monsterSpeed = 0;
 		int numberTarget = 0;
+		float elapsedTime = 0;
 		LifeBar monsterLifeBar;
 		sf::Vector2f velocity;
 		sf::Vector2f target;
