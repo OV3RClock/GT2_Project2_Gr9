@@ -92,21 +92,27 @@ bool Monster::monsterHitPlayer(Player player)
 
 void Monster::setDirection()
 {
-    if (velocity.x > 0.0f)
+    if (abs(velocity.y) > abs(velocity.x)) 
     {
-        curAnimation = AnimationIndex::Right;
+        if (velocity.y < 0.0f)
+        {
+            curAnimation = AnimationIndex::Up;
+        }
+        else if (velocity.y > 0.0f)
+        {
+            curAnimation = AnimationIndex::Down;
+        }
     }
-    else if (velocity.x < 0.0f)
+    else 
     {
-        curAnimation = AnimationIndex::Left;
-    }
-    else if (velocity.y < 0.0f)
-    {
-        curAnimation = AnimationIndex::Up;
-    }
-    else if (velocity.y > 0.0f)
-    {
-        curAnimation = AnimationIndex::Down;
+        if (velocity.x > 0.0f)
+        {
+            curAnimation = AnimationIndex::Right;
+        }
+        else if (velocity.x < 0.0f)
+        {
+            curAnimation = AnimationIndex::Left;
+        }
     }
 }
 
