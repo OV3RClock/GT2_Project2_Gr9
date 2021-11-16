@@ -7,8 +7,9 @@
 using namespace sf;
 using namespace std;
 
-Entity::Entity(int entityHP, Vector2f pos) : position(pos)
+Entity::Entity(float entityHP, Vector2f pos) : position(pos)
 {
+	this->entityHP = entityHP;
 }
 
 Entity::~Entity()

@@ -6,6 +6,7 @@ class LifeBar : public sf::Drawable, public sf::Transformable
 {
 	public:
 		LifeBar();
+		LifeBar(float hp);
 		~LifeBar();
 
 		void setValue(float f);

@@ -3,11 +3,12 @@
 #include "Entity.h"
 #include "Lifebar.h"
 #include "Player.h"
+#include "Animation.h"
 
 class Monster : public Entity
 {
 	public:
-		Monster(int dim, sf::Texture& texture, sf::Vector2f pos);
+		Monster(int dim, float hp, LifeBar l, sf::Texture& texture, sf::Vector2f pos);
 		~Monster();
 
 		float getSpeed();
@@ -23,6 +24,7 @@ class Monster : public Entity
 		bool isOnTarget(int i);
 		bool isHit(Player player);
 		bool monsterHitPlayer(Player player);
+		void setDirection();
 
 		void moveToTarget(sf::Vector2f& player);
 		void takeDmg(int dmg);
@@ -39,4 +41,15 @@ class Monster : public Entity
 		sf::Vector2f velocity;
 		sf::Vector2f target;
 		std::vector<sf::Vector2f> path;
+
+		enum class AnimationIndex
+		{
+			Up,
+			Left,
+			Down,
+			Right,
+			Count
+		};
+		Animation animations[int(AnimationIndex::Count)];
+		AnimationIndex curAnimation = AnimationIndex::Down;
 };

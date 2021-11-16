@@ -6,11 +6,12 @@
 #include "Player.h"
 #include "Animation.h"
 #include "Weapon.h"
+#include "LifeBar.h"
 
 using namespace sf;
 using namespace std;
 
-Player::Player(int dim, Texture& texture, Vector2f& pos, Weapon w) : Entity(200, pos), baguette(w)
+Player::Player(int dim, float hp, LifeBar l, Texture& texture, Vector2f& pos, Weapon w) : Entity(hp, pos), baguette(w)
 {
 	animations[(int)AnimationIndex::Up] = Animation(3 * dim, 3 * dim, dim, dim, 3, 0.1, texture);
 	animations[(int)AnimationIndex::Left] = Animation(3 * dim, 1 * dim, dim, dim, 3, 0.1, texture);
@@ -21,6 +22,7 @@ Player::Player(int dim, Texture& texture, Vector2f& pos, Weapon w) : Entity(200,
 	animations[(int)AnimationIndex::idleDown] = Animation(4 * dim, 0 * dim, dim, dim, 1, 10, texture);
 	animations[(int)AnimationIndex::idleRight] = Animation(4 * dim, 2 * dim, dim, dim, 1, 10, texture);
 	sprite.setPosition(pos);
+	playerLifeBar = l;
 }
 Player::~Player()
 {

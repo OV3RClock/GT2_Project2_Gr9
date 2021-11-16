@@ -4,12 +4,19 @@
 
 #include "Entity.h"
 #include "Monster.h"
+#include "Animation.h"
+#include "LifeBar.h"
 
 using namespace sf;
 using namespace std;
 
-Monster::Monster(const int dim, Texture& texture, Vector2f pos) : Entity(150,pos)
+Monster::Monster(const int dim, float hp, LifeBar l, Texture& texture, Vector2f pos) : Entity(hp,pos)
 {
+    animations[(int)AnimationIndex::Up] = Animation(6 * dim, 7 * dim, dim, dim, 3, 0.3, texture);
+    animations[(int)AnimationIndex::Left] = Animation(6 * dim, 5 * dim, dim, dim, 3, 0.3, texture);
+    animations[(int)AnimationIndex::Down] = Animation(6 * dim, 4 * dim, dim, dim, 3, 0.3, texture);
+    animations[(int)AnimationIndex::Right] = Animation(6 * dim, 6 * dim, dim, dim, 3, 0.3, texture);
+    
     sprite = Sprite(texture);
     sprite.setTextureRect(IntRect(10 * dim, 0, dim, dim));
     sprite.setPosition(pos);
@@ -21,6 +28,8 @@ Monster::Monster(const int dim, Texture& texture, Vector2f pos) : Entity(150,pos
     path.push_back(point1);
     path.push_back(point2);
     target = point0;
+
+    monsterLifeBar = l;
 }
 Monster::~Monster()
 {
@@ -81,6 +90,27 @@ bool Monster::monsterHitPlayer(Player player)
     return (player.getSprite().getGlobalBounds().intersects(sprite.getGlobalBounds()));
 }
 
+void Monster::setDirection()
+{
+    if (velocity.x > 0.0f)
+    {
+ 
+        curAnimation = AnimationIndex::Right;
+    }
+    else if (velocity.x < 0.0f)
+    {
+        curAnimation = AnimationIndex::Left;
+    }
+    else if (velocity.y < 0.0f)
+    {
+        curAnimation = AnimationIndex::Up;
+    }
+    else if (velocity.y > 0.0f)
+    {
+        curAnimation = AnimationIndex::Down;
+    }
+}
+
 void Monster::moveToTarget(Vector2f& player)
 {
     if (isPlayerInRange(player)) 
@@ -116,9 +146,9 @@ void Monster::normalize(Vector2f& vect)
 }
 void Monster::update(float dt, Player& player, bool& isTouched)
 {
+
     if (isHit(player))
     {
-        cout << isHit(player);
         if (!isTouched)
         {
             this->takeDmg(10);
@@ -135,8 +165,21 @@ void Monster::update(float dt, Player& player, bool& isTouched)
     }
     moveToTarget(player.getPosition());
     normalize(velocity);
-    if (isPlayerInRange(player.getPosition())) { sprite.move(velocity * 2.f * dt); }
-    else { sprite.move(velocity * dt); }
+    setDirection();
+    if (isPlayerInRange(player.getPosition())) 
+    { 
+        animations[int(curAnimation)].update(dt);
+        animations[int(curAnimation)].applyToSprite(sprite);
+        sprite.move(velocity * 2.f * dt);
+
+    }
+    else 
+    { 
+        animations[int(curAnimation)].update(dt);
+        animations[int(curAnimation)].applyToSprite(sprite);
+        sprite.move(velocity * dt); 
+    }
+    
     position = sprite.getPosition();
     monsterLifeBar.setPosition(position.x, position.y - 6);
     elapsedTime += dt;
