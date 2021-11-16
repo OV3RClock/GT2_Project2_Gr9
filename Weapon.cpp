@@ -35,6 +35,11 @@ float Weapon::getElapsedTime()
 	return elapsedTime;
 }
 
+float Weapon::getDmg()
+{
+	return dmg;
+}
+
 void Weapon::setDmg(int i)
 {
 	dmg = i;

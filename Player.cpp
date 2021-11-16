@@ -109,7 +109,11 @@ void Player::setHP(int i)
 void Player::takeDmg(int i)
 {
     entityHP -= i;
-    playerLifeBar.setValue(entityHP);
+    
+	if (entityHP >= 0 )
+	{
+		playerLifeBar.setValue(entityHP);
+	}
 }
 
 void Player::normalize(Vector2f& vect)

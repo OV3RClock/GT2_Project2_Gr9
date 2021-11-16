@@ -131,7 +131,11 @@ void Monster::moveToTarget(Vector2f& player)
 void Monster::takeDmg(int dmg)
 {
     entityHP -= dmg;
-    monsterLifeBar.setValue(entityHP);
+    
+    if (entityHP >= 0)
+    {
+        monsterLifeBar.setValue(entityHP);
+    }
 }
 
 void Monster::normalize(Vector2f& vect)
@@ -150,7 +154,7 @@ void Monster::update(float dt, Player& player, bool& isTouched)
     {
         if (!isTouched)
         {
-            this->takeDmg(10);
+            this->takeDmg(player.getWeapon().getDmg());
             isTouched = true;
         }
     }

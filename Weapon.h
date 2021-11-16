@@ -12,6 +12,7 @@ class Weapon : public sf::Drawable
 		float getCurrentAngle();
 		float getMaxAngle();
 		float getElapsedTime();
+		float getDmg();
 
 		void setDmg(int i);
 		void setStartAngle(float f);
