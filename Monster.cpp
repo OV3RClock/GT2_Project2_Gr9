@@ -94,7 +94,6 @@ void Monster::setDirection()
 {
     if (velocity.x > 0.0f)
     {
- 
         curAnimation = AnimationIndex::Right;
     }
     else if (velocity.x < 0.0f)

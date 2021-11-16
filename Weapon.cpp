@@ -57,8 +57,8 @@ void Weapon::update(float dt, bool& isAttacking)
 			elapsedTime = 0;
 			if (currentMovementAngle < maxAngle)
 			{
-				currentMovementAngle += 5;
-				sprite.rotate(5);
+				currentMovementAngle += 8;
+				sprite.rotate(8);
 			}
 			else
 			{
