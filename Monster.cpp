@@ -14,9 +14,9 @@ Monster::Monster(const int dim, Texture& texture, Vector2f pos) : Entity(150,pos
     sprite.setTextureRect(IntRect(10 * dim, 0, dim, dim));
     sprite.setPosition(pos);
     
-    Vector2f point0 = { 300 , 420 };
-    Vector2f point1 = { 530 , 360 };
-    Vector2f point2 = { 440, 480 };
+    Vector2f point0 = { 300,420 };
+    Vector2f point1 = { 530,360 };
+    Vector2f point2 = { 440,480 };
     path.push_back(point0);
     path.push_back(point1);
     path.push_back(point2);

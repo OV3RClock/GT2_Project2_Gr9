@@ -11,7 +11,10 @@ class Tilemap
 		sf::Sprite loadTile(int dim, int i);
 		std::vector<int> split(std::string s);
 
+		std::vector<sf::Sprite> getMapBorders();
+
 		void drawTilemap(sf::RenderWindow& rw);
+		void drawMapBorders(sf::RenderWindow& rw);
 
 	protected:
 		sf::Texture mapTexture;
@@ -24,4 +27,5 @@ class Tilemap
 		std::vector<sf::Sprite> elements1Layer;
 		std::vector<sf::Sprite> treesLayer;
 		std::vector<sf::Sprite> elements2Layer;
+		std::vector<sf::Sprite> mapBordersLayer;
 };
