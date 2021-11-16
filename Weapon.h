@@ -5,7 +5,7 @@
 class Weapon : public sf::Drawable
 {
 	public:
-		Weapon(int dmg);
+		Weapon(float dmg);
 		~Weapon();
 
 		sf::Sprite getSprite();
@@ -24,7 +24,7 @@ class Weapon : public sf::Drawable
 	protected:
 		sf::Sprite sprite;
 		sf::Texture texture;
-		int dmg = 0;
+		float dmg = 0;
 		float startAngle = 0;
 		float currentMovementAngle = 0;
 		float maxAngle = 180;

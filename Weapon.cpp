@@ -5,7 +5,7 @@
 using namespace sf;
 using namespace std;
 
-Weapon::Weapon(int dmg) : dmg(dmg)
+Weapon::Weapon(float dmg) : dmg(dmg)
 {
 	texture.loadFromFile("assets/baguette2.png");
 	sprite = Sprite(texture);

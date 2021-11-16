@@ -8,7 +8,7 @@
 class Player : public Entity 
 {
 	public:
-		Player(int dim, float hp, LifeBar l, sf::Texture& texture, sf::Vector2f& pos, Weapon w);
+		Player(int dim, float hp, sf::Texture& texture, sf::Vector2f& pos, float dmgWeapons);
 		~Player();
 
 		float getSpeed();

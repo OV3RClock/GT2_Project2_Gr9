@@ -8,7 +8,7 @@
 class Monster : public Entity
 {
 	public:
-		Monster(int dim, float hp, LifeBar l, sf::Texture& texture, sf::Vector2f pos);
+		Monster(int dim, float hp, sf::Texture& texture, sf::Vector2f pos);
 		~Monster();
 
 		float getSpeed();

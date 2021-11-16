@@ -10,7 +10,7 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(const int dim, float hp, LifeBar l, Texture& texture, Vector2f pos) : Entity(hp,pos)
+Monster::Monster(const int dim, float hp, Texture& texture, Vector2f pos) : Entity(hp,pos), monsterLifeBar(LifeBar(hp))
 {
     animations[(int)AnimationIndex::Up] = Animation(6 * dim, 7 * dim, dim, dim, 3, 0.3, texture);
     animations[(int)AnimationIndex::Left] = Animation(6 * dim, 5 * dim, dim, dim, 3, 0.3, texture);
@@ -29,7 +29,7 @@ Monster::Monster(const int dim, float hp, LifeBar l, Texture& texture, Vector2f 
     path.push_back(point2);
     target = point0;
 
-    monsterLifeBar = l;
+   
 }
 Monster::~Monster()
 {
