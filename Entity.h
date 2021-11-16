@@ -11,7 +11,7 @@ class Entity
 	protected:
 		sf::Sprite sprite;
 		sf::Vector2f position = { 0,0 };
-		int entityHP = 0;
+		int entityHP;
 
 };
 

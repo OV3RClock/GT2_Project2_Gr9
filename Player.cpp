@@ -30,6 +30,10 @@ float Player::getSpeed()
 {
     return playerSpeed;
 }
+sf::Sprite Player::getSprite()
+{
+	return sprite;
+}
 Vector2f Player::getPosition()
 {
 	return position;
@@ -37,11 +41,6 @@ Vector2f Player::getPosition()
 Vector2f Player::getVelocity()
 {
     return velocity;
-}
-
-sf::Sprite Player::getSprite()
-{
-	return sprite;
 }
 
 Weapon Player::getWeapon()

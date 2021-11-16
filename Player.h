@@ -12,6 +12,7 @@ class Player : public Entity
 		~Player();
 
 		float getSpeed();
+		sf::Sprite getSprite();
 		sf::Vector2f Player::getPosition();
 		sf::Vector2f getVelocity();
 		sf::Sprite getSprite();
