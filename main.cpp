@@ -22,7 +22,7 @@ using namespace std;
 
 int main()
 {
-    //cout << "CONTROLES DISPONIBLES POUR LE MOMENT\n\n"
+    cout << "CONTROLES DISPONIBLES POUR LE MOMENT\n\n"
               "> ZQSD    : Deplacement\n"
               "> R_CTRL  : Degainer sa super baguette\n"
               "> L_SHIFT : Fuir tres vite\n"
@@ -246,7 +246,7 @@ int main()
         #pragma endregion
 
         #pragma region Update
-            /*for (auto& enemy : monsterList)
+            for (auto& enemy : monsterList)
             {
                 if (enemy->isAlive())
                 {
@@ -256,7 +256,7 @@ int main()
                 {
                     monsterList.erase(std::remove(monsterList.begin(), monsterList.end(), enemy), monsterList.end());
                 }
-            }*/
+            }
             player.update(dt, isSprinting, isAttacking, isOnMount);
         #pragma endregion
 
@@ -267,44 +267,35 @@ int main()
             window.setView(view);
 
             map.drawTilemap(window);
-            if (toggleHitBoxes) 
-            {
-                map.drawMapBorders(window);
-                window.draw(pvertices, 4, Quads);
-            }
-            
-            for (int i = 0; i < monsterList.size(); i++)
-            {
-                monsterList[i]->drawMonster(window);
-            }
-            if (isOnMount) 
-            {
-                window.draw(playerDirectionIndicator, 2, Lines);
-            }
+
+            if (toggleHitBoxes) { map.drawMapBorders(window); window.draw(pvertices, 4, Quads); }
+
+            for (int i = 0; i < monsterList.size(); i++) { monsterList[i]->drawMonster(window); }
+
+            if (isOnMount) { window.draw(playerDirectionIndicator, 2, Lines); }
             player.drawPlayer(window, isAttacking);
             
-
-            //monster1.drawMonster(window);
             window.display();
         #pragma endregion
 
-        #pragma region Debug
-            cout << 1 / dt << "\n";
-            /*
-            std::cout << "         dt | " + to_string(dt) + "\n\n" +
+        #pragma region Console
+            ///*
+            std::cout << "        fps | " + to_string(int(1/dt)) + "\n" +
+                         "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
                          " Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
-                         "MPosition X | " + to_string(monsterList[0]->getPosition().x) + "\n" +
-                         "MPosition Y | " + to_string(monsterList[0]->getPosition().y) + "\n\n" +
-                         "MVelocity X | " + to_string(monsterList[0]->getVelocity().x) + "\n" +
-                         "MVelocity Y | " + to_string(monsterList[0]->getVelocity().y) + "\n" +
-                         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-            */
+                         "CONTROLES DISPONIBLES POUR LE MOMENT\n\n" +
+                         "> ZQSD    : Deplacement\n" +
+                         "> R_CTRL  : Degainer sa super baguette\n" +
+                         "> L_SHIFT : Fuir tres vite\n" +
+                         "> H       : Afficher les Hitboxes\n" +
+                         "> M       : Utiliser sa monture" +
+                         "\n\n\n\n\n\n\n\n\n\n\n\n\n";
+            //*/
         #pragma endregion
-        
-        cout << 1 / dt << "\n";
+
         dt = clock.getElapsedTime().asSeconds();
     }
 }

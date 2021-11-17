@@ -181,7 +181,7 @@ void Monster::update(float dt, Player& player, bool isAttacking)
         position = sprite.getPosition();
         if (isHit(player, isAttacking))
         {
-            if (elapsedHit > 1)
+            if (elapsedHit > 0.4)
             {
                 this->takeDmg(player.getWeapon().getDmg());
                 elapsedHit = 0;
