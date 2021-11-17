@@ -2,7 +2,7 @@
 #include "EntitiesMap.h"
 
 using namespace sf;
-EntitiesMap::EntitiesMap()
+EntitiesMap::EntitiesMap(Texture& texture)
 {
 	Texture monsterTexture;
 	monsterTexture.loadFromFile("assets/characters.png");

@@ -5,7 +5,7 @@
 class EntitiesMap
 {
 	public :
-		EntitiesMap();
+		EntitiesMap(sf::Texture& texture);
 		~EntitiesMap();
 
 		void addMonster(Monster monster);
