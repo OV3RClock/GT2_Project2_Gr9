@@ -23,14 +23,14 @@ using namespace std;
 
 int main()
 {
-    wcout << "CONTROLES DISPONIBLES POUR LE MOMENT\n\n"
+    //cout << "CONTROLES DISPONIBLES POUR LE MOMENT\n\n"
              "> ZQSD    : Deplacement\n"
              "> R_CTRL  : Degainer sa super baguette\n"
              "> L_SHIFT : Fuir tres vite\n"
              "> H       : Afficher les Hitboxes";
 
     int fpsCap              = 144;
-    float zoom              = 5;
+    float zoom              = 1;
     int windowWidth         = 1280;
     int windowHeight        = 720;
     int maxNbMonster        = 5;
@@ -52,7 +52,8 @@ int main()
         window.setFramerateLimit(fpsCap);
 
         // TEXTURE
-
+        Texture monsterTexture;
+        monsterTexture.loadFromFile("assets/characters.png");
 
         // PLAYER
         Player player(dim, playerHp, spawnPos, 30);
@@ -63,8 +64,13 @@ int main()
         bool isOnMount = false;
 
         // MONSTER
+        vector<Monster*> monsterList;
+        Monster *monster1 = new Monster(monsterTexture);
+        Monster *monster2 = new Monster(monsterTexture);
+        monsterList.push_back(monster1);
+        monsterList.push_back(monster2);
 
-        EntitiesMap listMonster;
+        EntitiesMap Entitiesmap;
         //Monster *monster1 = new Monster(dim, monster1Hp, characterTexture, spawnPosM);
         //monster1->setSpeed(monsterSpeed);
         bool isTouched = true;
@@ -191,12 +197,7 @@ int main()
         #pragma region Update
             player.update(dt, isSprinting, isAttacking);
 
-            //listMonster.updateMonsters(dt, player, isTouched);
-           
-            //monster1->update(dt, player, isTouched);
-
-          
-            
+            Entitiesmap.updateMonsters(dt, player, isTouched);
         #pragma endregion
 
         #pragma region Draw
@@ -209,29 +210,27 @@ int main()
             if (toggleHitBoxes) 
             {
                 map.drawMapBorders(window);
-                //window.draw(vertices, 4, Quads);
                 window.draw(pvertices, 4, Quads);
             }
-            //monster1->drawMonster(window);
-            //listMonster.drawMonsters(window);
+            Entitiesmap.drawMonsters(window);
             player.drawPlayer(window, isAttacking);
 
             window.display();
         #pragma endregion
 
         #pragma region Debug
-            /*
+            ///*
             std::cout << "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
                          " Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
-                         "MPosition X | " + to_string(monster.getPosition().x) + "\n" +
-                         "MPosition Y | " + to_string(monster.getPosition().y) + "\n\n" +
-                         "MVelocity X | " + to_string(monster.getVelocity().x) + "\n" +
-                         "MVelocity Y | " + to_string(monster.getVelocity().y) + "\n" +
+                         "MPosition X | " + to_string(Entitiesmap.getMonsterList()[0]->getPosition().x) + "\n" +
+                         "MPosition Y | " + to_string(Entitiesmap.getMonsterList()[0]->getPosition().y) + "\n\n" +
+                         "MVelocity X | " + to_string(Entitiesmap.getMonsterList()[0]->getVelocity().x) + "\n" +
+                         "MVelocity Y | " + to_string(Entitiesmap.getMonsterList()[0]->getVelocity().y) + "\n" +
                          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-            */
+            //*/
         #pragma endregion
 
         dt = clock.getElapsedTime().asSeconds();

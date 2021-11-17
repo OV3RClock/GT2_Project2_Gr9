@@ -10,17 +10,15 @@
 using namespace sf;
 using namespace std;
 
-Monster::Monster(Texture& texture) : Entity(hp,pos), monsterLifeBar(LifeBar(hp))
+Monster::Monster(Texture& texture) : Entity(hp, { 300 , 420 }), monsterLifeBar(LifeBar(hp))
 {
     animations[(int)AnimationIndex::Up] = Animation(6 * dim, 7 * dim, dim, dim, 3, 0.3, texture);
     animations[(int)AnimationIndex::Left] = Animation(6 * dim, 5 * dim, dim, dim, 3, 0.3, texture);
     animations[(int)AnimationIndex::Down] = Animation(6 * dim, 4 * dim, dim, dim, 3, 0.3, texture);
     animations[(int)AnimationIndex::Right] = Animation(6 * dim, 6 * dim, dim, dim, 3, 0.3, texture);
     
-    sprite = Sprite(texture);
-    sprite.setTextureRect(IntRect(10 * dim, 0, dim, dim));
-    sprite.setPosition(pos);
-    
+    sprite.setPosition({ 300 , 420 });
+
     Vector2f point0 = { 300,420 };
     Vector2f point1 = { 530,360 };
     Vector2f point2 = { 440,480 };
@@ -29,7 +27,6 @@ Monster::Monster(Texture& texture) : Entity(hp,pos), monsterLifeBar(LifeBar(hp))
     path.push_back(point2);
     target = point0;
 
-   
 }
 Monster::~Monster()
 {

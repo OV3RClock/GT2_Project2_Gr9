@@ -18,23 +18,23 @@ Player::Player(int dim, float hp, Vector2f& pos, float dmgWeapon) : Entity(hp, p
 	playerTexture.loadFromFile("assets/samurai 48x48.png");
 	mountTexture.loadFromFile("assets/samurai mount 72x72.png");
 	
-	animations[(int)AnimationIndex::Up] = Animation(0 * dim, 3 * dim, dim, dim, 3, 0.1, playerTexture);
-	animations[(int)AnimationIndex::Left] = Animation(0 * dim, 1 * dim, dim, dim, 3, 0.1, playerTexture);
-	animations[(int)AnimationIndex::Down] = Animation(0 * dim, 0 * dim, dim, dim, 3, 0.1, playerTexture);
-	animations[(int)AnimationIndex::Right] = Animation(0 * dim, 2 * dim, dim, dim, 3, 0.1, playerTexture);
-	animations[(int)AnimationIndex::idleUp] = Animation(1 * dim, 3 * dim, dim, dim, 1, 10, playerTexture);
-	animations[(int)AnimationIndex::idleLeft] = Animation(1 * dim, 1 * dim, dim, dim, 1, 10, playerTexture);
-	animations[(int)AnimationIndex::idleDown] = Animation(1 * dim, 0 * dim, dim, dim, 1, 10, playerTexture);
-	animations[(int)AnimationIndex::idleRight] = Animation(1 * dim, 2 * dim, dim, dim, 1, 10, playerTexture);
+	animations[(int)AnimationIndex::Up] = Animation(0 * 48, 3 * 48, 48, 48, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::Left] = Animation(0 * 48, 1 * 48, 48, 48, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::Down] = Animation(0 * 48, 0 * 48, 48, 48, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::Right] = Animation(0 * 48, 2 * 48, 48, 48, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::idleUp] = Animation(1 * 48, 3 * 48, 48, 48, 1, 10, playerTexture);
+	animations[(int)AnimationIndex::idleLeft] = Animation(1 * 48, 1 * 48, 48, 48, 1, 10, playerTexture);
+	animations[(int)AnimationIndex::idleDown] = Animation(1 * 48, 0 * 48, 48, 48, 1, 10, playerTexture);
+	animations[(int)AnimationIndex::idleRight] = Animation(1 * 48, 2 * 48, 48, 48, 1, 10, playerTexture);
 
-	animations[(int)AnimationIndex::mountUp] = Animation(0 * dim, 3 * dim, dim, dim, 3, 0.1, mountTexture);
-	animations[(int)AnimationIndex::mountLeft] = Animation(0 * dim, 1 * dim, dim, dim, 3, 0.1, mountTexture);
-	animations[(int)AnimationIndex::mountDown] = Animation(0 * dim, 0 * dim, dim, dim, 3, 0.1, mountTexture);
-	animations[(int)AnimationIndex::mountRight] = Animation(0 * dim, 2 * dim, dim, dim, 3, 0.1, mountTexture);
-	animations[(int)AnimationIndex::mountIdleUp] = Animation(1 * dim, 3 * dim, dim, dim, 1, 10, mountTexture);
-	animations[(int)AnimationIndex::mountIdleLeft] = Animation(1 * dim, 1 * dim, dim, dim, 1, 10, mountTexture);
-	animations[(int)AnimationIndex::mountIdleDown] = Animation(1 * dim, 0 * dim, dim, dim, 1, 10, mountTexture);
-	animations[(int)AnimationIndex::mountIdleRight] = Animation(1 * dim, 2 * dim, dim, dim, 1, 10, mountTexture);
+	animations[(int)AnimationIndex::mountUp] = Animation(0 * 72, 3 * 72, 72, 72, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountLeft] = Animation(0 * 72, 1 * 72, 72, 72, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountDown] = Animation(0 * 72, 0 * 72, 72, 72, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountRight] = Animation(0 * 72, 2 * 72, 72, 72, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountIdleUp] = Animation(1 * 72, 3 * 72, 72, 72, 1, 10, mountTexture);
+	animations[(int)AnimationIndex::mountIdleLeft] = Animation(1 * 72, 1 * 72, 72, 72, 1, 10, mountTexture);
+	animations[(int)AnimationIndex::mountIdleDown] = Animation(1 * 72, 0 * 72, 72, 72, 1, 10, mountTexture);
+	animations[(int)AnimationIndex::mountIdleRight] = Animation(1 * 72, 2 * 72, 72, 72, 1, 10, mountTexture);
 
 	sprite.setPosition(pos);
 }

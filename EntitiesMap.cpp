@@ -1,45 +1,50 @@
 #include <SFML/Graphics.hpp>
 #include "EntitiesMap.h"
+#include "Monster.h"
 
 using namespace sf;
-EntitiesMap::EntitiesMap(Texture& texture)
+EntitiesMap::EntitiesMap()
 {
 	Texture monsterTexture;
 	monsterTexture.loadFromFile("assets/characters.png");
-	for (size_t i = 0; i < 5; i++)
-	{
-		addMonster(creatMonster(monsterTexture));
-	}
+
+	Monster *monster1 = new Monster(monsterTexture);
+	addMonster(monster1);
 }
 
 EntitiesMap::~EntitiesMap()
 {
 }
 
-void EntitiesMap::addMonster(Monster monster)
+std::vector<Monster*> EntitiesMap::getMonsterList()
+{
+	return monsterList;
+}
+
+void EntitiesMap::addMonster(Monster* monster)
 {
 	monsterList.push_back(monster);
 }
 
-Monster EntitiesMap::creatMonster(Texture texture)
+/*Monster EntitiesMap::creatMonster(Texture& texture)
 {
 	Monster *monster = new Monster(texture);
 	return *monster;
-}
+}*/
 
 void EntitiesMap::updateMonsters(float dt, Player &player, bool &isTouched)
 {
-	for (size_t i = 0; i < monsterList.size(); i++)
+	for (int i = 0; i < monsterList.size(); i++)
 	{
-		monsterList[i].update(dt, player, isTouched);
+		monsterList[i]->update(dt, player, isTouched);
 	}
 }
 
 void EntitiesMap::drawMonsters(sf::RenderWindow& rw)
 {
-	for (size_t i = 0; i < monsterList.size(); i++)
+	for (int i = 0; i < monsterList.size(); i++)
 	{
-		monsterList[i].drawMonster(rw);
+		monsterList[i]->drawMonster(rw);
 	}
 }
 

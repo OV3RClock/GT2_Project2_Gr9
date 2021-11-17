@@ -5,16 +5,17 @@
 class EntitiesMap
 {
 	public :
-		EntitiesMap(sf::Texture& texture);
+		EntitiesMap();
 		~EntitiesMap();
 
-		void addMonster(Monster monster);
-		Monster creatMonster(sf::Texture texture);
+		std::vector<Monster*> getMonsterList();
+
+		void addMonster(Monster* monster);
+		//Monster creatMonster(sf::Texture& texture);
 		void updateMonsters(float dt, Player& player, bool& isTouched);
 		void drawMonsters(sf::RenderWindow& rw);
 		
-
 	protected :
-		std::vector<Monster> monsterList;
+		std::vector<Monster*> monsterList;
 		std::vector<sf::Vertex> deplacementMonster;
 };
