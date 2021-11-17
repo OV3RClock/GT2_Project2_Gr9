@@ -23,10 +23,11 @@ using namespace std;
 int main()
 {
     //cout << "CONTROLES DISPONIBLES POUR LE MOMENT\n\n"
-             "> ZQSD    : Deplacement\n"
-             "> R_CTRL  : Degainer sa super baguette\n"
-             "> L_SHIFT : Fuir tres vite\n"
-             "> H       : Afficher les Hitboxes";
+              "> ZQSD    : Deplacement\n"
+              "> R_CTRL  : Degainer sa super baguette\n"
+              "> L_SHIFT : Fuir tres vite\n"
+              "> H       : Afficher les Hitboxes"
+              "> M       : Utiliser sa monture";
 
     int fpsCap              = 144;
     float zoom              = 4;
@@ -112,8 +113,8 @@ int main()
                         else { toggleHitBoxes = true; }
                         break;
                     case Keyboard::M:
-                        if (isOnMount) { isOnMount = false; playerDir = { 0,0 }; }
-                        else { isOnMount = true; playerDir = { 0,0 }; }
+                        if (isOnMount) { isOnMount = false; player.setDirection(playerDir); playerDir = { 0,0 }; }
+                        else { isOnMount = true; player.setDirection(playerDir); playerDir = { 0,0 }; }
                         break;
                 }
             }
@@ -171,10 +172,10 @@ int main()
         {
             if (Keyboard::isKeyPressed(Keyboard::Z)) { poussee = 5000; }
             if (Keyboard::isKeyPressed(Keyboard::W)) { poussee = 5000; }
-            if (Keyboard::isKeyPressed(Keyboard::Q)) { angle -= 5 * pi / 180; }
-            if (Keyboard::isKeyPressed(Keyboard::A)) { angle -= 5 * pi / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::Q)) { angle -= 2 * pi / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::A)) { angle -= 2 * pi / 180; }
             if (Keyboard::isKeyPressed(Keyboard::S)) { poussee = -500; }
-            if (Keyboard::isKeyPressed(Keyboard::D)) { angle += 5 * pi / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::D)) { angle += 2 * pi / 180; }
 
             playerDir = { cos(angle), sin(angle) };
 
@@ -245,7 +246,7 @@ int main()
         #pragma endregion
 
         #pragma region Update
-            for (auto& enemy : monsterList)
+            /*for (auto& enemy : monsterList)
             {
                 if (enemy->isAlive())
                 {
@@ -255,7 +256,7 @@ int main()
                 {
                     monsterList.erase(std::remove(monsterList.begin(), monsterList.end(), enemy), monsterList.end());
                 }
-            }
+            }*/
             player.update(dt, isSprinting, isAttacking, isOnMount);
         #pragma endregion
 
@@ -302,7 +303,8 @@ int main()
                          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             */
         #pragma endregion
-
+        
+        cout << 1 / dt << "\n";
         dt = clock.getElapsedTime().asSeconds();
     }
 }

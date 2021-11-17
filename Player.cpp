@@ -70,7 +70,7 @@ void Player::setSpeed(float f)
 }
 void Player::setDirection(sf::Vector2f& dir)
 {
-	curAnimation = AnimationIndex::idleDown;
+	//curAnimation = AnimationIndex::idleDown;
 	if (dir.x > 0.0f)
 	{
 		curAnimation = AnimationIndex::Right;
