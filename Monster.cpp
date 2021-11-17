@@ -81,14 +81,14 @@ bool Monster::isOnTarget(int i)
     return (sprite.getGlobalBounds().intersects(r1));
 }
 
-bool Monster::isHit(Player player, bool isAttacking)
+bool Monster::isHit(Player& player, bool isAttacking)
 {
     
         return ((sprite.getGlobalBounds().intersects(player.getWeapon().getSprite().getGlobalBounds())) && isAttacking);
         
 }
 
-bool Monster::monsterHitPlayer(Player player)
+bool Monster::monsterHitPlayer(Player& player)
 {
     return (player.getSprite().getGlobalBounds().intersects(sprite.getGlobalBounds()));
 }
@@ -159,24 +159,8 @@ void Monster::normalize(Vector2f& vect)
 void Monster::update(float dt, Player& player, bool isAttacking)
 {
     
-    if (getEntityHP() > 0)
-    {
-        if (isHit(player, isAttacking))
-        {
-            if (elapsedHit > 1)
-            {
-                this->takeDmg(player.getWeapon().getDmg());
-                elapsedHit = 0;
-            }
-        }
-        if (monsterHitPlayer(player))
-        {
-            if (elapsedTime > 1.5)
-            {
-                player.takeDmg(10);
-                elapsedTime = 0;
-            }
-        }
+    
+        
         moveToTarget(player.getPosition());
         normalize(velocity);
         setDirection();
@@ -195,11 +179,27 @@ void Monster::update(float dt, Player& player, bool isAttacking)
         }
 
         position = sprite.getPosition();
+        if (isHit(player, isAttacking))
+        {
+            if (elapsedHit > 1)
+            {
+                this->takeDmg(player.getWeapon().getDmg());
+                elapsedHit = 0;
+            }
+        }
+        if (monsterHitPlayer(player))
+        {
+            if (elapsedTime > 1.5)
+            {
+                player.takeDmg(10);
+                elapsedTime = 0;
+            }
+        }
         monsterLifeBar.setPosition(position.x, position.y - 6);
         elapsedTime += dt;
         elapsedHit += dt;
         
-    }
+    
 }
 void Monster::drawMonster(RenderWindow& rw)
 {

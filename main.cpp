@@ -288,6 +288,7 @@ int main()
         #pragma endregion
 
         #pragma region Debug
+            cout << 1 / dt << "\n";
             /*
             std::cout << "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +

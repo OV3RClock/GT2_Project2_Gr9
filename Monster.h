@@ -22,8 +22,8 @@ class Monster : public Entity
 
 		bool isPlayerInRange(sf::Vector2f& player);
 		bool isOnTarget(int i);
-		bool isHit(Player player, bool isAttacking);
-		bool monsterHitPlayer(Player player);
+		bool isHit(Player& player, bool isAttacking);
+		bool monsterHitPlayer(Player& player);
 		void setDirection();
 
 		void moveToTarget(sf::Vector2f& player);
