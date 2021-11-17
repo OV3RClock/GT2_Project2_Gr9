@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "Monster.h"
+#include "Player.h"
 
 class EntitiesMap
 {
@@ -8,7 +9,9 @@ class EntitiesMap
 		~EntitiesMap();
 
 		void addMonster(Monster monster);
-		void creatMonster(Monster monster, Texture texture);
+		Monster creatMonster(sf::Texture texture);
+		void updateMonsters(float dt, Player& player, bool& isTouched);
+		void drawMonsters(sf::RenderWindow& rw);
 		
 
 	protected :

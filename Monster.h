@@ -8,7 +8,7 @@
 class Monster : public Entity
 {
 	public:
-		Monster(sf::Texture& texture, sf::Vector2f pos);
+		Monster(sf::Texture& texture);
 		~Monster();
 
 		float getSpeed();
@@ -40,6 +40,7 @@ class Monster : public Entity
 		int numberTarget = 0;
 		float elapsedTime = 0;
 		LifeBar monsterLifeBar;
+		sf::Vector2f pos = { 300 , 420 };
 		sf::Vector2f velocity;
 		sf::Vector2f target;
 		std::vector<sf::Vector2f> path;

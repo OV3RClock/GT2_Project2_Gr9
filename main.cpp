@@ -64,8 +64,9 @@ int main()
 
         // MONSTER
 
-        Monster *monster1 = new Monster(dim, monster1Hp, characterTexture, spawnPosM);
-        monster1->setSpeed(monsterSpeed);
+        EntitiesMap listMonster;
+        //Monster *monster1 = new Monster(dim, monster1Hp, characterTexture, spawnPosM);
+        //monster1->setSpeed(monsterSpeed);
         bool isTouched = true;
 
         // VIEW
@@ -167,13 +168,13 @@ int main()
         #pragma endregion
 
         #pragma region Hitboxes
-            Vertex vertices[] =
+            /*Vertex vertices[] =
             {
                 Vertex(monster1->getTarget(), Color::Red),
                 Vertex(Vector2f(monster1->getTarget().x, monster1->getTarget().y + dim), Color::Red),
                 Vertex(Vector2f(monster1->getTarget().x + dim, monster1->getTarget().y + dim), Color::Red),
                 Vertex(Vector2f(monster1->getTarget().x + dim, monster1->getTarget().y), Color::Red)
-            };
+            };*/
             Vertex pvertices[] = 
             { 
                 Vertex(player.getPosition(), Color::Red),
@@ -186,9 +187,9 @@ int main()
         #pragma region Update
             player.update(dt, isSprinting, isAttacking);
 
-            
+            listMonster.updateMonsters(dt, player, isTouched);
            
-            monster1->update(dt, player, isTouched);
+            //monster1->update(dt, player, isTouched);
 
           
             
@@ -204,10 +205,11 @@ int main()
             if (toggleHitBoxes) 
             {
                 map.drawMapBorders(window);
-                window.draw(vertices, 4, Quads);
+                //window.draw(vertices, 4, Quads);
                 window.draw(pvertices, 4, Quads);
             }
-            monster1->drawMonster(window);
+            //monster1->drawMonster(window);
+            listMonster.drawMonsters(window);
             player.drawPlayer(window, isAttacking);
 
             window.display();
