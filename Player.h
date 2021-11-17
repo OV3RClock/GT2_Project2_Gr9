@@ -8,7 +8,7 @@
 class Player : public Entity 
 {
 	public:
-		Player(int dim, float hp, sf::Texture& texture, sf::Texture& mountTexture, sf::Vector2f& pos, float dmgWeapons);
+		Player(int dim, float hp, sf::Vector2f& pos, float dmgWeapon);
 		~Player();
 
 		float getSpeed();
@@ -18,7 +18,7 @@ class Player : public Entity
 		Weapon getWeapon();
 
 		void setSpeed(float f);
-		void setDirection(sf::Vector2f& dir);
+		void setDirection(sf::Vector2f& dir, bool isOnMount);
 		void setVelocityX(float f);
 		void setVelocityY(float f);
 		void setHP(int i);
@@ -44,6 +44,10 @@ class Player : public Entity
 			mountLeft,
 			mountDown,
 			mountRight,
+			mountIdleUp,
+			mountIdleLeft,
+			mountIdleDown,
+			mountIdleRight,
 			Count
 		};
 		float playerSpeed;

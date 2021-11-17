@@ -52,15 +52,15 @@ int main()
         window.setFramerateLimit(fpsCap);
 
         // TEXTURE
-        Texture characterTexture;
-        characterTexture.loadFromFile("assets/characters.png");
+
 
         // PLAYER
-        Player player(dim, playerHp, characterTexture, spawnPos, 30);
+        Player player(dim, playerHp, spawnPos, 30);
         Vector2f playerDir = { 0,0 };
         player.setSpeed(playerSpeed);
         bool isSprinting = false;
         bool isAttacking = false;
+        bool isOnMount = false;
 
         // MONSTER
 
@@ -104,6 +104,10 @@ int main()
                     case Keyboard::H:
                         if (toggleHitBoxes) { toggleHitBoxes = false; }
                         else { toggleHitBoxes = true; }
+                        break;
+                    case Keyboard::M:
+                        if (isOnMount) { isOnMount = false; }
+                        else { isOnMount = true; }
                         break;
                 }
             }
@@ -164,7 +168,7 @@ int main()
                 }
             }
 
-            player.setDirection(playerDir);
+            player.setDirection(playerDir, isOnMount);
         #pragma endregion
 
         #pragma region Hitboxes
@@ -187,7 +191,7 @@ int main()
         #pragma region Update
             player.update(dt, isSprinting, isAttacking);
 
-            listMonster.updateMonsters(dt, player, isTouched);
+            //listMonster.updateMonsters(dt, player, isTouched);
            
             //monster1->update(dt, player, isTouched);
 
@@ -209,7 +213,7 @@ int main()
                 window.draw(pvertices, 4, Quads);
             }
             //monster1->drawMonster(window);
-            listMonster.drawMonsters(window);
+            //listMonster.drawMonsters(window);
             player.drawPlayer(window, isAttacking);
 
             window.display();

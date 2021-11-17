@@ -11,16 +11,31 @@
 using namespace sf;
 using namespace std;
 
-Player::Player(int dim, float hp, Texture& texture, Texture& mountTexture, Vector2f& pos, float dmgWeapons) : Entity(hp, pos), baguette(Weapon(dmgWeapons)), playerLifeBar(LifeBar(hp))
+Player::Player(int dim, float hp, Vector2f& pos, float dmgWeapon) : Entity(hp, pos), baguette(Weapon(dmgWeapon)), playerLifeBar(LifeBar(hp))
 {
-	animations[(int)AnimationIndex::Up] = Animation(0 * (3*dim), 3 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
-	animations[(int)AnimationIndex::Left] = Animation(0 * (3 * dim), 1 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
-	animations[(int)AnimationIndex::Down] = Animation(0 * (3 * dim), 0 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
-	animations[(int)AnimationIndex::Right] = Animation(0 * (3 * dim), 2 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
-	animations[(int)AnimationIndex::idleUp] = Animation(1 * (3 * dim), 3 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
-	animations[(int)AnimationIndex::idleLeft] = Animation(1 * (3 * dim), 1 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
-	animations[(int)AnimationIndex::idleDown] = Animation(1 * (3 * dim), 0 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
-	animations[(int)AnimationIndex::idleRight] = Animation(1 * (3 * dim), 2 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
+	Texture playerTexture;
+	Texture mountTexture;
+	playerTexture.loadFromFile("assets/samurai 48x48.png");
+	mountTexture.loadFromFile("assets/samurai mount 72x72.png");
+	
+	animations[(int)AnimationIndex::Up] = Animation(0 * dim, 3 * dim, dim, dim, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::Left] = Animation(0 * dim, 1 * dim, dim, dim, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::Down] = Animation(0 * dim, 0 * dim, dim, dim, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::Right] = Animation(0 * dim, 2 * dim, dim, dim, 3, 0.1, playerTexture);
+	animations[(int)AnimationIndex::idleUp] = Animation(1 * dim, 3 * dim, dim, dim, 1, 10, playerTexture);
+	animations[(int)AnimationIndex::idleLeft] = Animation(1 * dim, 1 * dim, dim, dim, 1, 10, playerTexture);
+	animations[(int)AnimationIndex::idleDown] = Animation(1 * dim, 0 * dim, dim, dim, 1, 10, playerTexture);
+	animations[(int)AnimationIndex::idleRight] = Animation(1 * dim, 2 * dim, dim, dim, 1, 10, playerTexture);
+
+	animations[(int)AnimationIndex::mountUp] = Animation(0 * dim, 3 * dim, dim, dim, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountLeft] = Animation(0 * dim, 1 * dim, dim, dim, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountDown] = Animation(0 * dim, 0 * dim, dim, dim, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountRight] = Animation(0 * dim, 2 * dim, dim, dim, 3, 0.1, mountTexture);
+	animations[(int)AnimationIndex::mountIdleUp] = Animation(1 * dim, 3 * dim, dim, dim, 1, 10, mountTexture);
+	animations[(int)AnimationIndex::mountIdleLeft] = Animation(1 * dim, 1 * dim, dim, dim, 1, 10, mountTexture);
+	animations[(int)AnimationIndex::mountIdleDown] = Animation(1 * dim, 0 * dim, dim, dim, 1, 10, mountTexture);
+	animations[(int)AnimationIndex::mountIdleRight] = Animation(1 * dim, 2 * dim, dim, dim, 1, 10, mountTexture);
+
 	sprite.setPosition(pos);
 }
 Player::~Player()
@@ -53,44 +68,86 @@ void Player::setSpeed(float f)
 {
 	playerSpeed = f;
 }
-void Player::setDirection(sf::Vector2f& dir)
+void Player::setDirection(sf::Vector2f& dir, bool isOnMount)
 {
-	if (dir.x > 0.0f)
+	if (!isOnMount) 
 	{
-		curAnimation = AnimationIndex::Right;
-	}
-	else if (dir.x < 0.0f)
-	{
-		curAnimation = AnimationIndex::Left;
-	}
-	else if (dir.y < 0.0f)
-	{
-		curAnimation = AnimationIndex::Up;
-	}
-	else if (dir.y > 0.0f)
-	{
-		curAnimation = AnimationIndex::Down;
+		if (dir.x > 0.0f)
+		{
+			curAnimation = AnimationIndex::Right;
+		}
+		else if (dir.x < 0.0f)
+		{
+			curAnimation = AnimationIndex::Left;
+		}
+		else if (dir.y < 0.0f)
+		{
+			curAnimation = AnimationIndex::Up;
+		}
+		else if (dir.y > 0.0f)
+		{
+			curAnimation = AnimationIndex::Down;
+		}
+		else
+		{
+			if (velocity.x > 0.0f)
+			{
+				curAnimation = AnimationIndex::idleRight;
+			}
+			else if (velocity.x < 0.0f)
+			{
+				curAnimation = AnimationIndex::idleLeft;
+			}
+			else if (velocity.y < 0.0f)
+			{
+				curAnimation = AnimationIndex::idleUp;
+			}
+			else if (velocity.y > 0.0f)
+			{
+				curAnimation = AnimationIndex::idleDown;
+			}
+		}
+		velocity = dir * playerSpeed;
 	}
 	else
 	{
-		if (velocity.x > 0.0f)
+		if (dir.x > 0.0f)
 		{
-			curAnimation = AnimationIndex::idleRight;
+			curAnimation = AnimationIndex::mountRight;
 		}
-		else if (velocity.x < 0.0f)
+		else if (dir.x < 0.0f)
 		{
-			curAnimation = AnimationIndex::idleLeft;
+			curAnimation = AnimationIndex::mountLeft;
 		}
-		else if (velocity.y < 0.0f)
+		else if (dir.y < 0.0f)
 		{
-			curAnimation = AnimationIndex::idleUp;
+			curAnimation = AnimationIndex::mountUp;
 		}
-		else if (velocity.y > 0.0f)
+		else if (dir.y > 0.0f)
 		{
-			curAnimation = AnimationIndex::idleDown;
+			curAnimation = AnimationIndex::mountDown;
 		}
+		else
+		{
+			if (velocity.x > 0.0f)
+			{
+				curAnimation = AnimationIndex::mountIdleRight;
+			}
+			else if (velocity.x < 0.0f)
+			{
+				curAnimation = AnimationIndex::mountIdleLeft;
+			}
+			else if (velocity.y < 0.0f)
+			{
+				curAnimation = AnimationIndex::mountIdleUp;
+			}
+			else if (velocity.y > 0.0f)
+			{
+				curAnimation = AnimationIndex::mountIdleDown;
+			}
+		}
+		velocity = dir * playerSpeed;
 	}
-    velocity = dir * playerSpeed;
 }
 void Player::setVelocityX(float f)
 {
