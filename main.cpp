@@ -8,7 +8,6 @@
 #include "Monster.h"
 #include "Animation.h"
 #include "LifeBar.h"
-#include "EntitiesMap.h"
 
 using namespace sf;
 using namespace std;
@@ -30,7 +29,7 @@ int main()
              "> H       : Afficher les Hitboxes";
 
     int fpsCap              = 144;
-    float zoom              = 1;
+    float zoom              = 4;
     int windowWidth         = 1280;
     int windowHeight        = 720;
     int maxNbMonster        = 5;
@@ -69,11 +68,10 @@ int main()
         Monster *monster2 = new Monster(monsterTexture);
         monsterList.push_back(monster1);
         monsterList.push_back(monster2);
+        //Monster monster1(monsterTexture);
 
-        EntitiesMap Entitiesmap;
         //Monster *monster1 = new Monster(dim, monster1Hp, characterTexture, spawnPosM);
         //monster1->setSpeed(monsterSpeed);
-        bool isTouched = true;
 
         // VIEW
         sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(windowWidth, windowHeight));
@@ -105,7 +103,6 @@ int main()
                 {
                     case Keyboard::RControl:
                         isAttacking = true;
-                        isTouched = false;
                         break;
                     case Keyboard::H:
                         if (toggleHitBoxes) { toggleHitBoxes = false; }
@@ -195,9 +192,13 @@ int main()
         #pragma endregion
 
         #pragma region Update
+            
+            
+            
             player.update(dt, isSprinting, isAttacking);
-
-            Entitiesmap.updateMonsters(dt, player, isTouched);
+            monsterList[0]->update(dt, player, isAttacking);
+            
+            //monster1.update(dt, player, isTouched);
         #pragma endregion
 
         #pragma region Draw
@@ -212,9 +213,13 @@ int main()
                 map.drawMapBorders(window);
                 window.draw(pvertices, 4, Quads);
             }
-            Entitiesmap.drawMonsters(window);
+            
+            monsterList[0]->drawMonster(window);
             player.drawPlayer(window, isAttacking);
-
+            
+            
+            
+            //monster1.drawMonster(window);
             window.display();
         #pragma endregion
 
@@ -225,10 +230,15 @@ int main()
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
                          " Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
-                         "MPosition X | " + to_string(Entitiesmap.getMonsterList()[0]->getPosition().x) + "\n" +
-                         "MPosition Y | " + to_string(Entitiesmap.getMonsterList()[0]->getPosition().y) + "\n\n" +
-                         "MVelocity X | " + to_string(Entitiesmap.getMonsterList()[0]->getVelocity().x) + "\n" +
-                         "MVelocity Y | " + to_string(Entitiesmap.getMonsterList()[0]->getVelocity().y) + "\n" +
+
+                /*" Position X | " + to_string(monster1.getPosition().x) + "\n" +
+                         " Position Y | " + to_string(monster1.getPosition().y) + "\n\n" +
+                         " Velocity X | " + to_string(monster1.getVelocity().x) + "\n" +
+                         " Velocity Y | " + to_string(monster1.getVelocity().y) + "\n\n" +*/
+                         "MPosition X | " + to_string(monsterList[0]->getPosition().x) + "\n" +
+                         "MPosition Y | " + to_string(monsterList[0]->getPosition().y) + "\n\n" +
+                         "MVelocity X | " + to_string(monsterList[0]->getVelocity().x) + "\n" +
+                         "MVelocity Y | " + to_string(monsterList[0]->getVelocity().y) + "\n" +
                          "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             //*/
         #pragma endregion

@@ -13,8 +13,8 @@ class Weapon : public sf::Drawable
 		float getMaxAngle();
 		float getElapsedTime();
 		float getDmg();
-
-		void setDmg(int i);
+		
+		void setDmg(float i);
 		void setStartAngle(float f);
 		void setPosition(sf::Vector2f pos);
 

@@ -40,7 +40,7 @@ float Weapon::getDmg()
 	return dmg;
 }
 
-void Weapon::setDmg(int i)
+void Weapon::setDmg(float i)
 {
 	dmg = i;
 }
