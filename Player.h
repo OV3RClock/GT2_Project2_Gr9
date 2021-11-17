@@ -8,7 +8,7 @@
 class Player : public Entity 
 {
 	public:
-		Player(int dim, float hp, sf::Texture& texture, sf::Vector2f& pos, float dmgWeapons);
+		Player(int dim, float hp, sf::Texture& texture, sf::Texture& mountTexture, sf::Vector2f& pos, float dmgWeapons);
 		~Player();
 
 		float getSpeed();
@@ -40,6 +40,10 @@ class Player : public Entity
 			idleLeft,
 			idleDown,
 			idleRight,
+			mountUp,
+			mountLeft,
+			mountDown,
+			mountRight,
 			Count
 		};
 		float playerSpeed;

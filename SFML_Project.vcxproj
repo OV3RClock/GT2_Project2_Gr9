@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="EntitiesMap.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="LifeBar.cpp" />
     <ClCompile Include="main.cpp" />
@@ -137,6 +138,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="EntitiesMap.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="LifeBar.h" />
     <ClInclude Include="Monster.h" />

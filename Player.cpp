@@ -11,16 +11,16 @@
 using namespace sf;
 using namespace std;
 
-Player::Player(int dim, float hp, Texture& texture, Vector2f& pos, float dmgWeapons) : Entity(hp, pos), baguette(Weapon(dmgWeapons)), playerLifeBar(LifeBar(hp))
+Player::Player(int dim, float hp, Texture& texture, Texture& mountTexture, Vector2f& pos, float dmgWeapons) : Entity(hp, pos), baguette(Weapon(dmgWeapons)), playerLifeBar(LifeBar(hp))
 {
-	animations[(int)AnimationIndex::Up] = Animation(3 * dim, 3 * dim, dim, dim, 3, 0.1, texture);
-	animations[(int)AnimationIndex::Left] = Animation(3 * dim, 1 * dim, dim, dim, 3, 0.1, texture);
-	animations[(int)AnimationIndex::Down] = Animation(3 * dim, 0 * dim, dim, dim, 3, 0.1, texture);
-	animations[(int)AnimationIndex::Right] = Animation(3 * dim, 2 * dim, dim, dim, 3, 0.1, texture);
-	animations[(int)AnimationIndex::idleUp] = Animation(4 * dim, 3 * dim, dim, dim, 1, 10, texture);
-	animations[(int)AnimationIndex::idleLeft] = Animation(4 * dim, 1 * dim, dim, dim, 1, 10, texture);
-	animations[(int)AnimationIndex::idleDown] = Animation(4 * dim, 0 * dim, dim, dim, 1, 10, texture);
-	animations[(int)AnimationIndex::idleRight] = Animation(4 * dim, 2 * dim, dim, dim, 1, 10, texture);
+	animations[(int)AnimationIndex::Up] = Animation(0 * (3*dim), 3 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
+	animations[(int)AnimationIndex::Left] = Animation(0 * (3 * dim), 1 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
+	animations[(int)AnimationIndex::Down] = Animation(0 * (3 * dim), 0 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
+	animations[(int)AnimationIndex::Right] = Animation(0 * (3 * dim), 2 * (3 * dim), (3 * dim), (3 * dim), 3, 0.1, texture);
+	animations[(int)AnimationIndex::idleUp] = Animation(1 * (3 * dim), 3 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
+	animations[(int)AnimationIndex::idleLeft] = Animation(1 * (3 * dim), 1 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
+	animations[(int)AnimationIndex::idleDown] = Animation(1 * (3 * dim), 0 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
+	animations[(int)AnimationIndex::idleRight] = Animation(1 * (3 * dim), 2 * (3 * dim), (3 * dim), (3 * dim), 1, 10, texture);
 	sprite.setPosition(pos);
 }
 Player::~Player()
