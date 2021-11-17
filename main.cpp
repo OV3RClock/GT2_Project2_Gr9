@@ -14,21 +14,12 @@ using namespace std;
 
 // TODO
 // 
-// Epona
 // Inventaire
-// Despawn mob + drop d'objets
-// Fix hp mob quand premier contact ?? Aucune idée de pk
+// Drop d'objets
 // 
 
 int main()
 {
-    cout << "CONTROLES DISPONIBLES POUR LE MOMENT\n\n"
-              "> ZQSD    : Deplacement\n"
-              "> R_CTRL  : Degainer sa super baguette\n"
-              "> L_SHIFT : Fuir tres vite\n"
-              "> H       : Afficher les Hitboxes"
-              "> M       : Utiliser sa monture";
-
     int fpsCap              = 144;
     float zoom              = 4;
     int windowWidth         = 1280;
