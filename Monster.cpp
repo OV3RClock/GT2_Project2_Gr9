@@ -159,7 +159,8 @@ void Monster::normalize(Vector2f& vect)
 void Monster::update(float dt, Player& player, bool isAttacking)
 {
     
-    
+    if (getEntityHP() > 0)
+    {
         if (isHit(player, isAttacking))
         {
             if (elapsedHit > 1)
@@ -197,14 +198,13 @@ void Monster::update(float dt, Player& player, bool isAttacking)
         monsterLifeBar.setPosition(position.x, position.y - 6);
         elapsedTime += dt;
         elapsedHit += dt;
-        cout << player.getWeapon().getDmg() << "\n";
-    
-    
+        
+    }
 }
 void Monster::drawMonster(RenderWindow& rw)
 {
-    rw.draw(sprite);
-    rw.draw(monsterLifeBar);
+        rw.draw(monsterLifeBar);
+        rw.draw(sprite);
 }
 
 

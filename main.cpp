@@ -188,6 +188,42 @@ int main()
         #pragma endregion
 
         #pragma region Update
+            
+            
+            
+            
+
+            
+            /*for (int i = 0; i < monsterList.size(); i++)
+            {
+                if (monsterList[i]->isAlive())
+                {
+                    monsterList[i]->update(dt, player, isAttacking);
+                }
+                else
+                {
+                    monsterList.erase(monsterList.begin()+i);
+                }
+                
+    
+            }*/
+            for (auto& enemy : monsterList)
+            {
+                if (enemy->isAlive())
+                {
+                    enemy->update(dt, player, isAttacking);
+                }
+                else
+                {
+                    monsterList.erase(std::remove(monsterList.begin(), monsterList.end(), enemy), monsterList.end());
+                }
+
+
+            }
+
+            
+            
+            
             player.update(dt, isSprinting, isAttacking, isOnMount);
             monsterList[0]->update(dt, player, isAttacking);
             //monster1.update(dt, player, isTouched);
@@ -206,7 +242,14 @@ int main()
                 window.draw(pvertices, 4, Quads);
             }
             
-            monsterList[0]->drawMonster(window);
+            for (int i = 0; i < monsterList.size(); i++)
+            {
+                monsterList[i]->drawMonster(window);
+            }
+            
+            
+
+            
             player.drawPlayer(window, isAttacking);
             
             
@@ -216,23 +259,23 @@ int main()
         #pragma endregion
 
         #pragma region Debug
-            ///*
+            /*
             std::cout << "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
                          " Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
 
-                /*" Position X | " + to_string(monster1.getPosition().x) + "\n" +
+                /" Position X | " + to_string(monster1.getPosition().x) + "\n" +
                          " Position Y | " + to_string(monster1.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(monster1.getVelocity().x) + "\n" +
-                         " Velocity Y | " + to_string(monster1.getVelocity().y) + "\n\n" +*/
+                         " Velocity Y | " + to_string(monster1.getVelocity().y) + "\n\n" +
                          "MPosition X | " + to_string(monsterList[0]->getPosition().x) + "\n" +
                          "MPosition Y | " + to_string(monsterList[0]->getPosition().y) + "\n\n" +
                          "MVelocity X | " + to_string(monsterList[0]->getVelocity().x) + "\n" +
                          "MVelocity Y | " + to_string(monsterList[0]->getVelocity().y) + "\n" +
-                         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-            //*/
+                        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+            */
         #pragma endregion
 
         dt = clock.getElapsedTime().asSeconds();
