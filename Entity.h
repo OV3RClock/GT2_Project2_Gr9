@@ -7,7 +7,7 @@ class Entity
 		~Entity();
 
 		int getEntityHP();
-		bool isAlive(int entityHP);
+		bool isAlive();
 	protected:
 		sf::Sprite sprite;
 		sf::Vector2f position = { 0,0 };

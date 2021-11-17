@@ -155,43 +155,49 @@ void Monster::normalize(Vector2f& vect)
 }
 void Monster::update(float dt, Player& player, bool& isTouched)
 {
-
-    if (isHit(player))
+    if (isAlive())
     {
-        if (!isTouched)
+        if (isHit(player))
         {
-            this->takeDmg(player.getWeapon().getDmg());
-            isTouched = true;
+            if (!isTouched)
+            {
+                this->takeDmg(player.getWeapon().getDmg());
+                isTouched = true;
+            }
         }
-    }
-    if (monsterHitPlayer(player))
-    {
-        if (elapsedTime > 1.5)
+        if (monsterHitPlayer(player))
         {
-            player.takeDmg(10);
-            elapsedTime = 0;
+            if (elapsedTime > 1.5)
+            {
+                player.takeDmg(10);
+                elapsedTime = 0;
+            }
         }
-    }
-    moveToTarget(player.getPosition());
-    normalize(velocity);
-    setDirection();
-    if (isPlayerInRange(player.getPosition())) 
-    { 
-        animations[int(curAnimation)].update(dt);
-        animations[int(curAnimation)].applyToSprite(sprite);
-        sprite.move(velocity * 2.f * dt);
+        moveToTarget(player.getPosition());
+        normalize(velocity);
+        setDirection();
+        if (isPlayerInRange(player.getPosition()))
+        {
+            animations[int(curAnimation)].update(dt);
+            animations[int(curAnimation)].applyToSprite(sprite);
+            sprite.move(velocity * 2.f * dt);
 
+        }
+        else
+        {
+            animations[int(curAnimation)].update(dt);
+            animations[int(curAnimation)].applyToSprite(sprite);
+            sprite.move(velocity * dt);
+        }
+
+        position = sprite.getPosition();
+        monsterLifeBar.setPosition(position.x, position.y - 6);
+        elapsedTime += dt;
     }
-    else 
-    { 
-        animations[int(curAnimation)].update(dt);
-        animations[int(curAnimation)].applyToSprite(sprite);
-        sprite.move(velocity * dt); 
+    else
+    {
     }
     
-    position = sprite.getPosition();
-    monsterLifeBar.setPosition(position.x, position.y - 6);
-    elapsedTime += dt;
 }
 void Monster::drawMonster(RenderWindow& rw)
 {

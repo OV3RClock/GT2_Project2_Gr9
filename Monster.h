@@ -8,7 +8,7 @@
 class Monster : public Entity
 {
 	public:
-		Monster(int dim, float hp, sf::Texture& texture, sf::Vector2f pos);
+		Monster(sf::Texture& texture, sf::Vector2f pos);
 		~Monster();
 
 		float getSpeed();
@@ -35,6 +35,8 @@ class Monster : public Entity
 		
 	protected:
 		float monsterSpeed = 0;
+		int dim = 16;
+		float hp = 150;
 		int numberTarget = 0;
 		float elapsedTime = 0;
 		LifeBar monsterLifeBar;

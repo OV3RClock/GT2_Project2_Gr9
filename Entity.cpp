@@ -22,7 +22,7 @@ int Entity::getEntityHP()
 }
 
 
-bool Entity::isAlive(int entityHP)
+bool Entity::isAlive()
 {
 	return entityHP > 0;
 }
