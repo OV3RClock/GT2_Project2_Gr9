@@ -29,6 +29,8 @@ Monster::Monster(Texture& texture) : Entity(hp, pos), monsterLifeBar(LifeBar(hp)
     path.push_back(point2);
     target = point0;
 
+    entityHP = hp;
+
 }
 Monster::~Monster()
 {
