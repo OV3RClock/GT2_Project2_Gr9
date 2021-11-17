@@ -18,7 +18,8 @@ class Player : public Entity
 		Weapon getWeapon();
 
 		void setSpeed(float f);
-		void setDirection(sf::Vector2f& dir, bool isOnMount);
+		void setDirection(sf::Vector2f& dir);
+		void setDirection(sf::Vector2f& dir, float poussee, float masse, float angle, float friction, float dt);
 		void setVelocityX(float f);
 		void setVelocityY(float f);
 		void setHP(int i);

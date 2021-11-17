@@ -58,6 +58,13 @@ int main()
         Player player(dim, playerHp, spawnPos, 30);
         Vector2f playerDir = { 0,0 };
         player.setSpeed(playerSpeed);
+
+        const float pi = 3.14159265358979323846; 
+        float masse = 50.f;
+        float poussee = 0;
+        float angle = 0;
+        float friction = 60;
+
         bool isSprinting = false;
         bool isAttacking = false;
         bool isOnMount = false;
@@ -105,33 +112,49 @@ int main()
                         else { toggleHitBoxes = true; }
                         break;
                     case Keyboard::M:
-                        if (isOnMount) { isOnMount = false; }
-                        else { isOnMount = true; }
+                        if (isOnMount) { isOnMount = false; playerDir = { 0,0 }; }
+                        else { isOnMount = true; playerDir = { 0,0 }; }
                         break;
                 }
             }
             if (event.type == Event::KeyReleased)
             {
-                switch (event.key.code)
+                if (!isOnMount)
                 {
-                    case Keyboard::Z:
-                    case Keyboard::W:
-                        playerDir.y = 0;
-                        break;
-                    case Keyboard::Q:
-                    case Keyboard::A:
-                        playerDir.x = 0;
-                        break;
-                    case Keyboard::S:
-                        playerDir.y = 0;
-                        break;
-                    case Keyboard::D:
-                        playerDir.x = 0;
-                        break;
-                    case Keyboard::LShift:
-                        player.setSpeed(playerSpeed);
-                        isSprinting = false;
-                        break;
+                    switch (event.key.code)
+                    {
+                        case Keyboard::Z:
+                        case Keyboard::W:
+                            playerDir.y = 0;
+                            break;
+                        case Keyboard::Q:
+                        case Keyboard::A:
+                            playerDir.x = 0;
+                            break;
+                        case Keyboard::S:
+                            playerDir.y = 0;
+                            break;
+                        case Keyboard::D:
+                            playerDir.x = 0;
+                            break;
+                        case Keyboard::LShift:
+                            player.setSpeed(playerSpeed);
+                            isSprinting = false;
+                            break;
+                    }
+                }
+                if (isOnMount)
+                {
+                    switch (event.key.code)
+                    {
+                        case Keyboard::Z:
+                        case Keyboard::W:
+                            poussee = 0;
+                            break;
+                        case Keyboard::S:
+                            poussee = 0;
+                            break;
+                    }
                 }
             }
         }
@@ -144,8 +167,36 @@ int main()
         }
 
         #pragma region PlayerInput
-            if (Keyboard::isKeyPressed(Keyboard::LShift)) 
-            { 
+        if (isOnMount)
+        {
+            if (Keyboard::isKeyPressed(Keyboard::Z)) { poussee = 5000; }
+            if (Keyboard::isKeyPressed(Keyboard::W)) { poussee = 5000; }
+            if (Keyboard::isKeyPressed(Keyboard::Q)) { angle -= 5 * pi / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::A)) { angle -= 5 * pi / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::S)) { poussee = -500; }
+            if (Keyboard::isKeyPressed(Keyboard::D)) { angle += 5 * pi / 180; }
+
+            playerDir = { cos(angle), sin(angle) };
+
+            // TEST DE COLLISION
+            Vector2f newpos = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ playerDir.x, playerDir.y };
+            FloatRect newposRect = FloatRect(newpos.x - dim / 2, newpos.y - dim / 2, dim, dim);
+            for (int i = 0; i < borders.size(); i++)
+            {
+                if (newposRect.intersects(borders[i].getGlobalBounds()))
+                {
+                    player.setVelocityX(0);
+                    player.setVelocityY(0);
+                }
+            }
+
+            player.setDirection(playerDir, poussee, masse, angle, friction, dt);
+
+        }
+        else
+        {
+            if (Keyboard::isKeyPressed(Keyboard::LShift))
+            {
                 player.setSpeed(playerSprintSpeed);
                 isSprinting = true;
             }
@@ -157,17 +208,18 @@ int main()
             if (Keyboard::isKeyPressed(Keyboard::D)) { playerDir.x = 1; }
 
             // TEST DE COLLISION
-            Vector2f newpos = player.getPosition() + Vector2f{ ((float)dim/2),((float)dim/2) } + Vector2f{ playerDir.x, playerDir.y };
+            Vector2f newpos = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ playerDir.x, playerDir.y };
             FloatRect newposRect = FloatRect(newpos.x - dim / 2, newpos.y - dim / 2, dim, dim);
             for (int i = 0; i < borders.size(); i++)
             {
-                if (newposRect.intersects(borders[i].getGlobalBounds())) 
+                if (newposRect.intersects(borders[i].getGlobalBounds()))
                 {
                     playerDir = { 0,0 };
                 }
             }
 
-            player.setDirection(playerDir, isOnMount);
+            player.setDirection(playerDir);
+        }
         #pragma endregion
 
         #pragma region Hitboxes
@@ -185,28 +237,14 @@ int main()
                 Vertex(Vector2f(player.getPosition().x + dim, player.getPosition().y + dim), Color::Red),
                 Vertex(Vector2f(player.getPosition().x + dim, player.getPosition().y), Color::Red)
             };
+            Vertex playerDirectionIndicator[] =
+            {
+                Vertex(Vector2f(player.getPosition().x + 8, player.getPosition().y + 8), Color::Blue),
+                Vertex(Vector2f(((player.getPosition().x+8) + (playerDir.x)*20), ((player.getPosition().y+8) + (playerDir.y)*20)), Color::Blue)
+            };
         #pragma endregion
 
         #pragma region Update
-            
-            
-            
-            
-
-            
-            /*for (int i = 0; i < monsterList.size(); i++)
-            {
-                if (monsterList[i]->isAlive())
-                {
-                    monsterList[i]->update(dt, player, isAttacking);
-                }
-                else
-                {
-                    monsterList.erase(monsterList.begin()+i);
-                }
-                
-    
-            }*/
             for (auto& enemy : monsterList)
             {
                 if (enemy->isAlive())
@@ -217,16 +255,8 @@ int main()
                 {
                     monsterList.erase(std::remove(monsterList.begin(), monsterList.end(), enemy), monsterList.end());
                 }
-
-
             }
-
-            
-            
-            
             player.update(dt, isSprinting, isAttacking, isOnMount);
-            monsterList[0]->update(dt, player, isAttacking);
-            //monster1.update(dt, player, isTouched);
         #pragma endregion
 
         #pragma region Draw
@@ -246,14 +276,13 @@ int main()
             {
                 monsterList[i]->drawMonster(window);
             }
-            
-            
-
-            
+            if (isOnMount) 
+            {
+                window.draw(playerDirectionIndicator, 2, Lines);
+            }
             player.drawPlayer(window, isAttacking);
             
-            
-            
+
             //monster1.drawMonster(window);
             window.display();
         #pragma endregion
@@ -265,16 +294,11 @@ int main()
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
                          " Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
-
-                /" Position X | " + to_string(monster1.getPosition().x) + "\n" +
-                         " Position Y | " + to_string(monster1.getPosition().y) + "\n\n" +
-                         " Velocity X | " + to_string(monster1.getVelocity().x) + "\n" +
-                         " Velocity Y | " + to_string(monster1.getVelocity().y) + "\n\n" +
                          "MPosition X | " + to_string(monsterList[0]->getPosition().x) + "\n" +
                          "MPosition Y | " + to_string(monsterList[0]->getPosition().y) + "\n\n" +
                          "MVelocity X | " + to_string(monsterList[0]->getVelocity().x) + "\n" +
                          "MVelocity Y | " + to_string(monsterList[0]->getVelocity().y) + "\n" +
-                        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
             */
         #pragma endregion
 

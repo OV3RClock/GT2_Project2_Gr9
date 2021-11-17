@@ -68,48 +68,61 @@ void Player::setSpeed(float f)
 {
 	playerSpeed = f;
 }
-void Player::setDirection(sf::Vector2f& dir, bool isOnMount)
+void Player::setDirection(sf::Vector2f& dir)
 {
-	if (!isOnMount) 
+	curAnimation = AnimationIndex::idleDown;
+	if (dir.x > 0.0f)
 	{
-		if (dir.x > 0.0f)
+		curAnimation = AnimationIndex::Right;
+	}
+	else if (dir.x < 0.0f)
+	{
+		curAnimation = AnimationIndex::Left;
+	}
+	else if (dir.y < 0.0f)
+	{
+		curAnimation = AnimationIndex::Up;
+	}
+	else if (dir.y > 0.0f)
+	{
+		curAnimation = AnimationIndex::Down;
+	}
+	else
+	{
+		if (velocity.x > 0.0f)
 		{
-			curAnimation = AnimationIndex::Right;
+			curAnimation = AnimationIndex::idleRight;
 		}
-		else if (dir.x < 0.0f)
+		else if (velocity.x < 0.0f)
 		{
-			curAnimation = AnimationIndex::Left;
+			curAnimation = AnimationIndex::idleLeft;
 		}
-		else if (dir.y < 0.0f)
+		else if (velocity.y < 0.0f)
 		{
-			curAnimation = AnimationIndex::Up;
+			curAnimation = AnimationIndex::idleUp;
+		}
+		else if (velocity.y > 0.0f)
+		{
+			curAnimation = AnimationIndex::idleDown;
+		}
+	}
+	velocity = dir * playerSpeed;
+}
+void Player::setDirection(sf::Vector2f& dir, float poussee, float masse, float angle, float friction, float dt)
+{
+	curAnimation = AnimationIndex::mountIdleDown;
+	if (abs(dir.y) > abs(dir.x))
+	{
+		if (dir.y < 0.0f)
+		{
+			curAnimation = AnimationIndex::mountUp;
 		}
 		else if (dir.y > 0.0f)
 		{
-			curAnimation = AnimationIndex::Down;
+			curAnimation = AnimationIndex::mountDown;
 		}
-		else
-		{
-			if (velocity.x > 0.0f)
-			{
-				curAnimation = AnimationIndex::idleRight;
-			}
-			else if (velocity.x < 0.0f)
-			{
-				curAnimation = AnimationIndex::idleLeft;
-			}
-			else if (velocity.y < 0.0f)
-			{
-				curAnimation = AnimationIndex::idleUp;
-			}
-			else if (velocity.y > 0.0f)
-			{
-				curAnimation = AnimationIndex::idleDown;
-			}
-		}
-		velocity = dir * playerSpeed;
 	}
-	else
+	else if(abs(dir.y) < abs(dir.x))
 	{
 		if (dir.x > 0.0f)
 		{
@@ -119,35 +132,35 @@ void Player::setDirection(sf::Vector2f& dir, bool isOnMount)
 		{
 			curAnimation = AnimationIndex::mountLeft;
 		}
-		else if (dir.y < 0.0f)
+	} 
+	else if (abs(velocity.y) > abs(velocity.x))
+	{
+		if (velocity.y < 0.0f)
 		{
-			curAnimation = AnimationIndex::mountUp;
+			curAnimation = AnimationIndex::mountIdleUp;
 		}
-		else if (dir.y > 0.0f)
+		else if (velocity.y > 0.0f)
 		{
-			curAnimation = AnimationIndex::mountDown;
+			curAnimation = AnimationIndex::mountIdleDown;
 		}
-		else
-		{
-			if (velocity.x > 0.0f)
-			{
-				curAnimation = AnimationIndex::mountIdleRight;
-			}
-			else if (velocity.x < 0.0f)
-			{
-				curAnimation = AnimationIndex::mountIdleLeft;
-			}
-			else if (velocity.y < 0.0f)
-			{
-				curAnimation = AnimationIndex::mountIdleUp;
-			}
-			else if (velocity.y > 0.0f)
-			{
-				curAnimation = AnimationIndex::mountIdleDown;
-			}
-		}
-		velocity = dir * playerSpeed;
 	}
+	else
+	{
+		if (velocity.x > 0.0f)
+		{
+			curAnimation = AnimationIndex::mountIdleRight;
+		}
+		else if (velocity.x < 0.0f)
+		{
+			curAnimation = AnimationIndex::mountIdleLeft;
+		}
+	}
+
+	float accx = (1 / masse) * poussee * dir.x;
+	float accy = (1 / masse) * poussee * dir.y;
+
+	velocity.x = velocity.x + (accx - (friction / (masse) * velocity.x)) * dt;
+	velocity.y = velocity.y + (accy - (friction / (masse) * velocity.y)) * dt;
 }
 void Player::setVelocityX(float f)
 {
@@ -184,14 +197,14 @@ void Player::normalize(Vector2f& vect)
 }
 void Player::update(float dt, bool isSprinting, bool& isAttacking, bool isOnMount)
 {
-	normalize(velocity);
-	if (isOnMount) { sprite.setScale( (1.f/4.5f),(1.f/4.5f) ); }
-	else { sprite.setScale((1.f / 3.f), (1.f / 3.f)); }
+	if(!isOnMount){ normalize(velocity); }
     sprite.move(velocity * dt);
+	if (isOnMount) { sprite.setScale((1.f / 4.5f), (1.f / 4.5f)); }
+	else { sprite.setScale((1.f / 3.f), (1.f / 3.f)); }
 	position = sprite.getPosition();
 	baguette.update(dt, isAttacking);
 
-    if (isSprinting) 
+    if (isSprinting&&!isOnMount) 
     {
 		animations[int(curAnimation)].update(dt*2);
         animations[int(curAnimation)].applyToSprite(sprite);
