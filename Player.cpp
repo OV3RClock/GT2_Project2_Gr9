@@ -182,16 +182,18 @@ void Player::normalize(Vector2f& vect)
         vect.y = ((vect.y) / norme) * playerSpeed;
     }
 }
-void Player::update(float dt, bool isSprinting, bool& isAttacking)
+void Player::update(float dt, bool isSprinting, bool& isAttacking, bool isOnMount)
 {
-    normalize(velocity);
+	normalize(velocity);
+	if (isOnMount) { sprite.setScale( (1.f/4.5f),(1.f/4.5f) ); }
+	else { sprite.setScale((1.f / 3.f), (1.f / 3.f)); }
     sprite.move(velocity * dt);
 	position = sprite.getPosition();
 	baguette.update(dt, isAttacking);
 
     if (isSprinting) 
     {
-        animations[int(curAnimation)].update(dt*2);
+		animations[int(curAnimation)].update(dt*2);
         animations[int(curAnimation)].applyToSprite(sprite);
     }
     else

@@ -68,10 +68,6 @@ int main()
         Monster *monster2 = new Monster(monsterTexture);
         monsterList.push_back(monster1);
         monsterList.push_back(monster2);
-        //Monster monster1(monsterTexture);
-
-        //Monster *monster1 = new Monster(dim, monster1Hp, characterTexture, spawnPosM);
-        //monster1->setSpeed(monsterSpeed);
 
         // VIEW
         sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(windowWidth, windowHeight));
@@ -192,12 +188,8 @@ int main()
         #pragma endregion
 
         #pragma region Update
-            
-            
-            
-            player.update(dt, isSprinting, isAttacking);
+            player.update(dt, isSprinting, isAttacking, isOnMount);
             monsterList[0]->update(dt, player, isAttacking);
-            
             //monster1.update(dt, player, isTouched);
         #pragma endregion
 

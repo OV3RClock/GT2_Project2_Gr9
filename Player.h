@@ -26,7 +26,7 @@ class Player : public Entity
 		void takeDmg(int i);
 
 		void normalize(sf::Vector2f& velocity);
-		void update(float dt, bool isSprinting, bool& isAttacking );
+		void update(float dt, bool isSprinting, bool& isAttacking, bool isOnMount);
 		void drawPlayer(sf::RenderWindow& rw, bool isAttacking);
 
 	private:
