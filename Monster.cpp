@@ -93,9 +93,7 @@ bool Monster::isOnTarget(int i)
 
 bool Monster::isHit(Player& player, bool isAttacking)
 {
-    
-        return ((sprite.getGlobalBounds().intersects(player.getWeapon().getSprite().getGlobalBounds())) && isAttacking);
-        
+    return ((sprite.getGlobalBounds().intersects(player.getWeapon().getSprite().getGlobalBounds())) && isAttacking);
 }
 
 bool Monster::monsterHitPlayer(Player& player)
@@ -172,7 +170,7 @@ void Monster::normalize(Vector2f& vect)
         vect.y = ((vect.y) / norme) * monsterSpeed;
     }
 }
-void Monster::update(float dt, Player& player, bool isAttacking)
+void Monster::update(float dt, Player& player, bool isAttacking, Sound& sound)
 {
         moveToTarget(player.getPosition(), dt);
         normalize(velocity);
@@ -187,6 +185,7 @@ void Monster::update(float dt, Player& player, bool isAttacking)
             if (elapsedHit > 0.4)
             {
                 this->takeDmg(player.getWeapon().getDmg(), player);
+                sound.play();
                 elapsedHit = 0;
             }
         }

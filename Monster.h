@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Audio.hpp>
+
 #include "Entity.h"
 #include "Lifebar.h"
 #include "Player.h"
@@ -31,7 +33,7 @@ class Monster : public Entity
 		void takeDmg(float dmg, Player player);
 
 		void normalize(sf::Vector2f& velocity);
-		void update(float dt, Player& player, bool isAttacking);
+		void update(float dt, Player& player, bool isAttacking, sf::Sound& sound);
 		void drawMonster(sf::RenderWindow& rw);
 		
 	protected:
@@ -49,7 +51,6 @@ class Monster : public Entity
 		sf::Vector2f velocity;
 		sf::Vector2f target;
 		std::vector<sf::Vector2f> path;
-
 		enum class AnimationIndex
 		{
 			Up,

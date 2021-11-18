@@ -25,14 +25,19 @@ void game(int fpsCap, float zoom, float windowWidth, float windowHeight, float p
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
 
+        // MUSIC
+        Music music;
+        music.openFromFile("assets/Island.ogg");
+        music.setVolume(50.f);
+        music.setLoop(true);
+        music.play();
+
         // SOUND
         SoundBuffer buffer;
-        buffer.loadFromFile("assets/Island.ogg");
+        buffer.loadFromFile("assets/hit.ogg");
         Sound sound;
         sound.setBuffer(buffer);
         sound.setVolume(50.f);
-        sound.setLoop(true);
-        sound.play();
 
         // TEXTURE
         Texture monsterTexture;
@@ -255,7 +260,7 @@ void game(int fpsCap, float zoom, float windowWidth, float windowHeight, float p
             {
                 if (monsterList[i]->isAlive())
                 {
-                    monsterList[i]->update(dt, player, isAttacking);
+                    monsterList[i]->update(dt, player, isAttacking, sound);
                 }
                 else
                 {
@@ -352,7 +357,7 @@ int main()
         int monsterQuantity = 5;
         Vector2f spawnPos = { 416,196 };
     #pragma endregion
-       
+
     game(fpsCap, zoom, windowWidth, windowHeight, playerHp, playerSpeed, playerSprintSpeed, spawnPos, monsterQuantity);
 
     #pragma region Endgame
@@ -360,13 +365,11 @@ int main()
         window.setKeyRepeatEnabled(false);
         window.setFramerateLimit(fpsCap);
         
-        SoundBuffer buffer;
-        buffer.loadFromFile("assets/End Credits.ogg");
-        Sound sound;
-        sound.setBuffer(buffer);
-        sound.setVolume(50.f);
-        sound.setLoop(true);
-        sound.play();
+        Music music;
+        music.openFromFile("assets/End Credits.ogg");
+        music.setVolume(50.f);
+        music.setLoop(true);
+        music.play();
 
         Texture endCreditTexture;
         endCreditTexture.loadFromFile("assets/sky.png");
