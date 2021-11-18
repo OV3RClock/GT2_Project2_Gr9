@@ -33,11 +33,23 @@ void game(int fpsCap, float zoom, float windowWidth, float windowHeight, float p
         music.play();
 
         // SOUND
-        SoundBuffer buffer;
-        buffer.loadFromFile("assets/hit.ogg");
-        Sound sound;
-        sound.setBuffer(buffer);
-        sound.setVolume(50.f);
+        SoundBuffer hitBuffer;
+        hitBuffer.loadFromFile("assets/hit.ogg");
+        Sound hitSound;
+        hitSound.setBuffer(hitBuffer);
+        hitSound.setVolume(50.f);
+
+        SoundBuffer collectBuffer;
+        collectBuffer.loadFromFile("assets/collectItem.ogg");
+        Sound collectSound;
+        collectSound.setBuffer(collectBuffer);
+        collectSound.setVolume(100.f);
+
+        SoundBuffer potionBuffer;
+        potionBuffer.loadFromFile("assets/potion.ogg");
+        Sound potionSound;
+        potionSound.setBuffer(potionBuffer);
+        potionSound.setVolume(50.f);
 
         // TEXTURE
         Texture monsterTexture;
@@ -117,6 +129,7 @@ void game(int fpsCap, float zoom, float windowWidth, float windowHeight, float p
                         {
                             while (player.getInventory()[i] != nullptr) { i++; }
                             player.setHP(player.getEntityHP() + player.getInventory().at(i - 1)->getHealAmount());
+                            potionSound.play();
                             player.removeItem(i - 1);
                         }
                     }
@@ -260,7 +273,7 @@ void game(int fpsCap, float zoom, float windowWidth, float windowHeight, float p
             {
                 if (monsterList[i]->isAlive())
                 {
-                    monsterList[i]->update(dt, player, isAttacking, sound);
+                    monsterList[i]->update(dt, player, isAttacking, hitSound);
                 }
                 else
                 {
@@ -281,6 +294,7 @@ void game(int fpsCap, float zoom, float windowWidth, float windowHeight, float p
                         if (player.getInventory()[j] == nullptr)
                         {
                             player.addItem(mapItemList[i], j);
+                            collectSound.play();
                             mapItemList.erase(mapItemList.begin() + i);
                             break;
                         }
