@@ -204,6 +204,7 @@ void Player::takeDmg(int i)
 	{
 		playerLifeBar.setValue(entityHP);
 	}
+
 }
 
 void Player::normalize(Vector2f& vect)

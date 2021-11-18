@@ -28,7 +28,7 @@ class Monster : public Entity
 		void setDirection();
 
 		void moveToTarget(sf::Vector2f& player, float dt);
-		void takeDmg(float dmg);
+		void takeDmg(float dmg, Player player);
 
 		void normalize(sf::Vector2f& velocity);
 		void update(float dt, Player& player, bool isAttacking);

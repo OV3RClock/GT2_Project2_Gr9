@@ -80,7 +80,7 @@ void Monster::setHP(int i)
 bool Monster::isPlayerInRange(Vector2f& player)
 {
     return sqrt((player.x - sprite.getPosition().x) * (player.x - sprite.getPosition().x)
-        + (player.y - sprite.getPosition().y) * (player.y - sprite.getPosition().y)) <= 50;
+        + (player.y - sprite.getPosition().y) * (player.y - sprite.getPosition().y)) <= 100;
 }
 bool Monster::isOnTarget(int i)
 {
@@ -154,7 +154,7 @@ void Monster::moveToTarget(Vector2f& player, float dt)
     velocity = target - sprite.getPosition();
 }
 
-void Monster::takeDmg(float dmg)
+void Monster::takeDmg(float dmg, Player player)
 {
     this->entityHP -= dmg;
     
@@ -162,6 +162,7 @@ void Monster::takeDmg(float dmg)
     {
         monsterLifeBar.setValue(entityHP);
     }
+    sprite.move( sprite.getPosition().x - player.getPosition().x, sprite.getPosition().y - player.getPosition().y);
 }
 
 void Monster::normalize(Vector2f& vect)
@@ -187,7 +188,7 @@ void Monster::update(float dt, Player& player, bool isAttacking)
         {
             if (elapsedHit > 0.4)
             {
-                this->takeDmg(player.getWeapon().getDmg());
+                this->takeDmg(player.getWeapon().getDmg(), player);
                 elapsedHit = 0;
             }
         }
