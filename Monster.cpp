@@ -129,7 +129,7 @@ void Monster::setDirection()
     }
 }
 
-void Monster::moveToTarget(Vector2f& player)
+void Monster::moveToTarget(Vector2f& player, float dt)
 {
     if (isPlayerInRange(player)) 
     { 
@@ -139,11 +139,18 @@ void Monster::moveToTarget(Vector2f& player)
     {
         if (isOnTarget(numberTarget))
         {
-            if (numberTarget >= path.size() - 1) { numberTarget = 0;  target = path[numberTarget]; }
-            else { numberTarget++; target = path[numberTarget]; }
+            if (elapsedPause > 1.5)
+            {
+                if (numberTarget >= path.size() - 1) { numberTarget = 0;  target = path[numberTarget]; }
+                else { numberTarget++; target = path[numberTarget]; }
+                elapsedPause = 0;
+            }
+
+            elapsedPause += dt;
         }
         else { target = path[numberTarget]; }
     }
+    
     velocity = target - sprite.getPosition();
 }
 
@@ -168,7 +175,7 @@ void Monster::normalize(Vector2f& vect)
 }
 void Monster::update(float dt, Player& player, bool isAttacking)
 {
-        moveToTarget(player.getPosition());
+        moveToTarget(player.getPosition(), dt);
         normalize(velocity);
         setDirection();
         animations[int(curAnimation)].update(dt);

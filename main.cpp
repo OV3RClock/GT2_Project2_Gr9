@@ -31,7 +31,7 @@ int main()
     float monster1Hp        = 150;
     float playerSpeed       = 100;
     float playerSprintSpeed = 200;
-    int monsterQuantity     = 8;
+    int monsterQuantity     = 1;
     Vector2f spawnPos       = { 416,196 };
 
     #pragma region INIT

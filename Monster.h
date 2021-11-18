@@ -27,7 +27,7 @@ class Monster : public Entity
 		bool monsterHitPlayer(Player& player);
 		void setDirection();
 
-		void moveToTarget(sf::Vector2f& player);
+		void moveToTarget(sf::Vector2f& player, float dt);
 		void takeDmg(float dmg);
 
 		void normalize(sf::Vector2f& velocity);
@@ -41,6 +41,7 @@ class Monster : public Entity
 		int numberTarget = 0;
 		float elapsedTime = 0;
 		float elapsedHit = 0;
+		float elapsedPause = 0;
 		LifeBar monsterLifeBar;
 		sf::Vector2f pos = { 300 , 420 };
 		sf::Vector2f zoneMin ;
