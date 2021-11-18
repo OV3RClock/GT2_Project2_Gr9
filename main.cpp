@@ -8,28 +8,30 @@
 #include "Monster.h"
 #include "Animation.h"
 #include "LifeBar.h"
+#include "Inventory.h"
+#include "Item.h"
 
 using namespace sf;
 using namespace std;
 
 // TODO
 // 
-// Inventaire
-// Drop d'objets
+// Tempo mob sur path
+// Game over
 // 
 
 int main()
 {
     int fpsCap              = 144;
-    float zoom              = 4;
-    int windowWidth         = 1280;
-    int windowHeight        = 720;
-    int maxNbMonster        = 5;
-
+    float zoom              = 5;
+    float windowWidth       = 1280;
+    float windowHeight      = 720;
+    
     float playerHp          = 200;
     float monster1Hp        = 150;
     float playerSpeed       = 100;
     float playerSprintSpeed = 200;
+    int monsterQuantity     = 8;
     Vector2f spawnPos       = { 416,196 };
 
     #pragma region INIT
@@ -49,7 +51,7 @@ int main()
         Vector2f playerDir = { 0,0 };
         player.setSpeed(playerSpeed);
 
-        const float pi = 3.14159265358979323846; 
+        const float PI = 3.14159265358979323846; 
         float masse = 500;
         float poussee = 0;
         float angle = 0;
@@ -61,10 +63,15 @@ int main()
 
         // MONSTER
         vector<Monster*> monsterList;
-        Monster *monster1 = new Monster(monsterTexture);
-        Monster *monster2 = new Monster(monsterTexture);
-        monsterList.push_back(monster1);
-        monsterList.push_back(monster2);
+        for (int i = 0; i < monsterQuantity; i++)
+        {
+            Monster* monster = new Monster(monsterTexture);
+            monsterList.push_back(monster);
+        }
+
+        // INVENTORY
+        Inventory playerInventory(player, dim);
+        vector<Item*> mapItemList;
 
         // VIEW
         sf::View view(Vector2f(player.getPosition().x + (float)(dim / 2),player.getPosition().y + (float)(dim / 2)), Vector2f(windowWidth, windowHeight));
@@ -104,6 +111,21 @@ int main()
                     case Keyboard::M:
                         if (isOnMount) { isOnMount = false; player.setDirection(playerDir); playerDir = { 0,0 }; }
                         else { isOnMount = true; player.setDirection(playerDir); playerDir = { 0,0 }; }
+                        break;
+                    case Keyboard::P:
+                        if (player.getEntityHP() < 200)
+                        {
+                            int i = 0;
+                            if (player.getInventory()[i] != 0)
+                            {
+                                while (player.getInventory()[i] != nullptr)
+                                {
+                                    i++;
+                                }
+                                player.setHP(player.getEntityHP() + player.getInventory().at(i - 1)->getHealAmount());
+                                player.removeItem(i - 1);
+                            }
+                        }
                         break;
                 }
             }
@@ -161,10 +183,10 @@ int main()
         {
             if (Keyboard::isKeyPressed(Keyboard::Z)) { poussee = 50000; }
             if (Keyboard::isKeyPressed(Keyboard::W)) { poussee = 50000; }
-            if (Keyboard::isKeyPressed(Keyboard::Q)) { angle -= 2 * pi / 180; }
-            if (Keyboard::isKeyPressed(Keyboard::A)) { angle -= 2 * pi / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::Q)) { angle -= 2 * PI / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::A)) { angle -= 2 * PI / 180; }
             if (Keyboard::isKeyPressed(Keyboard::S)) { poussee = -500; }
-            if (Keyboard::isKeyPressed(Keyboard::D)) { angle += 2 * pi / 180; }
+            if (Keyboard::isKeyPressed(Keyboard::D)) { angle += 2 * PI / 180; }
 
             playerDir = { cos(angle), sin(angle) };
 
@@ -239,35 +261,68 @@ int main()
         #pragma endregion
 
         #pragma region Update
-            for (auto& enemy : monsterList)
+            // MONSTER
+            for (int i = 0; i<monsterList.size(); i++)
             {
-                if (enemy->isAlive())
+                if (monsterList[i]->isAlive())
                 {
-                    enemy->update(dt, player, isAttacking);
+                    monsterList[i]->update(dt, player, isAttacking);
                 }
                 else
                 {
-                    monsterList.erase(std::remove(monsterList.begin(), monsterList.end(), enemy), monsterList.end());
+                    Item* item = new Item();
+                    item->setPosition(monsterList[i]->getPosition());
+                    mapItemList.push_back(item);
+                    monsterList.erase(monsterList.begin() + i);
                 }
             }
+            
+            // ITEM
+            for (int i = 0; i < mapItemList.size(); i++)
+            {
+                if (player.getSprite().getGlobalBounds().intersects(mapItemList[i]->getSprite().getGlobalBounds()))
+                {
+                    for (int j = 0; j < player.getInventory().size(); j++)
+                    {
+                        if (player.getInventory()[j] == nullptr)
+                        {
+                            player.addItem(mapItemList[i],j);
+                            mapItemList.erase(mapItemList.begin() + i);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // PLAYER
             player.update(dt, isSprinting, isAttacking, isOnMount);
         #pragma endregion
 
         #pragma region Draw
             window.clear();
 
+            // VIEW
             view.setCenter(Vector2f(player.getPosition().x + (float)(dim/2), player.getPosition().y + (float)(dim/2)));
             window.setView(view);
 
+            // MAP
             map.drawTilemap(window);
 
+            // DEBUG MODE
             if (toggleHitBoxes) { map.drawMapBorders(window); window.draw(pvertices, 4, Quads); }
 
+            // MONSTER
             for (int i = 0; i < monsterList.size(); i++) { monsterList[i]->drawMonster(window); }
 
+            // ITEM
+            for (int i = 0; i < mapItemList.size(); i++) { mapItemList[i]->drawItem(window); }
+
+            // PLAYER
             if (isOnMount) { window.draw(playerDirectionIndicator, 2, Lines); }
             player.drawPlayer(window, isAttacking);
-            
+            playerInventory.update(player, dim, window,windowWidth,windowHeight,zoom);
+            playerInventory.drawInventory(window);
+
             window.display();
         #pragma endregion
 
@@ -284,8 +339,9 @@ int main()
                          "> R_CTRL  : Degainer sa super baguette\n" +
                          "> L_SHIFT : Fuir tres vite\n" +
                          "> H       : Afficher les Hitboxes\n" +
-                         "> M       : Utiliser sa monture" +
-                         "\n\n\n\n\n\n\n\n\n\n\n\n\n";
+                         "> M       : Utiliser sa monture\n" + 
+                         "> P       : Utiliser une potion" +
+                         "\n\n\n\n\n\n\n\n\n\n\n\n";
             //*/
         #pragma endregion
 

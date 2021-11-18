@@ -7,6 +7,7 @@
 #include "Animation.h"
 #include "Weapon.h"
 #include "LifeBar.h"
+#include "Item.h"
 
 using namespace sf;
 using namespace std;
@@ -35,6 +36,8 @@ Player::Player(int dim, float hp, Vector2f& pos, float dmgWeapon) : Entity(hp, p
 	animations[(int)AnimationIndex::mountIdleLeft] = Animation(1 * 72, 1 * 72, 72, 72, 1, 10, mountTexture);
 	animations[(int)AnimationIndex::mountIdleDown] = Animation(1 * 72, 0 * 72, 72, 72, 1, 10, mountTexture);
 	animations[(int)AnimationIndex::mountIdleRight] = Animation(1 * 72, 2 * 72, 72, 72, 1, 10, mountTexture);
+	
+	playerInventory = vector<Item*>(8);
 
 	sprite.setPosition(pos);
 }
@@ -58,11 +61,13 @@ Vector2f Player::getVelocity()
 {
     return velocity;
 }
-
-
 Weapon Player::getWeapon()
 {
 	return baguette;
+}
+vector<Item*> Player::getInventory()
+{
+	return playerInventory;
 }
 
 void Player::setSpeed(float f)
@@ -173,8 +178,22 @@ void Player::setVelocityY(float f)
 }
 void Player::setHP(int i)
 {
-    entityHP = i;
-    playerLifeBar.setValue(entityHP);
+	if (i > 200)
+	{
+		i = 200;
+	}
+	entityHP = i;
+	playerLifeBar.setValue(entityHP);
+
+}
+
+void Player::addItem(Item* i, int position)
+{
+	playerInventory.at(position) = i;
+}
+void Player::removeItem(int position)
+{
+	playerInventory.at(position) = nullptr;
 }
 
 void Player::takeDmg(int i)

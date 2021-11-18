@@ -1,9 +1,14 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <iostream>
+#include <string>
+
 #include "Entity.h"
 #include "Lifebar.h"
 #include "Animation.h"
 #include "Weapon.h"
+#include "Item.h"
 
 class Player : public Entity 
 {
@@ -16,6 +21,7 @@ class Player : public Entity
 		sf::Vector2f Player::getPosition();
 		sf::Vector2f getVelocity();
 		Weapon getWeapon();
+		std::vector<Item*> getInventory();
 
 		void setSpeed(float f);
 		void setDirection(sf::Vector2f& dir);
@@ -23,6 +29,9 @@ class Player : public Entity
 		void setVelocityX(float f);
 		void setVelocityY(float f);
 		void setHP(int i);
+
+		void addItem(Item* i, int position);
+		void removeItem(int position);
 
 		void takeDmg(int i);
 
@@ -55,6 +64,7 @@ class Player : public Entity
 		sf::Vector2f velocity = { 0,0 };
 		Weapon baguette;
 		LifeBar playerLifeBar;
+		std::vector<Item*> playerInventory;
 		Animation animations[int(AnimationIndex::Count)];
 		AnimationIndex curAnimation = AnimationIndex::idleDown;
 };
