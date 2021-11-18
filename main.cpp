@@ -14,21 +14,12 @@ using namespace std;
 
 // TODO
 // 
-// Epona
 // Inventaire
-// Despawn mob + drop d'objets
-// Fix hp mob quand premier contact ?? Aucune idée de pk
+// Drop d'objets
 // 
 
 int main()
 {
-    //cout << "CONTROLES DISPONIBLES POUR LE MOMENT\n\n"
-              "> ZQSD    : Deplacement\n"
-              "> R_CTRL  : Degainer sa super baguette\n"
-              "> L_SHIFT : Fuir tres vite\n"
-              "> H       : Afficher les Hitboxes"
-              "> M       : Utiliser sa monture";
-
     int fpsCap              = 144;
     float zoom              = 4;
     int windowWidth         = 1280;
@@ -39,9 +30,7 @@ int main()
     float monster1Hp        = 150;
     float playerSpeed       = 100;
     float playerSprintSpeed = 200;
-    float monsterSpeed      = 30;
     Vector2f spawnPos       = { 416,196 };
-    Vector2f spawnPosM      = { 300,420 };
 
     #pragma region INIT
 
@@ -61,10 +50,10 @@ int main()
         player.setSpeed(playerSpeed);
 
         const float pi = 3.14159265358979323846; 
-        float masse = 50.f;
+        float masse = 500;
         float poussee = 0;
         float angle = 0;
-        float friction = 60;
+        float friction = 500;
 
         bool isSprinting = false;
         bool isAttacking = false;
@@ -106,7 +95,7 @@ int main()
                 switch (event.key.code)
                 {
                     case Keyboard::RControl:
-                        isAttacking = true;
+                        if (!isOnMount) { isAttacking = true; }
                         break;
                     case Keyboard::H:
                         if (toggleHitBoxes) { toggleHitBoxes = false; }
@@ -170,8 +159,8 @@ int main()
         #pragma region PlayerInput
         if (isOnMount)
         {
-            if (Keyboard::isKeyPressed(Keyboard::Z)) { poussee = 5000; }
-            if (Keyboard::isKeyPressed(Keyboard::W)) { poussee = 5000; }
+            if (Keyboard::isKeyPressed(Keyboard::Z)) { poussee = 50000; }
+            if (Keyboard::isKeyPressed(Keyboard::W)) { poussee = 50000; }
             if (Keyboard::isKeyPressed(Keyboard::Q)) { angle -= 2 * pi / 180; }
             if (Keyboard::isKeyPressed(Keyboard::A)) { angle -= 2 * pi / 180; }
             if (Keyboard::isKeyPressed(Keyboard::S)) { poussee = -500; }
@@ -180,13 +169,18 @@ int main()
             playerDir = { cos(angle), sin(angle) };
 
             // TEST DE COLLISION
-            Vector2f newpos = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ playerDir.x, playerDir.y };
-            FloatRect newposRect = FloatRect(newpos.x - dim / 2, newpos.y - dim / 2, dim, dim);
+            Vector2f newposX = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ playerDir.x,0 };
+            Vector2f newposY = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ 0,playerDir.y };
+            FloatRect newposRectX = FloatRect(newposX.x - dim / 2, newposX.y - dim / 2, dim, dim);
+            FloatRect newposRectY = FloatRect(newposY.x - dim / 2, newposY.y - dim / 2, dim, dim);
             for (int i = 0; i < borders.size(); i++)
             {
-                if (newposRect.intersects(borders[i].getGlobalBounds()))
+                if (newposRectX.intersects(borders[i].getGlobalBounds()))
                 {
                     player.setVelocityX(0);
+                }
+                if (newposRectY.intersects(borders[i].getGlobalBounds()))
+                {
                     player.setVelocityY(0);
                 }
             }
@@ -209,13 +203,19 @@ int main()
             if (Keyboard::isKeyPressed(Keyboard::D)) { playerDir.x = 1; }
 
             // TEST DE COLLISION
-            Vector2f newpos = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ playerDir.x, playerDir.y };
-            FloatRect newposRect = FloatRect(newpos.x - dim / 2, newpos.y - dim / 2, dim, dim);
+            Vector2f newposX = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ playerDir.x,0 };
+            Vector2f newposY = player.getPosition() + Vector2f{ ((float)dim / 2),((float)dim / 2) } + Vector2f{ 0,playerDir.y };
+            FloatRect newposRectX = FloatRect(newposX.x - dim / 2, newposX.y - dim / 2, dim, dim);
+            FloatRect newposRectY = FloatRect(newposY.x - dim / 2, newposY.y - dim / 2, dim, dim);
             for (int i = 0; i < borders.size(); i++)
             {
-                if (newposRect.intersects(borders[i].getGlobalBounds()))
+                if (newposRectX.intersects(borders[i].getGlobalBounds()))
                 {
-                    playerDir = { 0,0 };
+                    playerDir.x = 0;
+                }
+                if (newposRectY.intersects(borders[i].getGlobalBounds()))
+                {
+                    playerDir.y = 0;
                 }
             }
 
@@ -224,13 +224,6 @@ int main()
         #pragma endregion
 
         #pragma region Hitboxes
-            /*Vertex vertices[] =
-            {
-                Vertex(monster1->getTarget(), Color::Red),
-                Vertex(Vector2f(monster1->getTarget().x, monster1->getTarget().y + dim), Color::Red),
-                Vertex(Vector2f(monster1->getTarget().x + dim, monster1->getTarget().y + dim), Color::Red),
-                Vertex(Vector2f(monster1->getTarget().x + dim, monster1->getTarget().y), Color::Red)
-            };*/
             Vertex pvertices[] = 
             { 
                 Vertex(player.getPosition(), Color::Red),
@@ -267,44 +260,35 @@ int main()
             window.setView(view);
 
             map.drawTilemap(window);
-            if (toggleHitBoxes) 
-            {
-                map.drawMapBorders(window);
-                window.draw(pvertices, 4, Quads);
-            }
-            
-            for (int i = 0; i < monsterList.size(); i++)
-            {
-                monsterList[i]->drawMonster(window);
-            }
-            if (isOnMount) 
-            {
-                window.draw(playerDirectionIndicator, 2, Lines);
-            }
+
+            if (toggleHitBoxes) { map.drawMapBorders(window); window.draw(pvertices, 4, Quads); }
+
+            for (int i = 0; i < monsterList.size(); i++) { monsterList[i]->drawMonster(window); }
+
+            if (isOnMount) { window.draw(playerDirectionIndicator, 2, Lines); }
             player.drawPlayer(window, isAttacking);
             
-
-            //monster1.drawMonster(window);
             window.display();
         #pragma endregion
 
-        #pragma region Debug
-            cout << 1 / dt << "\n";
-            /*
-            std::cout << "         dt | " + to_string(dt) + "\n\n" +
+        #pragma region Console
+            ///*
+            std::cout << "        fps | " + to_string(int(1/dt)) + "\n" +
+                         "         dt | " + to_string(dt) + "\n\n" +
                          " Position X | " + to_string(player.getPosition().x) + "\n" +
                          " Position Y | " + to_string(player.getPosition().y) + "\n\n" +
                          " Velocity X | " + to_string(player.getVelocity().x) + "\n" +
                          " Velocity Y | " + to_string(player.getVelocity().y) + "\n\n" +
-                         "MPosition X | " + to_string(monsterList[0]->getPosition().x) + "\n" +
-                         "MPosition Y | " + to_string(monsterList[0]->getPosition().y) + "\n\n" +
-                         "MVelocity X | " + to_string(monsterList[0]->getVelocity().x) + "\n" +
-                         "MVelocity Y | " + to_string(monsterList[0]->getVelocity().y) + "\n" +
-                         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-            */
+                         "CONTROLES DISPONIBLES POUR LE MOMENT\n\n" +
+                         "> ZQSD    : Deplacement\n" +
+                         "> R_CTRL  : Degainer sa super baguette\n" +
+                         "> L_SHIFT : Fuir tres vite\n" +
+                         "> H       : Afficher les Hitboxes\n" +
+                         "> M       : Utiliser sa monture" +
+                         "\n\n\n\n\n\n\n\n\n\n\n\n\n";
+            //*/
         #pragma endregion
-        
-        cout << 1 / dt << "\n";
+
         dt = clock.getElapsedTime().asSeconds();
     }
 }

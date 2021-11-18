@@ -168,30 +168,17 @@ void Monster::normalize(Vector2f& vect)
 }
 void Monster::update(float dt, Player& player, bool isAttacking)
 {
-    
-    
-        
         moveToTarget(player.getPosition());
         normalize(velocity);
         setDirection();
-        if (isPlayerInRange(player.getPosition()))
-        {
-            animations[int(curAnimation)].update(dt);
-            animations[int(curAnimation)].applyToSprite(sprite);
-            sprite.move(velocity * 2.f * dt);
-
-        }
-        else
-        {
-            animations[int(curAnimation)].update(dt);
-            animations[int(curAnimation)].applyToSprite(sprite);
-            sprite.move(velocity * dt);
-        }
+        animations[int(curAnimation)].update(dt);
+        animations[int(curAnimation)].applyToSprite(sprite);
+        sprite.move(velocity * dt);
 
         position = sprite.getPosition();
         if (isHit(player, isAttacking))
         {
-            if (elapsedHit > 1)
+            if (elapsedHit > 0.4)
             {
                 this->takeDmg(player.getWeapon().getDmg());
                 elapsedHit = 0;

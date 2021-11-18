@@ -35,7 +35,7 @@ class Monster : public Entity
 		void drawMonster(sf::RenderWindow& rw);
 		
 	protected:
-		float monsterSpeed = 25;
+		float monsterSpeed = 20;
 		int dim = 16;
 		float hp = 150;
 		int numberTarget = 0;
