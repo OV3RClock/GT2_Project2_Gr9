@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include <random>
 
 #include "Entity.h"
 #include "Monster.h"
@@ -21,19 +22,27 @@ Monster::Monster(Texture& texture) : Entity(hp, pos), monsterLifeBar(LifeBar(hp)
     sprite.setTextureRect(IntRect(10 * dim, 0, dim, dim));
     sprite.setPosition({ 300 , 420 });
 
-    Vector2f point0 = { 300,420 };
-    Vector2f point1 = { 530,360 };
-    Vector2f point2 = { 440,480 };
+    Vector2f zoneMin = { pos.x - 100 , pos.y - 100 };
+    Vector2f zoneMax = { pos.x + 100 , pos.y + 100 };
+    Vector2f point0 = { (random_float(zoneMin.x, zoneMax.x)) ,(random_float(zoneMin.y, zoneMax.y)) };
+    Vector2f point1 = { (random_float(zoneMin.x, zoneMax.x)) ,(random_float(zoneMin.y, zoneMax.y)) };
+    Vector2f point2 = { (random_float(zoneMin.x, zoneMax.x)) ,(random_float(zoneMin.y, zoneMax.y)) };
     path.push_back(point0);
     path.push_back(point1);
     path.push_back(point2);
     target = point0;
+
 
     entityHP = hp;
 
 }
 Monster::~Monster()
 {
+}
+
+float Monster::random_float(float min, float max)
+{
+    return ((float)rand() / RAND_MAX) * (max - min) + min;
 }
 
 float Monster::getSpeed()
@@ -48,6 +57,7 @@ Vector2f Monster::getPosition()
 {
     return position;
 }
+
 Sprite Monster::getSprite()
 {
     return sprite;

@@ -246,7 +246,7 @@ int main()
         #pragma endregion
 
         #pragma region Update
-            /*for (auto& enemy : monsterList)
+            for (auto& enemy : monsterList)
             {
                 if (enemy->isAlive())
                 {
@@ -256,7 +256,7 @@ int main()
                 {
                     monsterList.erase(std::remove(monsterList.begin(), monsterList.end(), enemy), monsterList.end());
                 }
-            }*/
+            }
             player.update(dt, isSprinting, isAttacking, isOnMount);
         #pragma endregion
 

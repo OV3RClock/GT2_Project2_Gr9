@@ -11,6 +11,7 @@ class Monster : public Entity
 		Monster(sf::Texture& texture);
 		~Monster();
 
+		float random_float(float min, float max);
 		float getSpeed();
 		sf::Vector2f getVelocity();
 		sf::Vector2f getPosition();
@@ -42,6 +43,8 @@ class Monster : public Entity
 		float elapsedHit = 0;
 		LifeBar monsterLifeBar;
 		sf::Vector2f pos = { 300 , 420 };
+		sf::Vector2f zoneMin ;
+		sf::Vector2f zoneMax ;
 		sf::Vector2f velocity;
 		sf::Vector2f target;
 		std::vector<sf::Vector2f> path;
