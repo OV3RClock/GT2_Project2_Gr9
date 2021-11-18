@@ -27,8 +27,7 @@ void Inventory::loadVector(Player p, float dim, RenderWindow& rw, float width, f
 		Sprite s;
 		s = Sprite(texture);
 
-		if (p.getInventory()[i] != nullptr) 
-		{ s.setTextureRect(potionRect); }
+		if (p.getInventory()[i] != nullptr) { s.setTextureRect(potionRect); }
 		else { s.setTextureRect(emptyRect); }
 		s.setPosition(pos.x + j*dim, pos.y);
 		inventoryBar.push_back(s);

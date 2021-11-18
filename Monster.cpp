@@ -145,12 +145,10 @@ void Monster::moveToTarget(Vector2f& player, float dt)
                 else { numberTarget++; target = path[numberTarget]; }
                 elapsedPause = 0;
             }
-
             elapsedPause += dt;
         }
         else { target = path[numberTarget]; }
     }
-    
     velocity = target - sprite.getPosition();
 }
 
